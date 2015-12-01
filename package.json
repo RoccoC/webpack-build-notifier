@@ -1,0 +1,32 @@
+{
+  "name": "webpack-build-notifier",
+  "version": "0.1.0",
+  "description": "A Webpack plugin that generates OS notifications for build steps using node-notifier.",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint index.js"
+  },
+  "keywords": [
+    "webpack",
+    "notification",
+    "notify",
+    "node-notifier",
+    "alert",
+    "build",
+    "compilation",
+    "compile"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RoccoC/webpack-build-notifier.git"
+  },
+  "author": "Rocco Cataldo <roccocataldo@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "node-notifier": "^4.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^1.1.0",
+    "node-notifier": "^4.3.1"
+  }
+}
