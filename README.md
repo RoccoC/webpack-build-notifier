@@ -4,7 +4,7 @@ A [Webpack](https://webpack.github.io/) plugin that uses the [node-notifier](htt
 
 Are you tired of having to constantly switch between your IDE and terminal window to see whether your latest edits resulted in a failed build? Why didn't your latest changes get [hot-loaded](https://github.com/gaearon/react-hot-loader)? Was there a syntax error or failed unit test? With this plugin, you will always be apprised of build problems without having to keep an eye on your terminal window.
 
-To use, install the webpack-build-notifier package `npm install webpack-build-notifier --save-dev` and add the plgun to your [Webpack configuration file](https://webpack.github.io/docs/configuration.html):
+To use, install the webpack-build-notifier package `npm install webpack-build-notifier --save-dev` and add the plugin to your [Webpack configuration file](https://webpack.github.io/docs/configuration.html):
 
 
 ```javascript
