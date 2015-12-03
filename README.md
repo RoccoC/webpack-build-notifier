@@ -41,17 +41,17 @@ True to activate (focus) the terminal window when a compilation error occurs. No
 #### successIcon
 The absolute path to the icon to be displayed for success notifications. Defaults to the included **_./icons/success.png_**.
 
-![Success](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/success.png "Success")
+![Success](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/success.png?raw=true "Success")
 
 #### warningIcon
 The absolute path to the icon to be displayed for warning notifications. Defaults to the included **_./icons/warning.png_**.
 
-![Warning](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/warning.png "Warning")
+![Warning](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/warning.png?raw=true "Warning")
 
 #### failureIcon
 The absolute path to the icon to be displayed for failure notifications. Defaults to the included **_./icons/failure.png_**.
 
-![Failure](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/failure.png "Failure")
+![Failure](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/failure.png?raw=true "Failure")
 
 Future Improvements
 -------------------
