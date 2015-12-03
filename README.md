@@ -23,33 +23,33 @@ module.exports = {
 Config Options
 --------------
 
-### title
+#### title
 The notification title. Defaults to _Webpack Build_**.
 
-### logo
+#### logo
 The absolute path to the project logo to be displayed as a content image in the notification. Optional.
 
-### sound
-The sound to play for notifications. Set to false to play no sound. Valid sounds are listedin the node-notifier project, (here)[https://github.com/mikaelbr/node-notifier]. Defaults to _Submarine_**.
+#### sound
+The sound to play for notifications. Set to false to play no sound. Valid sounds are listedin the node-notifier project, [here](https://github.com/mikaelbr/node-notifier). Defaults to **_Submarine_**.
 
-### suppressSuccess
+#### suppressSuccess
 True to suppress the success notifications, otherwise false (default). Note that the success notification will always be shown following a failed build regardless of this setting.
 
-### activateTerminalOnError
-True to activate (focus) the terminal window when a compilation error occurs. Note that this only works on Mac OSX. Defaults to false. Regardless of the value of this config option, he terminal window can always be brought to the front by clicking on the notification.
+#### activateTerminalOnError
+True to activate (focus) the terminal window when a compilation error occurs. Note that this only works on Mac OSX. Defaults to **_false_**. Regardless of the value of this config option, he terminal window can always be brought to the front by clicking on the notification.
 
-### successIcon
-The absolute path to the icon to be displayed for success notifications. Defaults to the included _./icons/success.png_**.
+#### successIcon
+The absolute path to the icon to be displayed for success notifications. Defaults to the included **_./icons/success.png_**.
 
 ![Success](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/success.png "Success")
 
-### warningIcon
-The absolute path to the icon to be displayed for warning notifications. Defaults to the included _./icons/warning.png_**.
+#### warningIcon
+The absolute path to the icon to be displayed for warning notifications. Defaults to the included **_./icons/warning.png_**.
 
 ![Warning](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/warning.png "Warning")
 
-### failureIcon
-The absolute path to the icon to be displayed for failure notifications. Defaults to the included _./icons/failure.png_**.
+#### failureIcon
+The absolute path to the icon to be displayed for failure notifications. Defaults to the included **_./icons/failure.png_**.
 
 ![Failure](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/failure.png "Failure")
 
@@ -60,6 +60,7 @@ Future Improvements
 Notes
 -----
 After publishing this package I discovered a couple other similar plugins that are worth looking into:
-* (webpack-notifier)[https://github.com/Turbo87/webpack-notifier]
-* (webpack-error-notification)[https://github.com/vsolovyov/webpack-error-notification]
+* [webpack-notifier](https://github.com/Turbo87/webpack-notifier)
+* [webpack-error-notification](https://github.com/vsolovyov/webpack-error-notification)
+
 Given the purpose and similarities, this project probably should have been a fork of one of these.
