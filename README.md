@@ -24,7 +24,7 @@ Config Options
 --------------
 
 #### title
-The notification title. Defaults to _Webpack Build_**.
+The notification title. Defaults to **_Webpack Build_**.
 
 #### logo
 The absolute path to the project logo to be displayed as a content image in the notification. Optional.
@@ -55,7 +55,7 @@ The absolute path to the icon to be displayed for failure notifications. Default
 
 Future Improvements
 -------------------
-* Re-work the notification message to display more usefule information. At present, uses the error/warning's "message" text. Not very useful as it contains inline formatting and is quite verbose. Perhaps update to list file(s) with error(s)/warning(s)?
+* Re-work the notification message to display more useful information. At present, it shows the error/warning's "message" text which is not very useful as it contains inline formatting and is quite verbose. Perhaps update to instead show a list file(s) with error(s)/warning(s)?
 
 Notes
 -----
