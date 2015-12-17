@@ -35,6 +35,9 @@ The sound to play for notifications. Set to false to play no sound. Valid sounds
 #### suppressSuccess
 True to suppress the success notifications, otherwise false (default). Note that the success notification will always be shown following a failed build regardless of this setting.
 
+#### suppressWarning
+True to suppress the warning notifications, otherwise false (default).
+
 #### activateTerminalOnError
 True to activate (focus) the terminal window when a compilation error occurs. Note that this only works on Mac OSX. Defaults to **_false_**. Regardless of the value of this config option, he terminal window can always be brought to the front by clicking on the notification.
 
@@ -64,3 +67,10 @@ After publishing this package I discovered a couple other similar plugins that a
 * [webpack-error-notification](https://github.com/vsolovyov/webpack-error-notification)
 
 Given the purpose and similarities, this project probably should have been a fork of one of these.
+
+Changelog
+---------
+#### 1.0.6
+###### _December 17, 2015_
+
+- Added *suppressWarning* configuration option.

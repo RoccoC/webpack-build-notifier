@@ -36,6 +36,11 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      */
     this.suppressSuccess = cfg.suppressSuccess || false;
     /**
+     * @cfg {Boolean} [suppressWarning=false]
+     * True to suppress the warning notifications, otherwise false (default).
+     */
+    this.suppressWarning = cfg.suppressWarning || false;
+    /**
      * @cfg {Boolean} [activateTerminalOnError=false]
      * True to activate (focus) the terminal window when a compilation error occurs.
      * Note that this only works on Mac OSX.
@@ -88,7 +93,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         msg = results.compilation.errors[0].message;
         icon = this.failureIcon;
         this.buildSuccessful = false;
-    } else if (results.hasWarnings()) {
+    } else if (!this.suppressWarning && results.hasWarnings()) {
         notify = true;
         title += 'Warning';
         msg = results.compilation.warnings[0].message;
