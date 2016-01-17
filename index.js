@@ -28,7 +28,7 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * The sound to play for notifications. Set to false to play no sound. Valid sounds are listed
      * in the node-notifier project: https://github.com/mikaelbr/node-notifier
      */
-    this.sound = cfg.sound || 'Submarine';
+    this.sound = cfg.hasOwnProperty('sound') ? cfg.sound : 'Submarine';
     /**
      * @cfg {Boolean} [suppressSuccess=false]
      * True to suppress the success notifications, otherwise false (default). Note that the success notification will
