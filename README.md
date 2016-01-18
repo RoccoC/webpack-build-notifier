@@ -70,6 +70,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 1.0.7
+###### _January 18, 2016_
+
+- Fixed *sound* configuration option to allow "false" value to disable sound.
+
 #### 1.0.6
 ###### _December 17, 2015_
 
