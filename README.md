@@ -81,7 +81,7 @@ Changelog
 #### 1.0.8
 ###### _February 17, 2016_
 
-- Added new *successSound* and *failureSound* configuration options to allow different sounds depending upon the notification tyoe. The *sound* configuration is still supported, but these two new options will take precedence.
+- Added new *successSound* and *failureSound* configuration options to allow different sounds depending upon the notification type. The *sound* configuration is still supported, but these two new options will take precedence.
 
 #### 1.0.7
 ###### _January 18, 2016_
