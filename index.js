@@ -30,6 +30,18 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      */
     this.sound = cfg.hasOwnProperty('sound') ? cfg.sound : 'Submarine';
     /**
+     * @cfg {String} [successSound='Submarine']
+     * The sound to play for success notifications. Defaults to the value of the *sound* configuration option.
+     * Set to false to play no sound for success notifications. Takes precedence over the *sound* configuration option.
+     */
+    this.successSound = cfg.hasOwnProperty('successSound') ? cfg.successSound : this.sound;
+    /**
+     * @cfg {String} [failureSound='Submarine']
+     * The sound to play for failure and warning notifications. Defaults to the value of the *sound* configuration option.
+     * Set to false to play no sound for failure and warning notifications. Takes precedence over the *sound* configuration option.
+     */
+    this.failureSound = cfg.hasOwnProperty('failureSound') ? cfg.failureSound : this.sound;
+    /**
      * @cfg {Boolean} [suppressSuccess=false]
      * True to suppress the success notifications, otherwise false (default). Note that the success notification will
      * always be shown following a failed compilation regardless of this setting.
@@ -85,19 +97,22 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
     var notify = !this.suppressSuccess,
         title = this.title + ' - ',
         msg = 'Build successful!',
-        icon = this.successIcon;
+        icon = this.successIcon,
+        sound = this.successSound;
 
     if (results.hasErrors()) {
         notify = true;
         title += 'Error';
         msg = results.compilation.errors[0].message;
         icon = this.failureIcon;
+        sound = this.failureSound;
         this.buildSuccessful = false;
     } else if (!this.suppressWarning && results.hasWarnings()) {
         notify = true;
         title += 'Warning';
         msg = results.compilation.warnings[0].message;
         icon = this.warningIcon;
+        sound = this.failureSound;
         this.buildSuccessful = false;
     } else {
         title += 'Success';
@@ -111,7 +126,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         notifier.notify({
             title: title,
             message: msg,
-            sound: this.sound,
+            sound: sound,
             contentImage: this.logo,
             icon: icon,
             wait: true

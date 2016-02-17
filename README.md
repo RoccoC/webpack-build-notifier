@@ -2,6 +2,8 @@
 
 A [Webpack](https://webpack.github.io/) plugin that uses the [node-notifier](https://github.com/mikaelbr/node-notifier) module to display OS-level notifications for Webpack build errors and warnings.
 
+[![NPM version](https://img.shields.io/npm/v/webpack-build-notifier.svg)](https://www.npmjs.org/package/webpack-build-notifier)
+
 Are you tired of having to constantly switch between your IDE and terminal window to see whether your latest edits resulted in a failed build? Why didn't your latest changes get [hot-loaded](https://github.com/gaearon/react-hot-loader)? Was there a syntax error or failed unit test? With this plugin, you will always be apprised of build problems without having to keep an eye on your terminal window.
 
 To use, install the webpack-build-notifier package `npm install webpack-build-notifier --save-dev` and add the plugin to your [Webpack configuration file](https://webpack.github.io/docs/configuration.html):
@@ -31,6 +33,12 @@ The absolute path to the project logo to be displayed as a content image in the 
 
 #### sound
 The sound to play for notifications. Set to false to play no sound. Valid sounds are listedin the node-notifier project, [here](https://github.com/mikaelbr/node-notifier). Defaults to **_Submarine_**.
+
+#### successSound
+The sound to play for success notifications. Defaults to the value of the *sound* configuration option. Set to false to play no sound for success notifications. Takes precedence over the *sound* configuration option.
+
+#### failureSound
+The sound to play for failure and warning notifications. Defaults to the value of the *sound* configuration option. Set to false to play no sound for failure and warning notifications. Takes precedence over the *sound* configuration option.
 
 #### suppressSuccess
 True to suppress the success notifications, otherwise false (default). Note that the success notification will always be shown following a failed build regardless of this setting.
@@ -70,6 +78,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 1.0.8
+###### _February 17, 2016_
+
+- Added new *successSound* and *failureSound* configuration options to allow different sounds depending upon the notification tyoe. The *sound* configuration is still supported, but these two new options will take precedence.
+
 #### 1.0.7
 ###### _January 18, 2016_
 
