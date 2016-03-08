@@ -47,7 +47,7 @@ True to suppress the success notifications, otherwise false (default). Note that
 True to suppress the warning notifications, otherwise false (default).
 
 #### activateTerminalOnError
-True to activate (focus) the terminal window when a compilation error occurs. Note that this only works on Mac OSX. Defaults to **_false_**. Regardless of the value of this config option, he terminal window can always be brought to the front by clicking on the notification.
+True to activate (focus) the terminal window when a compilation error occurs. Note that this only works on Mac OSX (for now). Defaults to **_false_**. Regardless of the value of this config option, the terminal window can always be brought to the front by clicking on the notification.
 
 #### successIcon
 The absolute path to the icon to be displayed for success notifications. Defaults to the included **_./icons/success.png_**.
