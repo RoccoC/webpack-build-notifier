@@ -78,11 +78,14 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * Whether or not the last build was successful. Read-only.
      */
     this.buildSuccessful = false;
+    /**
+     * @property {Function} onClick
+     * A function called when clicking the notification. By default, it activates the Terminal application.
+     */
+    this.onClick = cfg.onClick || function(notifierObject, options) { this.activateTerminalWindow(); };
 
     // add notification click handler to activate terminal window
-    notifier.on('click', function(notifierObject, options) {
-        this.activateTerminalWindow();
-    }.bind(this));
+    notifier.on('click', this.onClick.bind(this));
 };
 
 WebpackBuildNotifierPlugin.prototype.activateTerminalWindow = function() {

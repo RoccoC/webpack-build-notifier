@@ -64,6 +64,9 @@ The absolute path to the icon to be displayed for failure notifications. Default
 
 ![Failure](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/failure.png?raw=true "Failure")
 
+#### onClick
+What to do when the notification is clicked. By default it activates the Terminal application.
+
 Future Improvements
 -------------------
 * Re-work the notification message to display more useful information. At present, it shows the error/warning's "message" text which is not very useful as it contains inline formatting and is quite verbose. Perhaps update to instead show a list file(s) with error(s)/warning(s)?
