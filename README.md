@@ -81,6 +81,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 1.0.9
+###### _July 5, 2016_
+
+-Added new *onClick* configuration option to allow for specifying of notification click behavior.
+
 #### 1.0.8
 ###### _February 17, 2016_
 
