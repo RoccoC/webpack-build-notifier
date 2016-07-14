@@ -69,7 +69,7 @@ What to do when the notification is clicked. By default it activates the Termina
 
 Future Improvements
 -------------------
-* Re-work the notification message to display more useful information. At present, it shows the error/warning's "message" text which is not very useful as it contains inline formatting and is quite verbose. Perhaps update to instead show a list file(s) with error(s)/warning(s)?
+* TBD
 
 Notes
 -----
@@ -81,6 +81,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 1.0.10
+###### _July 14, 2016_
+
+- Added reference to *[strip-ansi](https://www.npmjs.com/package/strip-ansi)* NPM package to remove CLI color formatting from notifications.
+
 #### 1.0.9
 ###### _July 5, 2016_
 

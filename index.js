@@ -6,6 +6,7 @@
 var path = require('path');
 var os = require('os');
 var notifier = require('node-notifier');
+var stripAnsi = require('strip-ansi');
 var exec = require('child_process').exec;
 
 var WebpackBuildNotifierPlugin = function(cfg) {
@@ -104,16 +105,18 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         sound = this.successSound;
 
     if (results.hasErrors()) {
+        var error = results.compilation.errors[0];
         notify = true;
         title += 'Error';
-        msg = results.compilation.errors[0].message;
+        msg = error.module.rawRequest + '\n' + error.error.replace(error.module.resource, '');
         icon = this.failureIcon;
         sound = this.failureSound;
         this.buildSuccessful = false;
     } else if (!this.suppressWarning && results.hasWarnings()) {
+        var warning = results.compilation.warnings[0];
         notify = true;
         title += 'Warning';
-        msg = results.compilation.warnings[0].message;
+        msg = warning.module.rawRequest + '\n' + warning.warning.replace(warning.module.resource, '');
         icon = this.warningIcon;
         sound = this.failureSound;
         this.buildSuccessful = false;
@@ -128,7 +131,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
     if (notify) {
         notifier.notify({
             title: title,
-            message: msg,
+            message: stripAnsi(msg),
             sound: sound,
             contentImage: this.logo,
             icon: icon,
