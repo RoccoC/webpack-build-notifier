@@ -81,6 +81,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 1.0.11
+###### _July 16, 2016_
+
+- Bugfix for #6; added null check for error messages.
+
 #### 1.0.10
 ###### _July 14, 2016_
 
