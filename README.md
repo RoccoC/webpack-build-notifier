@@ -81,6 +81,12 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 1.0.12
+###### _July 25, 2016_
+
+- Bugfix for #6, more null checking.
+
+
 #### 1.0.11
 ###### _July 16, 2016_
 
