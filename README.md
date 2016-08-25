@@ -16,7 +16,11 @@ var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 module.exports = {
   // ... snip ...
   plugins: [
-    new WebpackBuildNotifierPlugin()
+    new WebpackBuildNotifierPlugin({
+      title: "My Project Webpack Build",
+      logo: path.resolve("./img/favicon.png"),
+      suppressSuccess: true
+    })
   ],
   // ... snip ...
 }
@@ -65,7 +69,7 @@ The absolute path to the icon to be displayed for failure notifications. Default
 ![Failure](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/failure.png?raw=true "Failure")
 
 #### onClick
-What to do when the notification is clicked. By default it activates the Terminal application.
+A function called when the notification is clicked. By default it activates the Terminal application.
 
 Future Improvements
 -------------------
