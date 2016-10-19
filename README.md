@@ -90,7 +90,7 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
-#### 1.0.12
+#### 1.0.13
 ###### _October 19, 2016_
 
 - Added *messageFormatter* configuration option to allow custom formatting of notification message.
