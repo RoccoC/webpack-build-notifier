@@ -68,6 +68,11 @@ The absolute path to the icon to be displayed for failure notifications. Default
 
 ![Failure](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/failure.png?raw=true "Failure")
 
+#### messageFormatter
+A function which returns a formatted notification message. The function is passed two parameters:
+* {Object} error/warning - The raw error or warning object.
+* {String} filepath - The path to the file containing the error/warning (if available).
+
 #### onClick
 A function called when the notification is clicked. By default it activates the Terminal application.
 
@@ -85,6 +90,12 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 1.0.12
+###### _October 19, 2016_
+
+- Added *messageFormatter* configuration option to allow custom formatting of notification message.
+
+
 #### 1.0.12
 ###### _July 25, 2016_
 

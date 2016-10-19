@@ -84,9 +84,20 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * A function called when clicking the notification. By default, it activates the Terminal application.
      */
     this.onClick = cfg.onClick || function(notifierObject, options) { this.activateTerminalWindow(); };
+    /**
+     * @property {Function} messageFormatter
+     * A function which returns a formatted notification message. The function is passed two parameters:
+     *  1) {Object} error/warning - The raw error or warning object.
+     *  2) {String} filepath - The path to the file containing the error/warning (if available).
+     */
+    this.messageFormatter = cfg.messageFormatter || this.messageFormatter;
 
     // add notification click handler to activate terminal window
     notifier.on('click', this.onClick.bind(this));
+};
+
+WebpackBuildNotifierPlugin.prototype.messageFormatter = function(error, filepath) {
+    return filepath + os.EOL + (error.message ? error.message.replace(error.module ? error.module.resource : '', '') : '');
 };
 
 WebpackBuildNotifierPlugin.prototype.activateTerminalWindow = function() {
@@ -108,7 +119,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         var error = results.compilation.errors[0];
         notify = true;
         title += 'Error';
-        msg = (error.module ? error.module.rawRequest : '') + '\n' + (error.message ? error.message.replace(error.module ? error.module.resource : '', '') : '');
+        msg = this.messageFormatter(error, error.module && error.module.rawRequest ? error.module.rawRequest : '');
         icon = this.failureIcon;
         sound = this.failureSound;
         this.buildSuccessful = false;
@@ -116,7 +127,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         var warning = results.compilation.warnings[0];
         notify = true;
         title += 'Warning';
-        msg = (warning.module ? warning.module.rawRequest : '') + '\n' + (warning.message ? warning.message.replace(warning.module ? warning.module.resource : '', '') : '');
+        msg = this.messageFormatter(warning, warning.module && warning.module.rawRequest ? warning.module.rawRequest : '');
         icon = this.warningIcon;
         sound = this.failureSound;
         this.buildSuccessful = false;
