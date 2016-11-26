@@ -37,9 +37,15 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      */
     this.successSound = cfg.hasOwnProperty('successSound') ? cfg.successSound : this.sound;
     /**
+     * @cfg {String} [warningSound='Submarine']
+     * The sound to play for warning notifications. Defaults to the value of the *sound* configuration option.
+     * Set to false to play no sound for warning notifications. Takes precedence over the *sound* configuration option.
+     */
+    this.warningSound = cfg.hasOwnProperty('warningSound') ? cfg.warningSound : this.sound;
+    /**
      * @cfg {String} [failureSound='Submarine']
-     * The sound to play for failure and warning notifications. Defaults to the value of the *sound* configuration option.
-     * Set to false to play no sound for failure and warning notifications. Takes precedence over the *sound* configuration option.
+     * The sound to play for failure notifications. Defaults to the value of the *sound* configuration option.
+     * Set to false to play no sound for failure notifications. Takes precedence over the *sound* configuration option.
      */
     this.failureSound = cfg.hasOwnProperty('failureSound') ? cfg.failureSound : this.sound;
     /**
@@ -129,7 +135,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         title += 'Warning';
         msg = this.messageFormatter(warning, warning.module && warning.module.rawRequest ? warning.module.rawRequest : '');
         icon = this.warningIcon;
-        sound = this.failureSound;
+        sound = this.warningSound;
         this.buildSuccessful = false;
     } else {
         title += 'Success';
