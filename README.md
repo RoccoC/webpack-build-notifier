@@ -41,8 +41,11 @@ The sound to play for notifications. Set to false to play no sound. Valid sounds
 #### successSound
 The sound to play for success notifications. Defaults to the value of the *sound* configuration option. Set to false to play no sound for success notifications. Takes precedence over the *sound* configuration option.
 
+#### warningSound
+The sound to play for warning notifications. Defaults to the value of the *sound* configuration option. Set to false to play no sound for warning notifications. Takes precedence over the *sound* configuration option.
+
 #### failureSound
-The sound to play for failure and warning notifications. Defaults to the value of the *sound* configuration option. Set to false to play no sound for failure and warning notifications. Takes precedence over the *sound* configuration option.
+The sound to play for failure notifications. Defaults to the value of the *sound* configuration option. Set to false to play no sound for failure notifications. Takes precedence over the *sound* configuration option.
 
 #### suppressSuccess
 True to suppress the success notifications, otherwise false (default). Note that the success notification will always be shown following a failed build regardless of this setting.
