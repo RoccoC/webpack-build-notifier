@@ -84,7 +84,7 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * @property {Boolean} buildSuccessful
      * Whether or not the last build was successful. Read-only.
      */
-    this.buildSuccessful = false;
+    this.buildSuccessful = true;
     /**
      * @property {Function} onClick
      * A function called when clicking the notification. By default, it activates the Terminal application.
