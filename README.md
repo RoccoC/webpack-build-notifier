@@ -93,6 +93,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 1.0.14
+###### _June 14, 2017_
+
+- Added *warningSound* configuration option.
+
 #### 1.0.13
 ###### _October 19, 2016_
 
