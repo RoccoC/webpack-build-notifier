@@ -93,6 +93,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 1.0.15
+###### _July 17, 2017_
+
+- Updated webpack icons.
+
 #### 1.0.14
 ###### _June 14, 2017_
 
