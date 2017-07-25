@@ -48,7 +48,11 @@ The sound to play for warning notifications. Defaults to the value of the *sound
 The sound to play for failure notifications. Defaults to the value of the *sound* configuration option. Set to false to play no sound for failure notifications. Takes precedence over the *sound* configuration option.
 
 #### suppressSuccess
-True to suppress the success notifications, otherwise false (default). Note that the success notification will always be shown for the first successful compilation or following a failed build regardless of the value of this setting.
+Defines when success notifications are shown. Can be one of the following values:
+*  false     - Show success notification for each successful compilation (default).
+*  true      - Only show success notification for initial successful compilation and after failed compilations.
+*  "always"  - Never show the success notifications.
+*  "initial" - Same as true, but suppresses the initial success notification.
 
 #### suppressWarning
 True to suppress the warning notifications, otherwise false (default).
@@ -93,6 +97,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 1.0.16
+###### _July 25, 2017_
+
+- Updated *suppressSuccess* configuration option to support "always" and "initial" values.
+
 #### 1.0.15
 ###### _July 17, 2017_
 

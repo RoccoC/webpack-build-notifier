@@ -49,9 +49,12 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      */
     this.failureSound = cfg.hasOwnProperty('failureSound') ? cfg.failureSound : this.sound;
     /**
-     * @cfg {Boolean} [suppressSuccess=false]
-     * True to suppress the success notifications, otherwise false (default). Note that the success notification will
-     * always be shown following a failed compilation regardless of this setting.
+     * @cfg {Boolean/String} [suppressSuccess=false]
+     * Defines when success notifications are shown. Can be one of the following values:
+     *   false     - Show success notification for each successful compilation (default).
+     *   true      - Only show success notification for initial successful compilation and after failed compilations.
+     *   "always"  - Never show the success notifications.
+     *   "initial" - Same as true, but suppresses the initial success notification.
      */
     this.suppressSuccess = cfg.suppressSuccess || false;
     /**
@@ -81,17 +84,12 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      */
     this.failureIcon = cfg.failureIcon || path.join(defaultIconPath, 'failure.png');
     /**
-     * @property {Boolean} buildSuccessful
-     * Whether or not the last build was successful. Read-only.
-     */
-    this.buildSuccessful = false;
-    /**
-     * @property {Function} onClick
+     * @cfg {Function} onClick
      * A function called when clicking the notification. By default, it activates the Terminal application.
      */
     this.onClick = cfg.onClick || function(notifierObject, options) { this.activateTerminalWindow(); };
     /**
-     * @property {Function} messageFormatter
+     * @cfg {Function} messageFormatter
      * A function which returns a formatted notification message. The function is passed two parameters:
      *  1) {Object} error/warning - The raw error or warning object.
      *  2) {String} filepath - The path to the file containing the error/warning (if available).
@@ -101,6 +99,9 @@ var WebpackBuildNotifierPlugin = function(cfg) {
     // add notification click handler to activate terminal window
     notifier.on('click', this.onClick.bind(this));
 };
+
+var buildSuccessful = false;
+var hasRun = false;
 
 WebpackBuildNotifierPlugin.prototype.messageFormatter = function(error, filepath) {
     return filepath + os.EOL + (error.message ? error.message.replace(error.module ? error.module.resource : '', '') : '');
@@ -115,7 +116,7 @@ WebpackBuildNotifierPlugin.prototype.activateTerminalWindow = function() {
 };
 
 WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
-    var notify = !this.suppressSuccess,
+    var notify,
         title = this.title + ' - ',
         msg = 'Build successful!',
         icon = this.successIcon,
@@ -128,7 +129,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         msg = this.messageFormatter(error, error.module && error.module.rawRequest ? error.module.rawRequest : '');
         icon = this.failureIcon;
         sound = this.failureSound;
-        this.buildSuccessful = false;
+        buildSuccessful = false;
     } else if (!this.suppressWarning && results.hasWarnings()) {
         var warning = results.compilation.warnings[0];
         notify = true;
@@ -136,13 +137,15 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         msg = this.messageFormatter(warning, warning.module && warning.module.rawRequest ? warning.module.rawRequest : '');
         icon = this.warningIcon;
         sound = this.warningSound;
-        this.buildSuccessful = false;
+        buildSuccessful = false;
     } else {
         title += 'Success';
-        if (!notify && !this.buildSuccessful) {
+        if (this.suppressSuccess === "always" || (this.suppressSuccess === "initial" && !hasRun)) {
+            notify = false;
+        } else if (this.suppressSuccess === false || !buildSuccessful) {
             notify = true; // previous build failed, let's show a notification even if success notifications are suppressed
         }
-        this.buildSuccessful = true;
+        buildSuccessful = true;
     }
 
     if (notify) {
@@ -156,9 +159,11 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         });
     }
 
-    if (this.activateTerminalOnError && !this.buildSuccessful) {
+    if (this.activateTerminalOnError && !buildSuccessful) {
         this.activateTerminalWindow();
     }
+
+    hasRun = true;
 };
 
 WebpackBuildNotifierPlugin.prototype.apply = function(compiler) {
