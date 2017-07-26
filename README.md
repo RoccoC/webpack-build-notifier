@@ -4,11 +4,11 @@ A [Webpack](https://webpack.github.io/) plugin that uses the [node-notifier](htt
 
 [![NPM version](https://img.shields.io/npm/v/webpack-build-notifier.svg)](https://www.npmjs.org/package/webpack-build-notifier)
 
+<img width="334" alt="webpack-build-notifier-error" src="https://user-images.githubusercontent.com/1934237/28636873-799c8c54-71f4-11e7-8d0c-be15ca823f6e.png"><img width="334" alt="webpack-build-notifier-success" src="https://user-images.githubusercontent.com/1934237/28636881-7f394dd2-71f4-11e7-9148-4dba316a41a8.png">
+
 Are you tired of having to constantly switch between your IDE and terminal window to see whether your latest edits resulted in a failed build? Why didn't your latest changes get [hot-loaded](https://github.com/gaearon/react-hot-loader)? Was there a syntax error or failed unit test? With this plugin, you will always be apprised of build problems without having to keep an eye on your terminal window.
 
 To use, install the webpack-build-notifier package `npm install webpack-build-notifier --save-dev` and add the plugin to your [Webpack configuration file](https://webpack.github.io/docs/configuration.html):
-
-<img width="334" alt="webpack-build-notifier-error" src="https://user-images.githubusercontent.com/1934237/28636873-799c8c54-71f4-11e7-8d0c-be15ca823f6e.png"><img width="334" alt="webpack-build-notifier-success" src="https://user-images.githubusercontent.com/1934237/28636881-7f394dd2-71f4-11e7-9148-4dba316a41a8.png">
 
 ```javascript
 // webpack.config.js
