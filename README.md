@@ -98,59 +98,59 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
-#### 1.0.16
+#### 0.1.16
 ###### _July 25, 2017_
 
 - Updated *suppressSuccess* configuration option to support "always" and "initial" values.
 
-#### 1.0.15
+#### 0.1.15
 ###### _July 17, 2017_
 
 - Updated webpack icons.
 
-#### 1.0.14
+#### 0.1.14
 ###### _June 14, 2017_
 
 - Added *warningSound* configuration option.
 
-#### 1.0.13
+#### 0.1.13
 ###### _October 19, 2016_
 
 - Added *messageFormatter* configuration option to allow custom formatting of notification message.
 
 
-#### 1.0.12
+#### 0.1.12
 ###### _July 25, 2016_
 
 - Bugfix for #6, more null checking.
 
 
-#### 1.0.11
+#### 0.1.11
 ###### _July 16, 2016_
 
 - Bugfix for #6; added null check for error messages.
 
-#### 1.0.10
+#### 0.1.10
 ###### _July 14, 2016_
 
 - Added reference to *[strip-ansi](https://www.npmjs.com/package/strip-ansi)* NPM package to remove CLI color formatting from notifications.
 
-#### 1.0.9
+#### 0.1.9
 ###### _July 5, 2016_
 
 - Added new *onClick* configuration option to allow for specifying of notification click behavior.
 
-#### 1.0.8
+#### 0.1.8
 ###### _February 17, 2016_
 
 - Added new *successSound* and *failureSound* configuration options to allow different sounds depending upon the notification type. The *sound* configuration is still supported, but these two new options will take precedence.
 
-#### 1.0.7
+#### 0.1.7
 ###### _January 18, 2016_
 
 - Fixed *sound* configuration option to allow "false" value to disable sound.
 
-#### 1.0.6
+#### 0.1.6
 ###### _December 17, 2015_
 
 - Added *suppressWarning* configuration option.
