@@ -58,6 +58,9 @@ Defines when success notifications are shown. Can be one of the following values
 #### suppressWarning
 True to suppress the warning notifications, otherwise false (default).
 
+#### suppressCompileStart
+True to suppress the compilation started notifications (default), otherwise false.
+
 #### activateTerminalOnError
 True to activate (focus) the terminal window when a compilation error occurs. Note that this only works on Mac OSX (for now). Defaults to **_false_**. Regardless of the value of this config option, the terminal window can always be brought to the front by clicking on the notification.
 
@@ -75,6 +78,11 @@ The absolute path to the icon to be displayed for warning notifications. Default
 The absolute path to the icon to be displayed for failure notifications. Defaults to the included **_./icons/failure.png_**.
 
 ![Failure](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/failure.png?raw=true "Failure")
+
+#### compileIcon
+The absolute path to the icon to be displayed for compilation started notifications. Defaults to the included **_./icons/compile.png_**.
+
+![Compile](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/compile.png?raw=true "Compile")
 
 #### messageFormatter
 A function which returns a formatted notification message. The function is passed two parameters:
@@ -98,6 +106,13 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 0.1.17
+###### _November 6, 2017_
+
+- Added notification hook for webpack "watch-run" compilation event to show notifications when the compilation process has started.
+Added *suppressCompileStart* and *compileIcon* configuration options to support this. This notification will not be shown by default;
+set *suppressCompileStart* to *false* to enable.
+
 #### 0.1.16
 ###### _July 25, 2017_
 

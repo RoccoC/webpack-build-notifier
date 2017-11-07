@@ -62,6 +62,11 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * True to suppress the warning notifications, otherwise false (default).
      */
     this.suppressWarning = cfg.suppressWarning || false;
+     /**
+     * @cfg {Boolean} [suppressWarning=true]
+     * True to suppress the compilation started notifications (default), otherwise false.
+     */
+    this.suppressCompileStart = cfg.suppressCompileStart !== false;
     /**
      * @cfg {Boolean} [activateTerminalOnError=false]
      * True to activate (focus) the terminal window when a compilation error occurs.
@@ -83,6 +88,11 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * The absolute path to the icon to be displayed for failure notifications.
      */
     this.failureIcon = cfg.failureIcon || path.join(defaultIconPath, 'failure.png');
+    /**
+     * @cfg {String} [compileIcon='./icons/compile.png']
+     * The absolute path to the icon to be displayed for compilation started notifications.
+     */
+    this.compileIcon = cfg.compileIcon || path.join(defaultIconPath, 'compile.png');
     /**
      * @cfg {Function} onClick
      * A function called when clicking the notification. By default, it activates the Terminal application.
@@ -113,6 +123,16 @@ WebpackBuildNotifierPlugin.prototype.activateTerminalWindow = function() {
     } else if (os.platform() === 'win32') {
         // TODO: Windows platform
     }
+};
+
+WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function(compilation, callback) {
+    notifier.notify({
+        title: this.title,
+        message: 'Compilation started...',
+        contentImage: this.logo,
+        icon: this.compileIcon
+    });
+    callback();
 };
 
 WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
@@ -167,6 +187,9 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
 };
 
 WebpackBuildNotifierPlugin.prototype.apply = function(compiler) {
+    if (!this.suppressCompileStart) {
+        compiler.plugin('watch-run', this.onCompilationWatchRun.bind(this));
+    }
     compiler.plugin('done', this.onCompilationDone.bind(this));
 };
 
