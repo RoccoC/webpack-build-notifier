@@ -89,6 +89,11 @@ A function which returns a formatted notification message. The function is passe
 * {Object} error/warning - The raw error or warning object.
 * {String} filepath - The path to the file containing the error/warning (if available).
 
+This function must return a String.
+The default messageFormatter will display the filename which contains the error/warning followed by the
+error/warning message.
+Note that the message will always be limited to 256 characters.
+
 #### onClick
 A function called when the notification is clicked. By default it activates the Terminal application.
 
@@ -106,6 +111,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 0.1.18
+###### _November 30, 2017_
+
+- Updated `node-notifier` package version to latest; enforced max message length to 256 to fix #20.
+
 #### 0.1.17
 ###### _November 6, 2017_
 

@@ -103,8 +103,19 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * A function which returns a formatted notification message. The function is passed two parameters:
      *  1) {Object} error/warning - The raw error or warning object.
      *  2) {String} filepath - The path to the file containing the error/warning (if available).
+     * This function must return a String.
+     * The default messageFormatter will display the filename which contains the error/warning followed by the
+     * error/warning message.
+     * Note that the message will always be limited to 256 characters.
      */
-    this.messageFormatter = cfg.messageFormatter || this.messageFormatter;
+    this.messageFormatter = function(error, filepath) {
+        var message = (cfg.messageFormatter || this.defaultMessageFormatter)(error, filepath);
+        if (typeof message === "string") {
+            return message.substr(0, 256); // limit message length to 256 characters, fixes #20
+        } else {
+            throw "Invalid message type '" + typeof message + "'; messageFormatter must return a String.";
+        }
+    };
 
     // add notification click handler to activate terminal window
     notifier.on('click', this.onClick.bind(this));
@@ -113,7 +124,7 @@ var WebpackBuildNotifierPlugin = function(cfg) {
 var buildSuccessful = false;
 var hasRun = false;
 
-WebpackBuildNotifierPlugin.prototype.messageFormatter = function(error, filepath) {
+WebpackBuildNotifierPlugin.prototype.defaultMessageFormatter = function(error, filepath) {
     return filepath + os.EOL + (error.message ? error.message.replace(error.module ? error.module.resource : '', '') : '');
 };
 
