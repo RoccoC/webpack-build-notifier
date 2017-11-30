@@ -114,7 +114,7 @@ Changelog
 #### 0.1.18
 ###### _November 30, 2017_
 
-- Updated `node-notifier` package version to latest; enforced max message length to 256 to fix #20.
+- Updated `node-notifier` package version to latest; enforced max message length to 256 to fix [#20](/../../issues/20).
 
 #### 0.1.17
 ###### _November 6, 2017_
