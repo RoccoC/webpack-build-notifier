@@ -111,6 +111,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 0.1.19
+###### _December 13, 2017_
+
+- Added appName parameter to notify config to resolve issue with notifications not being generated in Windows build >=1709 [#20](/../../issues/20).
+
 #### 0.1.18
 ###### _November 30, 2017_
 
