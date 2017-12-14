@@ -16,7 +16,7 @@ var exec = require('child_process').exec;
 var appName;
 if (process.platform === 'win32') {
     var cp = require('child_process');
-    var snoreToast = path.resolve(__dirname, 'node_modules/node-notifier/vendor/snoreToast/SnoreToast.exe');
+    var snoreToast = path.join(require.resolve('node-notifier'), '../vendor/snoreToast/SnoreToast.exe');
     try {
         cp.execFileSync(
             snoreToast,
