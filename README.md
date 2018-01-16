@@ -111,6 +111,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 0.1.22
+###### _January 16, 2018_
+
+- Merged PR to detect terminal application. [#21](/../../issues/21).
+
 #### 0.1.21
 ###### _December 13, 2017_
 
