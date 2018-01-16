@@ -156,7 +156,9 @@ WebpackBuildNotifierPlugin.prototype.defaultMessageFormatter = function(error, f
 
 WebpackBuildNotifierPlugin.prototype.activateTerminalWindow = function() {
     if (os.platform() === 'darwin') {
-        exec('osascript -e \'tell application "Terminal" to activate\'');
+        exec('TERM="$TERM_PROGRAM"; ' +
+             '[[ "$TERM" == "Apple_Terminal" ]] && TERM="Terminal"; ' +
+             'osascript -e "tell application \\"$TERM\\" to activate"');
     } else if (os.platform() === 'win32') {
         // TODO: Windows platform
     }
