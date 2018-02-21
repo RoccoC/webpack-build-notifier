@@ -111,6 +111,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 0.1.23
+###### _February 21, 2018_
+
+- Updated terminal activation to handle VS Code.
+
 #### 0.1.22
 ###### _January 16, 2018_
 

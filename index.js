@@ -156,8 +156,11 @@ WebpackBuildNotifierPlugin.prototype.defaultMessageFormatter = function(error, f
 
 WebpackBuildNotifierPlugin.prototype.activateTerminalWindow = function() {
     if (os.platform() === 'darwin') {
+        // TODO: is there a way to translate $TERM_PROGRAM into the application name
+        // to make this more flexible?
         exec('TERM="$TERM_PROGRAM"; ' +
-             '[[ "$TERM" == "Apple_Terminal" ]] && TERM="Terminal"; ' +
+            '[[ "$TERM" == "Apple_Terminal" ]] && TERM="Terminal"; ' +
+            '[[ "$TERM" == "vscode" ]] && TERM="Visual Studio Code"; ' +
              'osascript -e "tell application \\"$TERM\\" to activate"');
     } else if (os.platform() === 'win32') {
         // TODO: Windows platform
