@@ -231,10 +231,19 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
 };
 
 WebpackBuildNotifierPlugin.prototype.apply = function(compiler) {
-    if (!this.suppressCompileStart) {
-        compiler.plugin('watch-run', this.onCompilationWatchRun.bind(this));
+    if (compiler.hooks && compiler.hooks.watchRun && compiler.hooks.done) {
+        // for webpack >= 4
+        if (!this.suppressCompileStart) {
+            compiler.hooks.watchRun.tap('webpack-build-notifier', this.onCompilationWatchRun.bind(this));
+        }
+        compiler.hooks.done.tap('webpack-build-notifier', this.onCompilationDone.bind(this));
+    } else {
+        // for webpack < 4
+        if (!this.suppressCompileStart) {
+            compiler.plugin('watch-run', this.onCompilationWatchRun.bind(this));
+        }
+        compiler.plugin('done', this.onCompilationDone.bind(this));
     }
-    compiler.plugin('done', this.onCompilationDone.bind(this));
 };
 
 module.exports = WebpackBuildNotifierPlugin;
