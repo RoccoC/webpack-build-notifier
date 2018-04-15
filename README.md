@@ -111,6 +111,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 0.1.24
+###### _April 15, 2018_
+
+- Updated to use new hooks API for Webpack 4.
+
 #### 0.1.23
 ###### _February 21, 2018_
 
