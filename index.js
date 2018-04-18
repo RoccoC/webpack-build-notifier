@@ -234,7 +234,7 @@ WebpackBuildNotifierPlugin.prototype.apply = function(compiler) {
     if (compiler.hooks && compiler.hooks.watchRun && compiler.hooks.done) {
         // for webpack >= 4
         if (!this.suppressCompileStart) {
-            compiler.hooks.watchRun.tap('webpack-build-notifier', this.onCompilationWatchRun.bind(this));
+            compiler.hooks.watchRun.tapAsync('webpack-build-notifier', this.onCompilationWatchRun.bind(this));
         }
         compiler.hooks.done.tap('webpack-build-notifier', this.onCompilationDone.bind(this));
     } else {

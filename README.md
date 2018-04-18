@@ -111,6 +111,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 0.1.25
+###### _April 18, 2018_
+
+- Updated Webpack 4 watchRun hook to use tapAsync to fix #25.
+
 #### 0.1.24
 ###### _April 15, 2018_
 
