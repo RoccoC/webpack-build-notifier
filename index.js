@@ -125,6 +125,14 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      */
     this.onClick = cfg.onClick || function(notifierObject, options) { this.activateTerminalWindow(); };
     /**
+     * @cfg {Function} onTimeout
+     * A function called when the notification times out (closes). Undefined by default. The function is passed
+     * two parameters:
+     *  1) {Object} notifierObject - The notifier object instance.
+     *  2) {Object} options - The notifier object options.
+     */
+    this.onTimeout = cfg.onTimeout;
+    /**
      * @cfg {Function} messageFormatter
      * A function which returns a formatted notification message. The function is passed two parameters:
      *  1) {Object} error/warning - The raw error or warning object.
@@ -142,9 +150,23 @@ var WebpackBuildNotifierPlugin = function(cfg) {
             throw "Invalid message type '" + typeof message + "'; messageFormatter must return a String.";
         }
     };
+    /**
+     * @cfg {Object} notifyOptions
+     * Any additional node-notifier options as documented in the node-notifer documentation:
+     * https://github.com/mikaelbr/node-notifier
+     * 
+     * Note that options provided here will only be applied to the success/warning/error notifications
+     * (not the "compilation started" notification). The title, message, sound, contentImage (logo), and icon
+     * options will be ignored, as they will be set via the corresponding WebpackBuildNotifier config options
+     * (either user-specified or default).
+     */
+    this.notifyOptions = cfg.notifyOptions || {};
 
     // add notification click handler to activate terminal window
     notifier.on('click', this.onClick.bind(this));
+    if (this.onTimeout) {
+        notifier.on('timeout', this.onTimeout);
+    }
 };
 
 var buildSuccessful = false;
@@ -212,15 +234,17 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
     }
 
     if (notify) {
-        notifier.notify({
-            appName: appName,
-            title: title,
-            message: stripAnsi(msg),
-            sound: sound,
-            contentImage: this.logo,
-            icon: icon,
-            wait: true
-        });
+        notifier.notify(
+            Object.assign(this.notifyOptions, {
+                appName: appName,
+                title: title,
+                message: stripAnsi(msg),
+                sound: sound,
+                contentImage: this.logo,
+                icon: icon,
+                wait: true
+            })
+        );
     }
 
     if (this.activateTerminalOnError && !buildSuccessful) {

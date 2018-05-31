@@ -94,8 +94,15 @@ The default messageFormatter will display the filename which contains the error/
 error/warning message.
 Note that the message will always be limited to 256 characters.
 
+#### notifyOptions
+Any additional node-notifier options as documented in the [node-notifer documentation](https://github.com/mikaelbr/node-notifier).
+Note that options provided here will only be applied to the success/warning/error notifications (not the "compilation started" notification). The title, message, sound, contentImage (logo), and icon options will be ignored, as they will be set via the corresponding WebpackBuildNotifier config options (either user-specified or default).
+
 #### onClick
 A function called when the notification is clicked. By default it activates the Terminal application.
+
+#### onTimeout
+A function called when the notification times out and is closed. Undefined by default.
 
 Future Improvements
 -------------------
@@ -111,10 +118,15 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 0.1.26
+###### _May 31, 2018_
+
+- Added two new config options: *notifyOptions* and *onTimeout* per [#26](/../../issues/26).
+
 #### 0.1.25
 ###### _April 18, 2018_
 
-- Updated Webpack 4 watchRun hook to use tapAsync to fix #25.
+- Updated Webpack 4 watchRun hook to use tapAsync to fix [#25](/../../issues/25).
 
 #### 0.1.24
 ###### _April 15, 2018_
