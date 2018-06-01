@@ -111,7 +111,7 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
-#### 0.1.25=6
+#### 0.1.26
 ###### _June 1, 2018_
 
 - Check that error/warning is not null before formatting it.
