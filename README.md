@@ -119,4 +119,4 @@ Given the purpose and similarities, this project probably should have been a for
 Changelog
 ---------
 
-View the changelog [here](CHANGELOG.md)
+View the changelog [here](CHANGELOG.md).
