@@ -118,6 +118,11 @@ Given the purpose and similarities, this project probably should have been a for
 
 Changelog
 ---------
+#### 0.1.28
+###### _June 30, 2018_
+
+- Fix for [#28](/../../issues/28) to allow webpack build to complete while notification is visible. Updated to node-notifier@5.2.1.
+
 #### 0.1.27
 ###### _June 1, 2018_
 

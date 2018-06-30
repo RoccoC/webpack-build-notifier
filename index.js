@@ -121,7 +121,7 @@ var WebpackBuildNotifierPlugin = function(cfg) {
     this.compileIcon = cfg.compileIcon || path.join(defaultIconPath, 'compile.png');
     /**
      * @cfg {Function} onClick
-     * A function called when clicking the notification. By default, it activates the Terminal application.
+     * A function called when clicking on a warning or error notification. By default, it activates the Terminal application.
      */
     this.onClick = cfg.onClick || function(notifierObject, options) { this.activateTerminalWindow(); };
     /**
@@ -242,7 +242,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
                 sound: sound,
                 contentImage: this.logo,
                 icon: icon,
-                wait: true
+                wait: !buildSuccessful
             })
         );
     }
