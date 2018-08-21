@@ -4,6 +4,7 @@
 ###### _August 21, 2018_
 
 - Fix for [#30](/../../issues/30)  compilation notifications no longer ignore *sound* option.
+- Fix for [#30](/../../issues/30), compilation notifications no longer ignore *sound* option.
 - Added new config option: *compilationSound*
 
 #### 0.1.28
