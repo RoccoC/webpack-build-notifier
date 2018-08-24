@@ -48,6 +48,9 @@ The sound to play for warning notifications. Defaults to the value of the *sound
 #### failureSound
 The sound to play for failure notifications. Defaults to the value of the *sound* configuration option. Set to false to play no sound for failure notifications. Takes precedence over the *sound* configuration option.
 
+#### compilationSound
+The sound to play for compilation notifications. Defaults to the value of the *sound* configuration option. Set to false to play no sound for compilation notifications. Takes precedence over the *sound* configuration option.
+
 #### suppressSuccess
 Defines when success notifications are shown. Can be one of the following values:
 *  false     - Show success notification for each successful compilation (default).

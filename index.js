@@ -75,6 +75,12 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      */
     this.failureSound = cfg.hasOwnProperty('failureSound') ? cfg.failureSound : this.sound;
     /**
+     * @cfg {String} [compilationSound='Submarine']
+     * The sound to play for compilation notifications. Defaults to the value of the *sound* configuration option.
+     * Set to false to play no sound for compilation notifications. Takes precedence over the *sound* configuration option.
+     */
+    this.compilationSound = cfg.hasOwnProperty('compilationSound') ? cfg.compilationSound : this.sound;
+    /**
      * @cfg {Boolean/String} [suppressSuccess=false]
      * Defines when success notifications are shown. Can be one of the following values:
      *   false     - Show success notification for each successful compilation (default).
@@ -195,7 +201,8 @@ WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function(compilatio
         title: this.title,
         message: 'Compilation started...',
         contentImage: this.logo,
-        icon: this.compileIcon
+        icon: this.compileIcon,
+        sound: this.compilationSound
     });
     callback();
 };
