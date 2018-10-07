@@ -1,5 +1,10 @@
 # Changelog
 
+#### 0.1.30
+###### _October 7, 2018_
+
+- Fix for [#29](/../../issues/29) where error occurs on Windows 7 when attempting to register the SnoreToast app ID for notifications.
+
 #### 0.1.29
 ###### _August 21, 2018_
 
