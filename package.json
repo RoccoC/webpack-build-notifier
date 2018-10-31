@@ -7,6 +7,7 @@
     "lint": "eslint index.js",
     "lint:fix": "eslint --fix index.js",
     "test": "jest --runInBand --verbose --coverage --collectCoverageFrom=index.js",
+    "test:ci": "jest --coverage --collectCoverageFrom=index.js --coverageReporters=text-lcov | coveralls",
     "test-watch": "jest --runInBand --watch"
   },
   "keywords": [
