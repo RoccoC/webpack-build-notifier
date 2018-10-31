@@ -4,7 +4,10 @@
   "description": "A Webpack plugin that generates OS notifications for build steps using node-notifier.",
   "main": "index.js",
   "scripts": {
-    "test": "eslint index.js"
+    "lint": "eslint index.js",
+    "lint:fix": "eslint --fix index.js",
+    "test": "jest --runInBand --verbose --coverage",
+    "test-watch": "jest --runInBand --watch"
   },
   "keywords": [
     "webpack",
@@ -28,6 +31,15 @@
     "node-notifier": "5.2.1"
   },
   "devDependencies": {
-    "eslint": "^1.1.0"
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.5",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-runtime": "^6.26.0",
+    "eslint": "^5.0.1",
+    "jest": "^23.6.0",
+    "webpack": "^4.4.1"
   }
 }
