@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint index.js",
     "lint:fix": "eslint --fix index.js",
-    "test": "jest --runInBand --verbose --coverage",
+    "test": "jest --runInBand --verbose --coverage --collectCoverageFrom=index.js",
     "test-watch": "jest --runInBand --watch"
   },
   "keywords": [

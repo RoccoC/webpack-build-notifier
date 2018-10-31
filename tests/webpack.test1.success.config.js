@@ -1,4 +1,3 @@
-import webpack from "webpack";
 import WebpackBuildNotifierPlugin from "./../index";
 const path = require("path");
 
@@ -24,7 +23,8 @@ module.exports = {
     },
     plugins: [
         new WebpackBuildNotifierPlugin({
-            title: "Build Notification"
+            title: "Build Notification",
+            suppressCompileStart: false,
         })       
     ]
 };
