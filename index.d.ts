@@ -129,5 +129,5 @@ export type WebpackBuildNotifierConfig = {
 }
 
 export class WebpackBuildNotifierPlugin extends Plugin {
-  constructor(config: WebpackBuildNotifierConfig);
+  constructor(config?: WebpackBuildNotifierConfig);
 }
