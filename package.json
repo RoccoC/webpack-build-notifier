@@ -1,8 +1,9 @@
 {
   "name": "webpack-build-notifier",
-  "version": "0.1.30",
+  "version": "0.1.31",
   "description": "A Webpack plugin that generates OS notifications for build steps using node-notifier.",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "lint": "eslint index.js",
     "lint:fix": "eslint --fix index.js",
@@ -32,6 +33,8 @@
     "node-notifier": "5.2.1"
   },
   "devDependencies": {
+    "@types/node-notifier": "^5.4.0",
+    "@types/webpack": "^4.4.26",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.5",
     "babel-plugin-external-helpers": "^6.22.0",
