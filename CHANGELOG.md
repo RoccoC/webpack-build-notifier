@@ -1,5 +1,10 @@
 # Changelog
 
+#### 0.1.31
+###### _March 20, 2019_
+
+- Added TypeScript definitions per issue [#35](/../../issues/35).
+
 #### 0.1.30
 ###### _October 7, 2018_
 

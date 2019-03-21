@@ -111,9 +111,14 @@ A function called when the notification is clicked. By default it activates the 
 #### onTimeout
 A function called when the notification times out and is closed. Undefined by default.
 
+TypeScript
+----------
+While this project is not written in TypeScript (yet!), it does include TypeScript definitions in [index.d.ts](./index.d.ts). You can take advantage of this if your project's webpack configuration is using TypeScript (e.g. `webpack.config.ts`).
+
 Future Improvements
 -------------------
-* TBD
+* Port to TypeScript
+* Increase test coverage
 
 Notes
 -----
