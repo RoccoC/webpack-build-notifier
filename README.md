@@ -115,6 +115,26 @@ TypeScript
 ----------
 While this project is not written in TypeScript (yet!), it does include TypeScript definitions in [index.d.ts](./index.d.ts). You can take advantage of this if your project's webpack configuration is using TypeScript (e.g. `webpack.config.ts`).
 
+```javascript
+// webpack.config.ts
+import * as webpack from 'webpack'
+import * as WebpackBuildNotifierPlugin from 'webpack-build-notifier';
+
+const config: webpack.Configuration = {
+  // ... snip ...
+  plugins: [
+    new WebpackBuildNotifierPlugin({
+      title: "My Project Webpack Build",
+      logo: path.resolve("./img/favicon.png"),
+      suppressSuccess: true
+    })
+  ],
+  // ... snip ...
+};
+
+export default config;
+```
+
 Future Improvements
 -------------------
 * Port to TypeScript

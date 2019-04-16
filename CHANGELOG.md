@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.0.1
+###### _April 16, 2019_
+
+- Updated README to include TS usage example.
+
 #### 1.0.0
 ###### _April 16, 2019_
 
