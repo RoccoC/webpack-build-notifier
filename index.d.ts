@@ -93,7 +93,7 @@ export type WebpackBuildNotifierConfig = {
    *  1. {NotificationCenter} notifierObject - The notifier object instance.
    *  2. {NotificationCenter.Notification} options - The notifier object options.
    */
-  onClick: (notifier: NotificationCenter, options: NotificationCenter.Notification) => void;
+  onClick?: (notifier: NotificationCenter, options: NotificationCenter.Notification) => void;
   /**
    * A function called when the notification times out (closes). Undefined by default. The function is passed
    * two parameters:
@@ -128,6 +128,6 @@ export type WebpackBuildNotifierConfig = {
   notifyOptions?: NotificationCenter.Notification;
 }
 
-export class WebpackBuildNotifierPlugin extends Plugin {
+export default class WebpackBuildNotifierPlugin extends Plugin {
   constructor(config?: WebpackBuildNotifierConfig);
 }

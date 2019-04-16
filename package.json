@@ -1,6 +1,6 @@
 {
   "name": "webpack-build-notifier",
-  "version": "0.1.31",
+  "version": "0.1.32",
   "description": "A Webpack plugin that generates OS notifications for build steps using node-notifier.",
   "main": "index.js",
   "types": "index.d.ts",
