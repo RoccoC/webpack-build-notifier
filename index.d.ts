@@ -29,27 +29,27 @@ declare namespace WebpackBuildNotifierPlugin {
      * The sound to play for notifications. Set to false to play no sound. Valid sounds are listed
      * in the node-notifier project: https://github.com/mikaelbr/node-notifier. Defaults to `Submarine`.
      */
-    sound?: string;
+    sound?: string | false;
     /**
      * The sound to play for success notifications. Defaults to the value of the *sound* configuration option.
      * Set to false to play no sound for success notifications. Takes precedence over the *sound* configuration option.
      */
-    successSound?: string;
+    successSound?: string | false;
     /**
      * The sound to play for warning notifications. Defaults to the value of the *sound* configuration option.
      * Set to false to play no sound for warning notifications. Takes precedence over the *sound* configuration option.
      */
-    warningSound?: string;
+    warningSound?: string | false;
     /**
      * The sound to play for failure notifications. Defaults to the value of the *sound* configuration option.
      * Set to false to play no sound for failure notifications. Takes precedence over the *sound* configuration option.
      */
-    failureSound?: string;
+    failureSound?: string | false;
     /**
      * The sound to play for compilation notifications. Defaults to the value of the *sound* configuration option.
      * Set to false to play no sound for compilation notifications. Takes precedence over the *sound* configuration option.
      */
-    compilationSound?: string;
+    compilationSound?: string | false;
     /**
      * Defines when success notifications are shown. Can be one of the following values:
      * 
