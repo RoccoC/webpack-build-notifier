@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.0.2
+###### _May_ 3, 2019_
+
+- Corrected *sound TS types.
+
 #### 1.0.1
 ###### _April 16, 2019_
 
