@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.0.3
+###### _June_ 4, 2019_
+
+- Updated dependencies to latest versions to fix high-severity js-yaml vulnerability.
+
 #### 1.0.2
 ###### _May_ 3, 2019_
 
