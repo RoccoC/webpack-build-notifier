@@ -135,23 +135,27 @@ var WebpackBuildNotifierPlugin = function(cfg) {
     /**
      * @cfg {Function} [successCustomCallback=()=>{})]
      * The function to be run after successful notifications
+     * Set to false to play no function for success notifications. Takes precedence over the *customCallback* configuration option.
      */
-    this.successCustomCallback = cfg.successCustomCallback ? cfg.successCustomCallback : this.customCallback;
+    this.successCustomCallback = cfg.hasOwnProperty('successCustomCallback') ? cfg.successCustomCallback : this.customCallback;
     /**
      * @cfg {Function} [warningCustomCallback=()=>{})]
      * The function to be run after warning notifications
+     * Set to false to play no function for warning notifications. Takes precedence over the *customCallback* configuration option.
      */
-    this.warningCustomCallback = cfg.warningCustomCallback ? cfg.warningCustomCallback : this.customCallback;
+    this.warningCustomCallback = cfg.hasOwnProperty('warningCustomCallback') ? cfg.warningCustomCallback : this.customCallback;
     /**
      * @cfg {Function} [failureCustomCallback=()=>{})]
      * The function to be run after failure notifications
+     * Set to false to play no function for failure notifications. Takes precedence over the *customCallback* configuration option.
      */
-    this.failureCustomCallback = cfg.failureCustomCallback ? cfg.failureCustomCallback : this.customCallback;
+    this.failureCustomCallback = cfg.hasOwnProperty('failureCustomCallback')? cfg.failureCustomCallback : this.customCallback;
     /**
      * @cfg {Function} [compilationCustomCallback=()=>{})]
      * The function to be run after compilation notifications
+     * Set to false to play no function for compilation notifications. Takes precedence over the *customCallback* configuration option.
      */
-    this.compilationCustomCallback = cfg.compilationCustomCallback  ? cfg.compilationCustomCallback : this.customCallback;
+    this.compilationCustomCallback = cfg.hasOwnProperty('compilationCustomCallback') ? cfg.compilationCustomCallback : this.customCallback;
     /**
      * @cfg {String} [compileIcon='./icons/compile.png']
      * The absolute path to the icon to be displayed for compilation started notifications.
@@ -236,7 +240,9 @@ WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function(compilatio
         icon: this.compileIcon,
         sound: this.compilationSound
     });
-    this.compilationCustomCallback();
+    if (this.compilationCustomCallback) {
+        this.compilationCustomCallback();
+    }
     callback();
 };
 
@@ -288,7 +294,9 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
                 wait: !buildSuccessful
             })
         );
-        customCallback();
+        if (customCallback) {
+            customCallback();
+        }
     }
 
     if (this.activateTerminalOnError && !buildSuccessful) {

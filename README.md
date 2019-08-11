@@ -55,6 +55,21 @@ The sound to play for failure notifications. Defaults to the value of the *sound
 #### compilationSound
 The sound to play for compilation notifications. Defaults to the value of the *sound* configuration option. Set to false to play no sound for compilation notifications. Takes precedence over the *sound* configuration option.
 
+#### customCallback
+The function to fire for notifications. Defaults to an empty function
+
+#### successCustomCallback
+The function to fire for success notifications. Defaults to the value of the *customCallback* configuration option. Set to false to not fire *customCallback* for success notifications. Takes precedence over the *customCallback* configuration option.
+
+#### warningCustomCallback
+The function to fire for warning notifications. Defaults to the value of the *customCallback* configuration option. Set to false to not fire *customCallback* for warning notifications. Takes precedence over the *customCallback* configuration option.
+
+#### failureCustomCallback
+The function to fire for failure notifications. Defaults to the value of the *customCallback* configuration option. Set to false to not fire *customCallback* for failure notifications. Takes precedence over the *customCallback* configuration option.
+
+#### compilationCustomCallback
+The function to fire for compilation notifications. Defaults to the value of the *customCallback* configuration option. Set to false to not fire *customCallback* for compilation notifications. Takes precedence over the *customCallback* configuration option.
+
 #### suppressSuccess
 Defines when success notifications are shown. Can be one of the following values:
 *  false     - Show success notification for each successful compilation (default).

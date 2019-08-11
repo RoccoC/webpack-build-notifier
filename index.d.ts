@@ -56,20 +56,24 @@ declare namespace WebpackBuildNotifierPlugin {
     customCallback?: Function;
     /**
      * The default function to be run after the success notify has fired
+     * Set to false to fire no function for success notifications. Takes precedence over the *customCallback* configuration option.
      */
-    successCustomCallback?: Function;
+    successCustomCallback?: Function | false;
     /**
      * The default function to be run after the warning notify has fired
+     * Set to false to fire no function for warning notifications. Takes precedence over the *customCallback* configuration option.
      */
-    warningCustomCallback?: Function;
+    warningCustomCallback?: Function | false;
     /**
      * The default function to be run after the failure notify has fired
+     * Set to false to fire no function for failure notifications. Takes precedence over the *customCallback* configuration option.
      */
-    failureCustomCallback?: Function;
+    failureCustomCallback?: Function | false;
     /**
      * The default function to be run after the compilation notify has fired
+     * Set to false to fire no function for compilation notifications. Takes precedence over the *customCallback* configuration option.
      */
-    compilationCustomCallback?: Function;
+    compilationCustomCallback?: Function | false;
     /**
      * Defines when success notifications are shown. Can be one of the following values:
      * 
