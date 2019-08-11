@@ -51,6 +51,26 @@ declare namespace WebpackBuildNotifierPlugin {
      */
     compilationSound?: string | false;
     /**
+     * The default function to be run after the notify has fired
+     */
+    customCallback?: Function;
+    /**
+     * The default function to be run after the success notify has fired
+     */
+    successCustomCallback?: Function;
+    /**
+     * The default function to be run after the warning notify has fired
+     */
+    warningCustomCallback?: Function;
+    /**
+     * The default function to be run after the failure notify has fired
+     */
+    failureCustomCallback?: Function;
+    /**
+     * The default function to be run after the compilation notify has fired
+     */
+    compilationCustomCallback?: Function;
+    /**
      * Defines when success notifications are shown. Can be one of the following values:
      * 
      *  * `false`     - Show success notification for each successful compilation (default).

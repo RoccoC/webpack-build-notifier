@@ -102,7 +102,7 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      */
     this.suppressWarning = cfg.suppressWarning || false;
      /**
-     * @cfg {Boolean} [suppressWarning=true]
+     * @cfg {Boolean} [suppressCompileStart=true]
      * True to suppress the compilation started notifications (default), otherwise false.
      */
     this.suppressCompileStart = cfg.suppressCompileStart !== false;
@@ -127,6 +127,31 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * The absolute path to the icon to be displayed for failure notifications.
      */
     this.failureIcon = cfg.failureIcon || path.join(defaultIconPath, 'failure.png');
+    /**
+     * @cfg {Function} [customCallback=()=>{})]
+     * The default function to be run after the notify has fired
+     */
+    this.customCallback = cfg.customCallback ? cfg.customCallback : () => {};
+    /**
+     * @cfg {Function} [successCustomCallback=()=>{})]
+     * The function to be run after successful notifications
+     */
+    this.successCustomCallback = cfg.successCustomCallback ? cfg.successCustomCallback : this.customCallback;
+    /**
+     * @cfg {Function} [warningCustomCallback=()=>{})]
+     * The function to be run after warning notifications
+     */
+    this.warningCustomCallback = cfg.warningCustomCallback ? cfg.warningCustomCallback : this.customCallback;
+    /**
+     * @cfg {Function} [failureCustomCallback=()=>{})]
+     * The function to be run after failure notifications
+     */
+    this.failureCustomCallback = cfg.failureCustomCallback ? cfg.failureCustomCallback : this.customCallback;
+    /**
+     * @cfg {Function} [compilationCustomCallback=()=>{})]
+     * The function to be run after compilation notifications
+     */
+    this.compilationCustomCallback = cfg.compilationCustomCallback  ? cfg.compilationCustomCallback : this.customCallback;
     /**
      * @cfg {String} [compileIcon='./icons/compile.png']
      * The absolute path to the icon to be displayed for compilation started notifications.
@@ -211,6 +236,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function(compilatio
         icon: this.compileIcon,
         sound: this.compilationSound
     });
+    this.compilationCustomCallback();
     callback();
 };
 
@@ -219,7 +245,8 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         title = this.title + ' - ',
         msg = 'Build successful!',
         icon = this.successIcon,
-        sound = this.successSound;
+        sound = this.successSound,
+        customCallback = this.successCustomCallback;
 
     if (results.hasErrors()) {
         var error = results.compilation.errors[0];
@@ -228,6 +255,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         msg = error ? this.messageFormatter(error, error.module && error.module.rawRequest ? error.module.rawRequest : '') : 'Unknown';
         icon = this.failureIcon;
         sound = this.failureSound;
+        customCallback = this.failureCustomCallback;
         buildSuccessful = false;
     } else if (!this.suppressWarning && results.hasWarnings()) {
         var warning = results.compilation.warnings[0];
@@ -236,6 +264,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         msg = warning ? this.messageFormatter(warning, warning.module && warning.module.rawRequest ? warning.module.rawRequest : '') : 'Unknown';
         icon = this.warningIcon;
         sound = this.warningSound;
+        customCallback = this.warningCustomCallback;
         buildSuccessful = false;
     } else {
         title += 'Success';
@@ -259,6 +288,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
                 wait: !buildSuccessful
             })
         );
+        customCallback();
     }
 
     if (this.activateTerminalOnError && !buildSuccessful) {
