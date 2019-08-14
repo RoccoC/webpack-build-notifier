@@ -1,5 +1,10 @@
 # Changelog
 
+#### 2.0.0-alpha
+###### _August_ 14, 2019_
+
+- Converted to TypeScript.
+
 #### 1.0.3
 ###### _June_ 4, 2019_
 
