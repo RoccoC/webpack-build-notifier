@@ -15,11 +15,11 @@ describe('WebpackBuildNotifierPlugin export initialization test', () => {
   });
 
   it('WebpackBuildNotifierPlugin should be function', () => {
-    expect(typeof WebpackBuildNotifierPlugin).toBe("function");
+    expect(typeof WebpackBuildNotifierPlugin).toBe('function');
   });
 });
 
-describe("Test Webpack build", () => {
+describe('Test Webpack build', () => {
   const platform = process.platform;
 
   afterAll(() => {
@@ -52,11 +52,12 @@ describe("Test Webpack build", () => {
         Object.defineProperty(process, 'platform', {
           value: platform
         });
+        jest.spyOn(child_process, 'execFileSync').mockImplementation(jest.fn());
       });
 
       it('Should not show an initial success notification when suppressSuccess is "initial"', (done) => {
         expect.assertions(1);
-        webpack(getWebpackConfig({ suppressSuccess: 'initial' }), function (err, stats) {
+        webpack(getWebpackConfig({ suppressSuccess: 'initial' }), (err, stats) => {
           expect(notifier.notify).not.toHaveBeenCalled();
           done();
         });
@@ -65,7 +66,7 @@ describe("Test Webpack build", () => {
       it('Should activate terminal on error (Mac OS only)', (done) => {
         const exec = jest.spyOn(child_process, 'exec').mockImplementation(jest.fn());
         expect.assertions(1);
-        webpack(getWebpackConfig({ activateTerminalOnError: true }, 'error'), function (err, stats) {
+        webpack(getWebpackConfig({ activateTerminalOnError: true }, 'error'), (err, stats) => {
           if (platformName === 'Windows') {
             expect(exec).not.toHaveBeenCalled();
           } else {
@@ -78,7 +79,7 @@ describe("Test Webpack build", () => {
       it('Should show a compiling notification when watching', (done) => {
         let buildCount = 0;
         expect.assertions(1);
-        const watcher = webpack(getWebpackConfig({}, 'success', true), function (err, stats) {
+        const watcher = webpack(getWebpackConfig({}, 'success', true), (err, stats) => {
           buildCount++;
           if (buildCount === 1) {
             (notifier.notify as jest.Mock).mockClear();
@@ -100,7 +101,7 @@ describe("Test Webpack build", () => {
 
       it('Should show a success notification', (done) => {
         expect.assertions(1);
-        webpack(getWebpackConfig(), function (err, stats) {
+        webpack(getWebpackConfig(), (err, stats) => {
           expect(notifier.notify).toHaveBeenCalledWith({
             appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
             contentImage: undefined,
@@ -116,7 +117,7 @@ describe("Test Webpack build", () => {
 
       it('Should show an error notification', (done) => {
         expect.assertions(1);
-        webpack(getWebpackConfig({}, 'error'), function (err, stats) {
+        webpack(getWebpackConfig({}, 'error'), (err, stats) => {
           expect(notifier.notify).toHaveBeenCalledWith({
             appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
             contentImage: undefined,
@@ -132,7 +133,7 @@ describe("Test Webpack build", () => {
 
       it('Should show a warning notification', (done) => {
         expect.assertions(1);
-        webpack(getWebpackConfig({}, 'warning'), function (err, stats) {
+        webpack(getWebpackConfig({}, 'warning'), (err, stats) => {
           expect(notifier.notify).toHaveBeenCalledWith({
             appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
             contentImage: undefined,
@@ -149,7 +150,7 @@ describe("Test Webpack build", () => {
       it('Should show an error notification with a custom message', (done) => {
         const messageFormatter = jest.fn().mockImplementation(() => 'Hello, you have an error!');
         expect.assertions(2);
-        webpack(getWebpackConfig({ messageFormatter }, 'error'), function (err, stats) {
+        webpack(getWebpackConfig({ messageFormatter }, 'error'), (err, stats) => {
           expect(messageFormatter).toHaveBeenCalledWith(expect.any(Object), require.resolve('./error.js'));
           expect(notifier.notify).toHaveBeenCalledWith({
             appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
@@ -167,7 +168,7 @@ describe("Test Webpack build", () => {
       it('Should show "Unknown" if message is not defined', (done) => {
         const messageFormatter = jest.fn().mockImplementation(() => undefined);
         expect.assertions(1);
-        webpack(getWebpackConfig({ messageFormatter }, 'error'), function (err, stats) {
+        webpack(getWebpackConfig({ messageFormatter }, 'error'), (err, stats) => {
           expect(notifier.notify).toHaveBeenCalledWith({
             appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
             contentImage: undefined,
@@ -184,7 +185,7 @@ describe("Test Webpack build", () => {
       it('Should throw if messageFormatter returns invalid type', (done) => {
         const messageFormatter = jest.fn().mockImplementation(() => 99);
         expect.assertions(1);
-        webpack(getWebpackConfig({ messageFormatter }, 'error'), function (err, stats) {
+        webpack(getWebpackConfig({ messageFormatter }, 'error'), (err, stats) => {
           expect(err).toContain('Invalid message type');
           done();
         });
