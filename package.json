@@ -1,6 +1,6 @@
 {
   "name": "webpack-build-notifier",
-  "version": "2.0.0-alpha.0",
+  "version": "2.0.0-alpha.1",
   "description": "A Webpack plugin that generates OS notifications for build steps using node-notifier.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run clean && tsc && copyfiles ./src/icons/* ./dist",
+    "build": "npm run clean && tsc && copyfiles -f src/icons/* dist/icons/",
     "clean": "rimraf dist tests/assets",
     "lint": "tslint --project tsconfig.json ./src/*.ts",
     "lint:fix": "npm run lint -- --fix",

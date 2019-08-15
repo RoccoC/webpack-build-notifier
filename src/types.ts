@@ -2,6 +2,7 @@ import NotificationCenter from 'node-notifier/notifiers/notificationcenter';
 import { NodeNotifier } from 'node-notifier';
 
 export type CompilationResult = {
+  details?: string;
   message?: string;
   module?: {
     rawRequest?: string;

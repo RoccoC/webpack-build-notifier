@@ -42,11 +42,12 @@ export default class WebpackBuildNotifierPlugin {
   private notifyOptions?: Notification;
 
   constructor(cfg?: Config) {
-    Object.apply(this, cfg);
+    Object.assign(this, cfg);
 
     this.registerSnoreToast();
 
     notifier.on('click', this.onClick);
+    /* istanbul ignore else */
     if (this.onTimeout) {
       notifier.on('timeout', this.onTimeout);
     }
@@ -55,12 +56,14 @@ export default class WebpackBuildNotifierPlugin {
   public apply(compiler: webpack.Compiler): void {
     if (compiler.hooks && compiler.hooks.watchRun && compiler.hooks.done) {
       // for webpack >= 4
+      /* istanbul ignore else */
       if (!this.suppressCompileStart) {
         compiler.hooks.watchRun.tapAsync('webpack-build-notifier', this.onCompilationWatchRun);
       }
       compiler.hooks.done.tap('webpack-build-notifier', this.onCompilationDone);
     } else {
       // for webpack < 4
+      /* istanbul ignore else */
       if (!this.suppressCompileStart) {
         compiler.plugin('watch-run', this.onCompilationWatchRun);
       }
@@ -69,14 +72,14 @@ export default class WebpackBuildNotifierPlugin {
   }
 
   private readonly activateTerminalWindow = (): void => {
-    if (os.platform() === 'darwin') {
+    if (process.platform === 'darwin') {
       // TODO: is there a way to translate $TERM_PROGRAM into the application name
       // to make this more flexible?
       exec('TERM="$TERM_PROGRAM"; ' +
         '[[ "$TERM" == "Apple_Terminal" ]] && TERM="Terminal"; ' +
         '[[ "$TERM" == "vscode" ]] && TERM="Visual Studio Code"; ' +
         'osascript -e "tell application \\"$TERM\\" to activate"');
-    } else if (os.platform() === 'win32') {
+    } else if (process.platform === 'win32') {
       // TODO: Windows platform
     }
   };
@@ -85,14 +88,19 @@ export default class WebpackBuildNotifierPlugin {
     error: CompilationResult,
     filepath: string
   ): string => {
-    let message = '';
+    let message: string | undefined = undefined;
     if (this.messageFormatter) {
       message = this.messageFormatter(error, filepath);
-    } else if (error.message && error.module && error.module.resource) {
-      message = `${filepath}${os.EOL}${error.message.replace(error.module.resource, '')}`;
+    } else {
+      message = (error.message || error.details);
+      if (message && error.module && error.module.resource) {
+        message = `${filepath}${os.EOL}${message!.replace(error.module.resource, '')}`;
+      }
     }
 
-    if (typeof message === 'string') {
+    if (message === undefined) {
+      return 'Unknown';
+    } else if (typeof message === 'string') {
       return message.substr(0, 256); // limit message length to 256 characters, fixes #20
     } else {
       throw `Invalid message type '${typeof message}'; messageFormatter must return a string.`;
@@ -108,26 +116,25 @@ export default class WebpackBuildNotifierPlugin {
 
     if (results.hasErrors()) {
       const error = results.compilation.errors[0];
+      const errorFilePath = error.module && error.module.rawRequest ? error.module.rawRequest : '';
       notify = true;
       title += 'Error';
-      msg = error ?
-        this.formatMessage(error, error.module && error.module.rawRequest ? error.module.rawRequest : '') :
-        'Unknown';
+      msg = this.formatMessage(error, errorFilePath);
       icon = this.failureIcon;
       sound = this.failureSound;
       this.buildSuccessful = false;
     } else if (!this.suppressWarning && results.hasWarnings()) {
       const warning = results.compilation.warnings[0];
+      const warningFilePath = warning.module && warning.module.rawRequest ? warning.module.rawRequest : '';
       notify = true;
       title += 'Warning';
-      msg = warning ?
-        this.formatMessage(warning, warning.module && warning.module.rawRequest ? warning.module.rawRequest : '') :
-        'Unknown';
+      msg = this.formatMessage(warning, warningFilePath);
       icon = this.warningIcon;
       sound = this.warningSound;
       this.buildSuccessful = false;
     } else {
       title += 'Success';
+      /* istanbul ignore else */
       if (this.suppressSuccess === 'always' || (this.suppressSuccess === 'initial' && !this.hasRun)) {
         notify = false;
       } else if (this.suppressSuccess === false || !this.buildSuccessful) {
@@ -136,6 +143,7 @@ export default class WebpackBuildNotifierPlugin {
       this.buildSuccessful = true;
     }
 
+    /* istanbul ignore else */
     if (notify) {
       notifier.notify(
         Object.assign(this.notifyOptions || {}, {
@@ -150,6 +158,7 @@ export default class WebpackBuildNotifierPlugin {
       );
     }
 
+    /* istanbul ignore else */
     if (this.activateTerminalOnError && !this.buildSuccessful) {
       this.activateTerminalWindow();
     }
@@ -177,9 +186,11 @@ export default class WebpackBuildNotifierPlugin {
     // this is necessary in Windows 8 and above, (Windows 10 post build 1709), where all notifications must be generated
     // by a valid application.
     // see: https://github.com/KDE/snoretoast, https://github.com/RoccoC/webpack-build-notifier/issues/20
+    /* istanbul ignore else */
     if (process.platform === 'win32') {
       const versionParts = os.release().split('.');
       const winVer = +(`${versionParts[0]}.${versionParts[1]}`);
+      /* istanbul ignore else */
       if (winVer >= 6.2) {
         // Windows version >= 8
         const snoreToast = path.join(require.resolve('node-notifier'), '../vendor/snoreToast/SnoreToast.exe');

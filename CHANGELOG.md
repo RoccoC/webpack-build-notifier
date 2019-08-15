@@ -1,5 +1,10 @@
 # Changelog
 
+#### 2.0.0-alpha.1
+###### _August_ 14, 2019_
+
+- Increased test coverage.
+
 #### 2.0.0-alpha.0
 ###### _August_ 14, 2019_
 
