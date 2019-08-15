@@ -1,17 +1,17 @@
 # Changelog
 
 #### 2.0.0-alpha.3
-###### _August_ 14, 2019_
+###### _August 14, 2019_
 
 - Converted to TypeScript, increased test coverage.
 
 #### 1.0.3
-###### _June_ 4, 2019_
+###### _June 4, 2019_
 
 - Updated dependencies to latest versions to fix high-severity js-yaml vulnerability.
 
 #### 1.0.2
-###### _May_ 3, 2019_
+###### _May 3, 2019_
 
 - Corrected *sound TS types.
 
