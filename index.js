@@ -9,6 +9,7 @@ var os = require('os');
 var notifier = require('node-notifier');
 var stripAnsi = require('strip-ansi');
 var exec = require('child_process').exec;
+var webpack = require("webpack");
 
 // ensure the SnoreToast appId is registered, which is needed for Windows Toast notifications
 // this is necessary in Windows 8 and above, (Windows 10 post build 1709), where all notifications must be generated
@@ -128,34 +129,18 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      */
     this.failureIcon = cfg.failureIcon || path.join(defaultIconPath, 'failure.png');
     /**
-     * @cfg {Function} [customCallback=()=>{})]
-     * The default function to be run after the notify has fired
+     * @cfg {Function} [onCompileStart=(compilation = webpack.compilation.Compilation)=>{})]
+     * The function to be run after the compile start notification has fired
+     *  1. compilation = webpack.compilation.Compilation
      */
-    this.customCallback = cfg.customCallback ? cfg.customCallback : () => {};
+    this.onCompileStart = cfg.onCompileStart ? cfg.onCompileStart : (compilation) => {};
     /**
-     * @cfg {Function} [successCustomCallback=()=>{})]
-     * The function to be run after successful notifications
-     * Set to false to play no function for success notifications. Takes precedence over the *customCallback* configuration option.
+     * @cfg {Function} [onComplete=(compilation,compilationStatus) => {})]
+     * The function to be run after the compile finished notification has fired
+     *  1. compilation = webpack.compilation.Compilation
+     *  2. compilationStatus = 'success' | 'error' | 'warning'
      */
-    this.successCustomCallback = cfg.hasOwnProperty('successCustomCallback') ? cfg.successCustomCallback : this.customCallback;
-    /**
-     * @cfg {Function} [warningCustomCallback=()=>{})]
-     * The function to be run after warning notifications
-     * Set to false to play no function for warning notifications. Takes precedence over the *customCallback* configuration option.
-     */
-    this.warningCustomCallback = cfg.hasOwnProperty('warningCustomCallback') ? cfg.warningCustomCallback : this.customCallback;
-    /**
-     * @cfg {Function} [failureCustomCallback=()=>{})]
-     * The function to be run after failure notifications
-     * Set to false to play no function for failure notifications. Takes precedence over the *customCallback* configuration option.
-     */
-    this.failureCustomCallback = cfg.hasOwnProperty('failureCustomCallback')? cfg.failureCustomCallback : this.customCallback;
-    /**
-     * @cfg {Function} [compilationCustomCallback=()=>{})]
-     * The function to be run after compilation notifications
-     * Set to false to play no function for compilation notifications. Takes precedence over the *customCallback* configuration option.
-     */
-    this.compilationCustomCallback = cfg.hasOwnProperty('compilationCustomCallback') ? cfg.compilationCustomCallback : this.customCallback;
+    this.onComplete = cfg.onComplete ? cfg.onComplete : (compilation, compilationStatus) => {};
     /**
      * @cfg {String} [compileIcon='./icons/compile.png']
      * The absolute path to the icon to be displayed for compilation started notifications.
@@ -240,9 +225,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function(compilatio
         icon: this.compileIcon,
         sound: this.compilationSound
     });
-    if (this.compilationCustomCallback) {
-        this.compilationCustomCallback();
-    }
+    this.onCompileStart(compilation);
     callback();
 };
 
@@ -252,25 +235,26 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         msg = 'Build successful!',
         icon = this.successIcon,
         sound = this.successSound,
-        customCallback = this.successCustomCallback;
+        onComplete = this.onComplete,
+        compilationResult = 'success';
 
     if (results.hasErrors()) {
         var error = results.compilation.errors[0];
         notify = true;
+        compilationResult = 'error';
         title += 'Error';
         msg = error ? this.messageFormatter(error, error.module && error.module.rawRequest ? error.module.rawRequest : '') : 'Unknown';
         icon = this.failureIcon;
         sound = this.failureSound;
-        customCallback = this.failureCustomCallback;
         buildSuccessful = false;
     } else if (!this.suppressWarning && results.hasWarnings()) {
         var warning = results.compilation.warnings[0];
         notify = true;
+        compilationResult = 'warning';
         title += 'Warning';
         msg = warning ? this.messageFormatter(warning, warning.module && warning.module.rawRequest ? warning.module.rawRequest : '') : 'Unknown';
         icon = this.warningIcon;
         sound = this.warningSound;
-        customCallback = this.warningCustomCallback;
         buildSuccessful = false;
     } else {
         title += 'Success';
@@ -294,9 +278,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
                 wait: !buildSuccessful
             })
         );
-        if (customCallback) {
-            customCallback();
-        }
+        onComplete(results.compilation, compilationResult);
     }
 
     if (this.activateTerminalOnError && !buildSuccessful) {

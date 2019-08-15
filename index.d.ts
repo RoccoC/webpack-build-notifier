@@ -1,5 +1,6 @@
 import { Plugin } from 'webpack';
 import NotificationCenter from 'node-notifier/notifiers/notificationcenter';
+import webpack = require("webpack");
 
 export = WebpackBuildNotifierPlugin;
 
@@ -15,6 +16,11 @@ declare namespace WebpackBuildNotifierPlugin {
       resource?: string;
     };
   };
+   /**
+    * String to represent valid compilation results
+    * 'success' | 'error' | 'warning'
+    */
+  type CompilationStatus = 'success' | 'error' | 'warning';
 
   type Config = {
     /**
@@ -51,29 +57,16 @@ declare namespace WebpackBuildNotifierPlugin {
      */
     compilationSound?: string | false;
     /**
-     * The default function to be run after the notify has fired
+     * The function to be run after the compile notification has fired
+     * 1. {webpack.compilation.Compilation} compilation - Compilation reference
      */
-    customCallback?: Function;
+    onCompileStart?: (compilation: webpack.compilation.Compilation) => void;
     /**
-     * The default function to be run after the success notify has fired
-     * Set to false to fire no function for success notifications. Takes precedence over the *customCallback* configuration option.
+     * The function to be run after the compile notification has fired
+     * 1. {webpack.compilation.Compilation} compilation - Compilation reference
+     * 2. {CompilationStatus} status - 'success' | 'error' | 'warning'
      */
-    successCustomCallback?: Function | false;
-    /**
-     * The default function to be run after the warning notify has fired
-     * Set to false to fire no function for warning notifications. Takes precedence over the *customCallback* configuration option.
-     */
-    warningCustomCallback?: Function | false;
-    /**
-     * The default function to be run after the failure notify has fired
-     * Set to false to fire no function for failure notifications. Takes precedence over the *customCallback* configuration option.
-     */
-    failureCustomCallback?: Function | false;
-    /**
-     * The default function to be run after the compilation notify has fired
-     * Set to false to fire no function for compilation notifications. Takes precedence over the *customCallback* configuration option.
-     */
-    compilationCustomCallback?: Function | false;
+    onComplete?: (compilation: webpack.compilation.Compilation, status: CompilationStatus) => void;
     /**
      * Defines when success notifications are shown. Can be one of the following values:
      * 
