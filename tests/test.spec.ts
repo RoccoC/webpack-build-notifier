@@ -2,8 +2,8 @@ import webpack from 'webpack';
 import WebpackBuildNotifierPlugin from '../src/index';
 import getWebpackConfig from './webpack.config';
 import notifier from 'node-notifier';
-import child_process, { ChildProcess } from 'child_process';
-// import os from 'os';
+import child_process from 'child_process';
+import os from 'os';
 
 describe('WebpackBuildNotifierPlugin export initialization test', () => {
   it('WebpackBuildNotifierPlugin should not undefined', () => {
@@ -53,6 +53,7 @@ describe('Test Webpack build', () => {
           value: platform
         });
         jest.spyOn(child_process, 'execFileSync').mockImplementation(jest.fn());
+        jest.spyOn(os, 'release').mockImplementation(() => '10.0.18362');
       });
 
       it('Should not show an initial success notification when suppressSuccess is "initial"', (done) => {
