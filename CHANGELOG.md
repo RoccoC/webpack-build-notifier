@@ -1,14 +1,9 @@
 # Changelog
 
-#### 2.0.0-alpha.1
+#### 2.0.0-alpha.2
 ###### _August_ 14, 2019_
 
-- Increased test coverage.
-
-#### 2.0.0-alpha.0
-###### _August_ 14, 2019_
-
-- Converted to TypeScript.
+- Converted to TypeScript, increased test coverage.
 
 #### 1.0.3
 ###### _June_ 4, 2019_
