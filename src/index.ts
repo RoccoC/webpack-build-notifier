@@ -15,7 +15,7 @@ import webpack from 'webpack';
 
 const DEFAULT_ICON_PATH = path.resolve(__dirname, 'icons');
 
-class WebpackBuildNotifierPlugin {
+export default class WebpackBuildNotifierPlugin {
   private appName: string | undefined = undefined;
   private buildSuccessful: boolean = false;
   private hasRun: boolean = false;
