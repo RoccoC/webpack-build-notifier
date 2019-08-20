@@ -1,5 +1,6 @@
 import { Plugin } from 'webpack';
 import NotificationCenter from 'node-notifier/notifiers/notificationcenter';
+import webpack = require("webpack");
 
 export = WebpackBuildNotifierPlugin;
 
@@ -15,6 +16,11 @@ declare namespace WebpackBuildNotifierPlugin {
       resource?: string;
     };
   };
+   /**
+    * String to represent valid compilation results
+    * 'success' | 'error' | 'warning'
+    */
+  type CompilationStatus = 'success' | 'error' | 'warning';
 
   type Config = {
     /**
@@ -50,6 +56,17 @@ declare namespace WebpackBuildNotifierPlugin {
      * Set to false to play no sound for compilation notifications. Takes precedence over the *sound* configuration option.
      */
     compilationSound?: string | false;
+    /**
+     * The function to be run after the compile notification has fired
+     * 1. {webpack.compilation.Compilation} compilation - Compilation reference
+     */
+    onCompileStart?: (compilation: webpack.compilation.Compilation) => void;
+    /**
+     * The function to be run after the compile notification has fired
+     * 1. {webpack.compilation.Compilation} compilation - Compilation reference
+     * 2. {CompilationStatus} status - 'success' | 'error' | 'warning'
+     */
+    onComplete?: (compilation: webpack.compilation.Compilation, status: CompilationStatus) => void;
     /**
      * Defines when success notifications are shown. Can be one of the following values:
      * 

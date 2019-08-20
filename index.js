@@ -9,6 +9,7 @@ var os = require('os');
 var notifier = require('node-notifier');
 var stripAnsi = require('strip-ansi');
 var exec = require('child_process').exec;
+var webpack = require("webpack");
 
 // ensure the SnoreToast appId is registered, which is needed for Windows Toast notifications
 // this is necessary in Windows 8 and above, (Windows 10 post build 1709), where all notifications must be generated
@@ -102,7 +103,7 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      */
     this.suppressWarning = cfg.suppressWarning || false;
      /**
-     * @cfg {Boolean} [suppressWarning=true]
+     * @cfg {Boolean} [suppressCompileStart=true]
      * True to suppress the compilation started notifications (default), otherwise false.
      */
     this.suppressCompileStart = cfg.suppressCompileStart !== false;
@@ -127,6 +128,19 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * The absolute path to the icon to be displayed for failure notifications.
      */
     this.failureIcon = cfg.failureIcon || path.join(defaultIconPath, 'failure.png');
+    /**
+     * @cfg {Function} [onCompileStart=(compilation = webpack.compilation.Compilation)=>{})]
+     * The function to be run after the compile start notification has fired
+     *  1. compilation = webpack.compilation.Compilation
+     */
+    this.onCompileStart = cfg.onCompileStart ? cfg.onCompileStart : (compilation) => {};
+    /**
+     * @cfg {Function} [onComplete=(compilation,compilationStatus) => {})]
+     * The function to be run after the compile finished notification has fired
+     *  1. compilation = webpack.compilation.Compilation
+     *  2. compilationStatus = 'success' | 'error' | 'warning'
+     */
+    this.onComplete = cfg.onComplete ? cfg.onComplete : (compilation, compilationStatus) => {};
     /**
      * @cfg {String} [compileIcon='./icons/compile.png']
      * The absolute path to the icon to be displayed for compilation started notifications.
@@ -211,6 +225,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function(compilatio
         icon: this.compileIcon,
         sound: this.compilationSound
     });
+    this.onCompileStart(compilation);
     callback();
 };
 
@@ -219,11 +234,14 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
         title = this.title + ' - ',
         msg = 'Build successful!',
         icon = this.successIcon,
-        sound = this.successSound;
+        sound = this.successSound,
+        onComplete = this.onComplete,
+        compilationResult = 'success';
 
     if (results.hasErrors()) {
         var error = results.compilation.errors[0];
         notify = true;
+        compilationResult = 'error';
         title += 'Error';
         msg = error ? this.messageFormatter(error, error.module && error.module.rawRequest ? error.module.rawRequest : '') : 'Unknown';
         icon = this.failureIcon;
@@ -232,6 +250,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
     } else if (!this.suppressWarning && results.hasWarnings()) {
         var warning = results.compilation.warnings[0];
         notify = true;
+        compilationResult = 'warning';
         title += 'Warning';
         msg = warning ? this.messageFormatter(warning, warning.module && warning.module.rawRequest ? warning.module.rawRequest : '') : 'Unknown';
         icon = this.warningIcon;
@@ -259,6 +278,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
                 wait: !buildSuccessful
             })
         );
+        onComplete(results.compilation, compilationResult);
     }
 
     if (this.activateTerminalOnError && !buildSuccessful) {
