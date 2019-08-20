@@ -36,13 +36,13 @@ if (process.platform === 'win32') {
                 ]
             );
             appName = 'Snore.DesktopToasts';
-        } catch(e) {
+        } catch (e) {
             console.error("An error occurred while attempting to install the SnoreToast AppID!", e);
         }
     }
 }
 
-var WebpackBuildNotifierPlugin = function(cfg) {
+var WebpackBuildNotifierPlugin = function (cfg) {
     cfg = cfg || {};
 
     var defaultIconPath = path.resolve(__dirname, 'icons');
@@ -101,10 +101,10 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * True to suppress the warning notifications, otherwise false (default).
      */
     this.suppressWarning = cfg.suppressWarning || false;
-     /**
-     * @cfg {Boolean} [suppressWarning=true]
-     * True to suppress the compilation started notifications (default), otherwise false.
-     */
+    /**
+    * @cfg {Boolean} [suppressCompileStart=true]
+    * True to suppress the compilation started notifications (default), otherwise false.
+    */
     this.suppressCompileStart = cfg.suppressCompileStart !== false;
     /**
      * @cfg {Boolean} [activateTerminalOnError=false]
@@ -128,6 +128,20 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      */
     this.failureIcon = cfg.failureIcon || path.join(defaultIconPath, 'failure.png');
     /**
+     * @cfg {Function} [onCompileStart=undefined]
+     * A function which is invoked when compilation starts. Optional. The function is passed one parameter:
+     *  1) {webpack.compilation.Compilation} compilation - The webpack Compilation instance.
+     * Note that `suppressCompileStart` must be `false`.
+     */
+    this.onCompileStart = cfg.onCompileStart;
+    /**
+     * @cfg {Function} [onComplete=undefined]
+     * A function which is invoked when compilation completes. Optional. The function is passed two parameters:
+     *  1) {webpack.compilation.Compilation} compilation - The webpack Compilation instance.
+     *  2) {CompilationStatus} status - one of 'success', 'warning', or 'error'
+     */
+    this.onComplete = cfg.onComplete;
+    /**
      * @cfg {String} [compileIcon='./icons/compile.png']
      * The absolute path to the icon to be displayed for compilation started notifications.
      */
@@ -136,7 +150,7 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * @cfg {Function} onClick
      * A function called when clicking on a warning or error notification. By default, it activates the Terminal application.
      */
-    this.onClick = cfg.onClick || function(notifierObject, options) { this.activateTerminalWindow(); };
+    this.onClick = cfg.onClick || function (notifierObject, options) { this.activateTerminalWindow(); };
     /**
      * @cfg {Function} onTimeout
      * A function called when the notification times out (closes). Undefined by default. The function is passed
@@ -155,7 +169,7 @@ var WebpackBuildNotifierPlugin = function(cfg) {
      * error/warning message.
      * Note that the message will always be limited to 256 characters.
      */
-    this.messageFormatter = function(error, filepath) {
+    this.messageFormatter = function (error, filepath) {
         var message = (cfg.messageFormatter || this.defaultMessageFormatter)(error, filepath);
         if (typeof message === "string") {
             return message.substr(0, 256); // limit message length to 256 characters, fixes #20
@@ -185,24 +199,24 @@ var WebpackBuildNotifierPlugin = function(cfg) {
 var buildSuccessful = false;
 var hasRun = false;
 
-WebpackBuildNotifierPlugin.prototype.defaultMessageFormatter = function(error, filepath) {
+WebpackBuildNotifierPlugin.prototype.defaultMessageFormatter = function (error, filepath) {
     return filepath + os.EOL + (error.message ? error.message.replace(error.module ? error.module.resource : '', '') : '');
 };
 
-WebpackBuildNotifierPlugin.prototype.activateTerminalWindow = function() {
+WebpackBuildNotifierPlugin.prototype.activateTerminalWindow = function () {
     if (os.platform() === 'darwin') {
         // TODO: is there a way to translate $TERM_PROGRAM into the application name
         // to make this more flexible?
         exec('TERM="$TERM_PROGRAM"; ' +
             '[[ "$TERM" == "Apple_Terminal" ]] && TERM="Terminal"; ' +
             '[[ "$TERM" == "vscode" ]] && TERM="Visual Studio Code"; ' +
-             'osascript -e "tell application \\"$TERM\\" to activate"');
+            'osascript -e "tell application \\"$TERM\\" to activate"');
     } else if (os.platform() === 'win32') {
         // TODO: Windows platform
     }
 };
 
-WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function(compilation, callback) {
+WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function (compilation, callback) {
     notifier.notify({
         appName: appName,
         title: this.title,
@@ -211,19 +225,25 @@ WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function(compilatio
         icon: this.compileIcon,
         sound: this.compilationSound
     });
+    if (this.onCompileStart) {
+        this.onCompileStart(compilation);
+    }
     callback();
 };
 
-WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
+WebpackBuildNotifierPlugin.prototype.onCompilationDone = function (results) {
     var notify,
         title = this.title + ' - ',
         msg = 'Build successful!',
         icon = this.successIcon,
-        sound = this.successSound;
+        sound = this.successSound,
+        onComplete = this.onComplete,
+        compilationStatus = 'success';
 
     if (results.hasErrors()) {
         var error = results.compilation.errors[0];
         notify = true;
+        compilationStatus = 'error';
         title += 'Error';
         msg = error ? this.messageFormatter(error, error.module && error.module.rawRequest ? error.module.rawRequest : '') : 'Unknown';
         icon = this.failureIcon;
@@ -232,6 +252,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
     } else if (!this.suppressWarning && results.hasWarnings()) {
         var warning = results.compilation.warnings[0];
         notify = true;
+        compilationStatus = 'warning';
         title += 'Warning';
         msg = warning ? this.messageFormatter(warning, warning.module && warning.module.rawRequest ? warning.module.rawRequest : '') : 'Unknown';
         icon = this.warningIcon;
@@ -259,6 +280,9 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
                 wait: !buildSuccessful
             })
         );
+        if (onComplete) {
+            onComplete(results.compilation, compilationStatus);
+        }
     }
 
     if (this.activateTerminalOnError && !buildSuccessful) {
@@ -268,7 +292,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function(results) {
     hasRun = true;
 };
 
-WebpackBuildNotifierPlugin.prototype.apply = function(compiler) {
+WebpackBuildNotifierPlugin.prototype.apply = function (compiler) {
     if (compiler.hooks && compiler.hooks.watchRun && compiler.hooks.done) {
         // for webpack >= 4
         if (!this.suppressCompileStart) {

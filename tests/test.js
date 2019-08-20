@@ -35,6 +35,8 @@ describe('WebpackBuildNotifierPlugin instance test', () => {
         expect(instanceWithTitle.successSound).toBe("Submarine");
         expect(instanceWithTitle.failureSound).toBe("Submarine");
         expect(instanceWithTitle.compilationSound).toBe("Submarine");
+        expect(instanceWithTitle.onCompileStart).toEqual(undefined);
+        expect(instanceWithTitle.onComplete).toEqual(undefined);
         expect(instanceWithTitle.suppressSuccess).toBe(false);
         expect(instanceWithTitle.suppressWarning).toBe(false);
         expect(instanceWithTitle.suppressCompileStart).toBe(true);

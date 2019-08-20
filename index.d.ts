@@ -1,5 +1,6 @@
 import { Plugin } from 'webpack';
 import NotificationCenter from 'node-notifier/notifiers/notificationcenter';
+import webpack = require("webpack");
 
 export = WebpackBuildNotifierPlugin;
 
@@ -15,6 +16,14 @@ declare namespace WebpackBuildNotifierPlugin {
       resource?: string;
     };
   };
+  /**
+   * String to represent valid compilation results.
+   */
+  enum CompilationStatus {
+    SUCCESS = 'success',
+    WARNING = 'warning',
+    ERROR = 'error',
+  }
 
   type Config = {
     /**
@@ -50,6 +59,18 @@ declare namespace WebpackBuildNotifierPlugin {
      * Set to false to play no sound for compilation notifications. Takes precedence over the *sound* configuration option.
      */
     compilationSound?: string | false;
+    /**
+     * A function which is invoked when compilation starts. Optional. The function is passed one parameter:
+     * 1. {webpack.compilation.Compilation} compilation - The webpack Compilation instance.
+     * Note that `suppressCompileStart` must be `false`.
+     */
+    onCompileStart?: (compilation: webpack.compilation.Compilation) => void;
+    /**
+     * A function which is invoked when compilation completes. Optional. The function is passed two parameters:
+     * 1. {webpack.compilation.Compilation} compilation - The webpack Compilation instance.
+     * 2. {CompilationStatus} status - one of 'success', 'warning', or 'error'
+     */
+    onComplete?: (compilation: webpack.compilation.Compilation, status: CompilationStatus) => void;
     /**
      * Defines when success notifications are shown. Can be one of the following values:
      * 
@@ -93,7 +114,6 @@ declare namespace WebpackBuildNotifierPlugin {
      */
     compileIcon?: string;
     /**
-     * @cfg {Function} onClick
      * A function called when clicking on a warning or error notification. By default, it activates the Terminal application.
      * The function is passed two parameters:
      *

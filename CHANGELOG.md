@@ -1,12 +1,17 @@
 # Changelog
 
+#### 1.1.0
+###### _August 10, 2019_
+
+- Added two new config options: onCompileStart, onComplete.
+
 #### 1.0.3
-###### _June_ 4, 2019_
+###### _June 4, 2019_
 
 - Updated dependencies to latest versions to fix high-severity js-yaml vulnerability.
 
 #### 1.0.2
-###### _May_ 3, 2019_
+###### _May 3, 2019_
 
 - Corrected *sound TS types.
 
