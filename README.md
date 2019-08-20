@@ -56,15 +56,14 @@ The sound to play for failure notifications. Defaults to the value of the *sound
 The sound to play for compilation notifications. Defaults to the value of the *sound* configuration option. Set to false to play no sound for compilation notifications. Takes precedence over the *sound* configuration option.
 
 #### onCompileStart
-The function to fire on compilation notifications. 
-e.g (compilation) => {} 
-compilation = webpack.compilation.Compilation
+A function which is invoked when compilation starts. Optional. The function is passed one parameter:
+* {webpack.compilation.Compilation} compilation - The webpack Compilation instance.
+Note that `suppressCompileStart` must be `false`.
 
 #### onComplete
-The function to fire on completed notifications. 
-e.g (compilation, compilationResult) => {} 
-compilation = webpack.compilation.Compilation
-compilationResult = 'success' | 'error' | 'warning'
+A function which is invoked when compilation completes. Optional. The function is passed two parameters:
+* {webpack.compilation.Compilation} compilation - The webpack Compilation instance.
+* {CompilationStatus} status - one of 'success', 'warning', or 'error'
 
 #### suppressSuccess
 Defines when success notifications are shown. Can be one of the following values:

@@ -16,11 +16,14 @@ declare namespace WebpackBuildNotifierPlugin {
       resource?: string;
     };
   };
-   /**
-    * String to represent valid compilation results
-    * 'success' | 'error' | 'warning'
-    */
-  type CompilationStatus = 'success' | 'error' | 'warning';
+  /**
+   * String to represent valid compilation results.
+   */
+  enum CompilationStatus {
+    SUCCESS = 'success',
+    WARNING = 'warning',
+    ERROR = 'error',
+  }
 
   type Config = {
     /**
@@ -57,14 +60,15 @@ declare namespace WebpackBuildNotifierPlugin {
      */
     compilationSound?: string | false;
     /**
-     * The function to be run after the compile notification has fired
-     * 1. {webpack.compilation.Compilation} compilation - Compilation reference
+     * A function which is invoked when compilation starts. Optional. The function is passed one parameter:
+     * 1. {webpack.compilation.Compilation} compilation - The webpack Compilation instance.
+     * Note that `suppressCompileStart` must be `false`.
      */
     onCompileStart?: (compilation: webpack.compilation.Compilation) => void;
     /**
-     * The function to be run after the compile notification has fired
-     * 1. {webpack.compilation.Compilation} compilation - Compilation reference
-     * 2. {CompilationStatus} status - 'success' | 'error' | 'warning'
+     * A function which is invoked when compilation completes. Optional. The function is passed two parameters:
+     * 1. {webpack.compilation.Compilation} compilation - The webpack Compilation instance.
+     * 2. {CompilationStatus} status - one of 'success', 'warning', or 'error'
      */
     onComplete?: (compilation: webpack.compilation.Compilation, status: CompilationStatus) => void;
     /**
@@ -110,7 +114,6 @@ declare namespace WebpackBuildNotifierPlugin {
      */
     compileIcon?: string;
     /**
-     * @cfg {Function} onClick
      * A function called when clicking on a warning or error notification. By default, it activates the Terminal application.
      * The function is passed two parameters:
      *
