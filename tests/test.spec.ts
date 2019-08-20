@@ -5,6 +5,8 @@ import notifier from 'node-notifier';
 import child_process from 'child_process';
 import os from 'os';
 
+// TODO: test for registerSnoreToast
+
 describe('WebpackBuildNotifierPlugin export initialization test', () => {
   it('WebpackBuildNotifierPlugin should not undefined', () => {
     expect(WebpackBuildNotifierPlugin).not.toBe(undefined);
