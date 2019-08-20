@@ -225,7 +225,9 @@ WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function (compilati
         icon: this.compileIcon,
         sound: this.compilationSound
     });
-    this.onCompileStart && this.onCompileStart(compilation);
+    if (this.onCompileStart) {
+        this.onCompileStart(compilation);
+    }
     callback();
 };
 
@@ -278,7 +280,9 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function (results) {
                 wait: !buildSuccessful
             })
         );
-        onComplete && onComplete(results.compilation, compilationStatus);
+        if (onComplete) {
+            onComplete(results.compilation, compilationStatus);
+        }
     }
 
     if (this.activateTerminalOnError && !buildSuccessful) {
