@@ -1,6 +1,6 @@
 {
   "name": "webpack-build-notifier",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A Webpack plugin that generates OS notifications for build steps using node-notifier.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -28,9 +28,9 @@
   "author": "Rocco Cataldo <roccocataldo@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "ansi-regex": "^2.0.0",
-    "strip-ansi": "^3.0.1",
-    "node-notifier": "5.4.0"
+    "ansi-regex": "4.1.0",
+    "strip-ansi": "5.2.0",
+    "node-notifier": "5.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.1.1
+###### _August 29, 2019_
+
+- Updated node-notifier dependency to latest version to fix #45.
+
 #### 1.1.0
 ###### _August 10, 2019_
 
