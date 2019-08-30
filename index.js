@@ -217,14 +217,17 @@ WebpackBuildNotifierPlugin.prototype.activateTerminalWindow = function () {
 };
 
 WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function (compilation, callback) {
-    notifier.notify({
-        appName: appName,
-        title: this.title,
-        message: 'Compilation started...',
-        contentImage: this.logo,
-        icon: this.compileIcon,
-        sound: this.compilationSound
-    });
+    var self = this;
+    setTimeout(() => {
+        notifier.notify({
+            appName: appName,
+            title: self.title,
+            message: 'Compilation started...',
+            contentImage: self.logo,
+            icon: self.compileIcon,
+            sound: self.compilationSound
+        });
+    }, 10);
     if (this.onCompileStart) {
         this.onCompileStart(compilation);
     }
@@ -269,17 +272,21 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function (results) {
     }
 
     if (notify) {
-        notifier.notify(
-            Object.assign(this.notifyOptions, {
-                appName: appName,
-                title: title,
-                message: stripAnsi(msg),
-                sound: sound,
-                contentImage: this.logo,
-                icon: icon,
-                wait: !buildSuccessful
-            })
-        );
+        var self = this;
+        setTimeout(() => {
+            notifier.notify(
+                Object.assign(self.notifyOptions, {
+                    appName: appName,
+                    title: title,
+                    message: stripAnsi(msg),
+                    sound: sound,
+                    contentImage: self.logo,
+                    icon: icon,
+                    wait: true
+                })
+            );
+        }, 10);
+        
         if (onComplete) {
             onComplete(results.compilation, compilationStatus);
         }
