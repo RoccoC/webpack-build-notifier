@@ -68,7 +68,7 @@ describe('WebpackBuildNotifierPlugin instance test', () => {
     });
 });
 
-describe.only("Test Webpack build", () => {
+describe("Test Webpack build", () => {
     it('Webpack should not throw any errors', (done) => {
         const options = webpackConfig();
         webpack(options, function (err, stats) {

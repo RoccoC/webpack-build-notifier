@@ -288,11 +288,13 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function (results, call
 
     hasRun = true;
 
-    if (IS_WINDOWS) {
-        // workaround for #43 to ensure notifications are dispatched
-        setTimeout(() => callback(), 10);
-    } else {
-        callback();
+    if (typeof callback === 'function') {
+        if (IS_WINDOWS) {
+            // workaround for #43 to ensure notifications are dispatched
+            setTimeout(() => callback(), 10);
+        } else {
+            callback();
+        }
     }
 
     if (onComplete) {
