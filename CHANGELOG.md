@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.1.2
+###### _September 12, 2019_
+
+- Changed compilation done hook to async to fix #43.
+
 #### 1.1.1
 ###### _August 29, 2019_
 

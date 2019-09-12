@@ -2,8 +2,8 @@ import WebpackBuildNotifierPlugin from "./../index";
 const path = require("path");
 
 const dir = p => path.resolve(__dirname, p);
-module.exports = {
-    entry: dir("sample.js"),
+module.exports = (entry = 'success.js') => ({
+    entry: dir(entry),
     output: {
         path: dir("assets"),
         publicPath: "/",
@@ -12,10 +12,10 @@ module.exports = {
     mode: "development",
     module: {
         rules: [
-        {
-            test: /\.js$/,
-            exclude: /node_modules/,
-        }
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+            }
         ]
     },
     resolve: {
@@ -24,8 +24,7 @@ module.exports = {
     plugins: [
         new WebpackBuildNotifierPlugin({
             title: "Build Notification",
-            suppressCompileStart: false,
-        })       
+            suppressCompileStart: false
+        })
     ]
-};
-
+});

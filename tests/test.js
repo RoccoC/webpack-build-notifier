@@ -1,6 +1,7 @@
 import webpack from "webpack";
 import WebpackBuildNotifierPlugin from '../index';
-var os = require('os');
+const os = require('os');
+const webpackConfig = require('./webpack.config');
 
 describe('WebpackBuildNotifierPlugin export initialization test', () => {
     it('WebpackBuildNotifierPlugin should not undefined', () => {
@@ -10,7 +11,7 @@ describe('WebpackBuildNotifierPlugin export initialization test', () => {
     it('WebpackBuildNotifierPlugin should not null', () => {
         expect(WebpackBuildNotifierPlugin).not.toBe(null);
     });
-    
+
     it('WebpackBuildNotifierPlugin should be function', () => {
         expect(typeof WebpackBuildNotifierPlugin).toBe("function");
     });
@@ -47,7 +48,7 @@ describe('WebpackBuildNotifierPlugin instance test', () => {
         const instance = new WebpackBuildNotifierPlugin({
             title: 'Example Configuration'
         });
-        const message = { message: "Some short message"};
+        const message = { message: "Some short message" };
         expect(instance.messageFormatter(message, '')).toBe('' + os.EOL + "Some short message");
     });
 
@@ -55,7 +56,7 @@ describe('WebpackBuildNotifierPlugin instance test', () => {
         const instance = new WebpackBuildNotifierPlugin({
             title: 'Example Configuration'
         });
-        const message = { message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."};
+        const message = { message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." };
         expect(instance.messageFormatter(message, '')).toBe('' + os.EOL + "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has su");
     });
 
@@ -63,17 +64,25 @@ describe('WebpackBuildNotifierPlugin instance test', () => {
         const instance = new WebpackBuildNotifierPlugin({
             title: 'Example Configuration'
         });
-        expect(instance.onCompilationWatchRun("", () => {})).toBe(undefined);
+        expect(instance.onCompilationWatchRun("", () => { })).toBe(undefined);
     });
 });
 
-describe("Test Webpack build", () => {
+describe.only("Test Webpack build", () => {
     it('Webpack should not throw any errors', (done) => {
-        const options = require('./webpack.test1.success.config');
-        webpack(options, function(err, stats) {
+        const options = webpackConfig();
+        webpack(options, function (err, stats) {
             expect(err).toBeNull();
             expect(stats.hasErrors()).toBeFalsy();
             done();
         });
     });
+    it('Webpack should throw error', (done) => {
+        const options = webpackConfig('error.js');
+        webpack(options, function (err, stats) {
+            expect(err).toBeNull();
+            expect(stats.hasErrors()).toBeTruthy();
+            setTimeout(done, 5500); // build is blocked for 5 sec on notification
+        });
+    }, 6000);
 })

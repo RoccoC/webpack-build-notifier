@@ -4,19 +4,19 @@
  * A Webpack plugin that generates OS notifications for build steps using node-notifier.
  */
 var path = require('path');
-var process = require('process');
 var os = require('os');
 var notifier = require('node-notifier');
 var stripAnsi = require('strip-ansi');
 var exec = require('child_process').exec;
+
+const IS_WINDOWS = os.platform() === 'win32';
 
 // ensure the SnoreToast appId is registered, which is needed for Windows Toast notifications
 // this is necessary in Windows 8 and above, (Windows 10 post build 1709), where all notifications must be generated
 // by a valid application.
 // see: https://github.com/KDE/snoretoast, https://github.com/RoccoC/webpack-build-notifier/issues/20
 var appName;
-if (process.platform === 'win32') {
-    var os = require('os');
+if (IS_WINDOWS) {
     var versionParts = os.release().split('.');
     var winVer = +(`${versionParts[0]}.${versionParts[1]}`)
     if (winVer >= 6.2) {
@@ -218,23 +218,21 @@ WebpackBuildNotifierPlugin.prototype.activateTerminalWindow = function () {
 
 WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function (compilation, callback) {
     var self = this;
-    setTimeout(() => {
-        notifier.notify({
-            appName: appName,
-            title: self.title,
-            message: 'Compilation started...',
-            contentImage: self.logo,
-            icon: self.compileIcon,
-            sound: self.compilationSound
-        });
-    }, 10);
+    notifier.notify({
+        appName: appName,
+        title: self.title,
+        message: 'Compilation started...',
+        contentImage: self.logo,
+        icon: self.compileIcon,
+        sound: self.compilationSound
+    });
     if (this.onCompileStart) {
         this.onCompileStart(compilation);
     }
     callback();
 };
 
-WebpackBuildNotifierPlugin.prototype.onCompilationDone = function (results) {
+WebpackBuildNotifierPlugin.prototype.onCompilationDone = function (results, callback) {
     var notify,
         title = this.title + ' - ',
         msg = 'Build successful!',
@@ -273,23 +271,17 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function (results) {
 
     if (notify) {
         var self = this;
-        setTimeout(() => {
-            notifier.notify(
-                Object.assign(self.notifyOptions, {
-                    appName: appName,
-                    title: title,
-                    message: stripAnsi(msg),
-                    sound: sound,
-                    contentImage: self.logo,
-                    icon: icon,
-                    wait: true
-                })
-            );
-        }, 10);
-        
-        if (onComplete) {
-            onComplete(results.compilation, compilationStatus);
-        }
+        notifier.notify(
+            Object.assign(self.notifyOptions, {
+                appName: appName,
+                title: title,
+                message: stripAnsi(msg),
+                sound: sound,
+                contentImage: self.logo,
+                icon: icon,
+                wait: !buildSuccessful
+            })
+        );
     }
 
     if (this.activateTerminalOnError && !buildSuccessful) {
@@ -297,6 +289,17 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function (results) {
     }
 
     hasRun = true;
+
+    if (IS_WINDOWS) {
+        // workaround for #43 to ensure notifications are dispatched
+        setTimeout(() => callback(), 10);
+    } else {
+        callback();
+    }
+
+    if (onComplete) {
+        onComplete(results.compilation, compilationStatus);
+    }
 };
 
 WebpackBuildNotifierPlugin.prototype.apply = function (compiler) {
@@ -305,7 +308,7 @@ WebpackBuildNotifierPlugin.prototype.apply = function (compiler) {
         if (!this.suppressCompileStart) {
             compiler.hooks.watchRun.tapAsync('webpack-build-notifier', this.onCompilationWatchRun.bind(this));
         }
-        compiler.hooks.done.tap('webpack-build-notifier', this.onCompilationDone.bind(this));
+        compiler.hooks.done.tapAsync('webpack-build-notifier', this.onCompilationDone.bind(this));
     } else {
         // for webpack < 4
         if (!this.suppressCompileStart) {
