@@ -128,6 +128,12 @@ var WebpackBuildNotifierPlugin = function (cfg) {
      */
     this.failureIcon = cfg.failureIcon || path.join(defaultIconPath, 'failure.png');
     /**
+     * @cfg {String} [showDuration=false]
+     * True to show the duration of a successful compilation.
+     */
+    this.showDuration = cfg.showDuration || false;
+
+    /**
      * @cfg {Function} [onCompileStart=undefined]
      * A function which is invoked when compilation starts. Optional. The function is passed one parameter:
      *  1) {webpack.compilation.Compilation} compilation - The webpack Compilation instance.
@@ -234,7 +240,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function (compilati
 WebpackBuildNotifierPlugin.prototype.onCompilationDone = function (results) {
     var notify,
         title = this.title + ' - ',
-        msg = 'Build successful!',
+        msg = 'Build successful!' + (this.showDuration ? ` [${results.endTime - results.startTime} ms]` : ""),
         icon = this.successIcon,
         sound = this.successSound,
         onComplete = this.onComplete,
