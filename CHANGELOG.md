@@ -1,9 +1,14 @@
 # Changelog
 
+#### 1.2.1
+###### _October 15, 2019_
+
+- Added *showDuration* config option for [#48](/../../issues/48).
+
 #### 1.1.1
 ###### _August 29, 2019_
 
-- Updated node-notifier dependency to latest version to fix #45.
+- Updated node-notifier dependency to latest version to fix [#45](/../../issues/45).
 
 #### 1.1.0
 ###### _August 10, 2019_
@@ -18,7 +23,7 @@
 #### 1.0.2
 ###### _May 3, 2019_
 
-- Corrected *sound TS types.
+- Corrected *sound* TS types.
 
 #### 1.0.1
 ###### _April 16, 2019_

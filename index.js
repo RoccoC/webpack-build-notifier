@@ -128,11 +128,10 @@ var WebpackBuildNotifierPlugin = function (cfg) {
      */
     this.failureIcon = cfg.failureIcon || path.join(defaultIconPath, 'failure.png');
     /**
-     * @cfg {String} [showDuration=false]
-     * True to show the duration of a successful compilation.
+     * @cfg {Boolean} [showDuration=false]
+     * True to show the duration of a successful compilation, otherwise false (default).
      */
     this.showDuration = cfg.showDuration || false;
-
     /**
      * @cfg {Function} [onCompileStart=undefined]
      * A function which is invoked when compilation starts. Optional. The function is passed one parameter:

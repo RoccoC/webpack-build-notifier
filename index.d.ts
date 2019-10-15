@@ -114,9 +114,9 @@ declare namespace WebpackBuildNotifierPlugin {
      */
     compileIcon?: string;
     /**
-     * True to show the duration of a successful compilation.
+     * True to show the duration of a successful compilation, otherwise false (default).
      */
-    showDuration? : boolean;
+    showDuration?: boolean;
     /**
      * A function called when clicking on a warning or error notification. By default, it activates the Terminal application.
      * The function is passed two parameters:
