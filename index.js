@@ -8,39 +8,7 @@ var process = require('process');
 var os = require('os');
 var notifier = require('node-notifier');
 var stripAnsi = require('strip-ansi');
-var exec = require('child_process').exec;
-
-// ensure the SnoreToast appId is registered, which is needed for Windows Toast notifications
-// this is necessary in Windows 8 and above, (Windows 10 post build 1709), where all notifications must be generated
-// by a valid application.
-// see: https://github.com/KDE/snoretoast, https://github.com/RoccoC/webpack-build-notifier/issues/20
-var appName;
-if (process.platform === 'win32') {
-    var os = require('os');
-    var versionParts = os.release().split('.');
-    var winVer = +(`${versionParts[0]}.${versionParts[1]}`)
-    if (winVer >= 6.2) {
-        // Windows version >= 8
-        var cp = require('child_process');
-        var snoreToast = path.join(require.resolve('node-notifier'), '../vendor/snoreToast/SnoreToast.exe');
-        try {
-            cp.execFileSync(
-                snoreToast,
-                [
-                    '-appID',
-                    'Snore.DesktopToasts',
-                    '-install',
-                    'SnoreToast.lnk',
-                    snoreToast,
-                    'Snore.DesktopToasts'
-                ]
-            );
-            appName = 'Snore.DesktopToasts';
-        } catch (e) {
-            console.error("An error occurred while attempting to install the SnoreToast AppID!", e);
-        }
-    }
-}
+var { exec, execFileSync } = require('child_process');
 
 var WebpackBuildNotifierPlugin = function (cfg) {
     cfg = cfg || {};
@@ -194,6 +162,8 @@ var WebpackBuildNotifierPlugin = function (cfg) {
      */
     this.notifyOptions = cfg.notifyOptions || {};
 
+    this.registerSnoreToast();
+
     // add notification click handler to activate terminal window
     notifier.on('click', this.onClick.bind(this));
     if (this.onTimeout) {
@@ -209,21 +179,21 @@ WebpackBuildNotifierPlugin.prototype.defaultMessageFormatter = function (error, 
 };
 
 WebpackBuildNotifierPlugin.prototype.activateTerminalWindow = function () {
-    if (os.platform() === 'darwin') {
+    if (process.platform === 'darwin') {
         // TODO: is there a way to translate $TERM_PROGRAM into the application name
         // to make this more flexible?
         exec('TERM="$TERM_PROGRAM"; ' +
             '[[ "$TERM" == "Apple_Terminal" ]] && TERM="Terminal"; ' +
             '[[ "$TERM" == "vscode" ]] && TERM="Visual Studio Code"; ' +
             'osascript -e "tell application \\"$TERM\\" to activate"');
-    } else if (os.platform() === 'win32') {
+    } else if (process.platform === 'win32') {
         // TODO: Windows platform
     }
 };
 
 WebpackBuildNotifierPlugin.prototype.onCompilationWatchRun = function (compilation, callback) {
     notifier.notify({
-        appName: appName,
+        appName: this.appName,
         title: this.title,
         message: 'Compilation started...',
         contentImage: this.logo,
@@ -276,7 +246,7 @@ WebpackBuildNotifierPlugin.prototype.onCompilationDone = function (results) {
     if (notify) {
         notifier.notify(
             Object.assign(this.notifyOptions, {
-                appName: appName,
+                appName: this.appName,
                 title: title,
                 message: stripAnsi(msg),
                 sound: sound,
@@ -310,6 +280,43 @@ WebpackBuildNotifierPlugin.prototype.apply = function (compiler) {
             compiler.plugin('watch-run', this.onCompilationWatchRun.bind(this));
         }
         compiler.plugin('done', this.onCompilationDone.bind(this));
+    }
+};
+
+WebpackBuildNotifierPlugin.prototype.registerSnoreToast = function () {
+    // ensure the SnoreToast appId is registered, which is needed for Windows Toast notifications
+    // this is necessary in Windows 8 and above, (Windows 10 post build 1709), where all notifications must be generated
+    // by a valid application.
+    // see: https://github.com/KDE/snoretoast, https://github.com/RoccoC/webpack-build-notifier/issues/20
+    /* istanbul ignore else */
+    if (process.platform === 'win32') {
+        const versionParts = os.release().split('.');
+        const winVer = +(`${versionParts[0]}.${versionParts[1]}`);
+        /* istanbul ignore else */
+        if (winVer >= 6.2) {
+            // Windows version >= 8
+            const snoreToast = path.join(
+                require.resolve('node-notifier'),
+                '../vendor/snoreToast',
+                process.arch === 'x64' ? 'snoretoast-x64.exe' : 'snoretoast-x86.exe'
+            );
+            try {
+                execFileSync(
+                    snoreToast,
+                    [
+                        '-appID',
+                        'Snore.DesktopToasts',
+                        '-install',
+                        'SnoreToast.lnk',
+                        snoreToast,
+                        'Snore.DesktopToasts'
+                    ]
+                );
+                this.appName = 'Snore.DesktopToasts';
+            } catch (e) {
+                console.error('An error occurred while attempting to install the SnoreToast AppID!', e);
+            }
+        }
     }
 };
 

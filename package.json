@@ -1,14 +1,14 @@
 {
   "name": "webpack-build-notifier",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A Webpack plugin that generates OS notifications for build steps using node-notifier.",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "lint": "eslint index.js",
-    "lint:fix": "eslint --fix index.js",
-    "test": "jest --runInBand --verbose --coverage --collectCoverageFrom=index.js",
-    "test:ci": "jest --coverage --collectCoverageFrom=index.js --coverageReporters=text-lcov | coveralls",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "jest",
+    "test:ci": "jest --coverageReporters=text-lcov | coveralls",
     "test-watch": "jest --runInBand --watch"
   },
   "keywords": [
@@ -28,18 +28,18 @@
   "author": "Rocco Cataldo <roccocataldo@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "ansi-regex": "4.1.0",
+    "ansi-regex": "5.0.0",
     "strip-ansi": "5.2.0",
-    "node-notifier": "5.4.3"
+    "node-notifier": "6.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
     "@types/node-notifier": "^5.4.0",
-    "@types/webpack": "^4.4.32",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "jest": "^24.8.0",
-    "webpack": "^4.33.0"
+    "@types/webpack": "^4.39.3",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.5.1",
+    "jest": "^24.9.0",
+    "webpack": "^4.41.2"
   }
 }

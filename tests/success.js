@@ -1,5 +1,5 @@
 const sampleFunction = () => {
-    return "Sample value";
+  return "Sample value";
 }
 
 export default sampleFunction;

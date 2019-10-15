@@ -1,5 +1,10 @@
 # Changelog
 
+#### 1.2.2
+###### _October 15, 2019_
+
+- Updated node-notifier to fix [#43](/../../issues/43); added test coverage.
+
 #### 1.2.1
 ###### _October 15, 2019_
 
