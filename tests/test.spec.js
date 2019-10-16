@@ -36,7 +36,7 @@ describe('Test Webpack build', () => {
     }
   });
 
-  describe.each([['Windows', 'win32'], ['Mac OS', 'darwin']])(
+  describe.each([/* ['Windows', 'win32'], */['Mac OS', 'darwin']])(
     'Platform: %s', (platformName, platform) => {
       beforeAll(() => {
         Object.defineProperty(process, 'platform', {
