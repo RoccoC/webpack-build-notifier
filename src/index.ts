@@ -165,6 +165,7 @@ export default class WebpackBuildNotifierPlugin {
           wait: !this.buildSuccessful
         })
       );
+      /* istanbul ignore else */
       if (this.onComplete) {
         this.onComplete(results.compilation, compilationStatus);
       }
@@ -190,6 +191,7 @@ export default class WebpackBuildNotifierPlugin {
       icon: this.compileIcon,
       sound: this.compilationSound
     } as Notification);
+    /* istanbul ignore else */
     if (this.onCompileStart) {
       this.onCompileStart(compiler);
     }
