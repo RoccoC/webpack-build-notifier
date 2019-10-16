@@ -151,7 +151,7 @@ export default config;
 Future Improvements
 -------------------
 * ~~Port to TypeScript~~ (completed in v2.0.0)
-* Increase test coverage
+* ~~Increase test coverage~~ (completed in v2.0.0)
 
 Notes
 -----

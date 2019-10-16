@@ -1,6 +1,6 @@
 # Changelog
 
-#### 2.0.0-alpha.4
+#### 2.0.0
 ###### _October 15, 2019_
 
 - Converted to TypeScript, increased test coverage.
