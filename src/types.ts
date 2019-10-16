@@ -1,5 +1,15 @@
 import NotificationCenter from 'node-notifier/notifiers/notificationcenter';
 import { NodeNotifier } from 'node-notifier';
+import webpack from 'webpack';
+
+/**
+ * Enum representing valid compilation result statuses.
+ */
+export enum CompilationStatus {
+  SUCCESS = 'success',
+  WARNING = 'warning',
+  ERROR = 'error',
+}
 
 export type CompilationResult = {
   details?: string;
@@ -45,6 +55,18 @@ export type Config = {
    */
   compilationSound?: string | false;
   /**
+   * A function which is invoked when compilation starts. Optional. The function is passed one parameter:
+   * 1. {webpack.compiler.Compiler} compiler - The webpack Compiler instance.
+   * Note that `suppressCompileStart` must be `false`.
+   */
+  onCompileStart?: (compilation: webpack.compiler.Compiler) => void;
+  /**
+   * A function which is invoked when compilation completes. Optional. The function is passed two parameters:
+   * 1. {webpack.compilation.Compilation} compilation - The webpack Compilation instance.
+   * 2. {CompilationStatus} status - one of 'success', 'warning', or 'error'
+   */
+  onComplete?: (compilation: webpack.compilation.Compilation, status: CompilationStatus) => void;
+  /**
    * Defines when success notifications are shown. Can be one of the following values:
    *
    *  * `false`     - Show success notification for each successful compilation (default).
@@ -87,7 +109,6 @@ export type Config = {
    */
   compileIcon?: string;
   /**
-   * @cfg {Function} onClick
    * A function called when clicking on a warning or error notification. By default, it activates the Terminal application.
    * The function is passed two parameters:
    *

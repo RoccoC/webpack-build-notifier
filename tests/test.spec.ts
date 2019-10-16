@@ -4,22 +4,9 @@ import getWebpackConfig from './webpack.config';
 import notifier from 'node-notifier';
 import child_process from 'child_process';
 import os from 'os';
+import { CompilationStatus } from '../src/types';
 
 // TODO: test for registerSnoreToast
-
-describe('WebpackBuildNotifierPlugin export initialization test', () => {
-  it('WebpackBuildNotifierPlugin should not undefined', () => {
-    expect(WebpackBuildNotifierPlugin).not.toBe(undefined);
-  });
-
-  it('WebpackBuildNotifierPlugin should not null', () => {
-    expect(WebpackBuildNotifierPlugin).not.toBe(null);
-  });
-
-  it('WebpackBuildNotifierPlugin should be function', () => {
-    expect(typeof WebpackBuildNotifierPlugin).toBe('function');
-  });
-});
 
 describe('Test Webpack build', () => {
   const platform = process.platform;
@@ -81,8 +68,9 @@ describe('Test Webpack build', () => {
 
       it('Should show a compiling notification when watching', (done) => {
         let buildCount = 0;
-        expect.assertions(1);
-        const watcher = webpack(getWebpackConfig({}, 'success', true), (err, stats) => {
+        const onCompileStart = jest.fn();
+        expect.assertions(2);
+        const watcher = webpack(getWebpackConfig({ onCompileStart }, 'success', true), (err, stats) => {
           buildCount++;
           if (buildCount === 1) {
             (notifier.notify as jest.Mock).mockClear();
@@ -96,6 +84,7 @@ describe('Test Webpack build', () => {
               sound: 'Submarine',
               title: 'Build Notification Test',
             });
+            expect(onCompileStart).toHaveBeenCalled();
             (watcher as webpack.Compiler.Watching).close(() => { });
             done();
           }
@@ -103,8 +92,9 @@ describe('Test Webpack build', () => {
       });
 
       it('Should show a success notification', (done) => {
-        expect.assertions(1);
-        webpack(getWebpackConfig(), (err, stats) => {
+        const onComplete = jest.fn();
+        expect.assertions(2);
+        webpack(getWebpackConfig({ onComplete }), (err, stats) => {
           expect(notifier.notify).toHaveBeenCalledWith({
             appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
             contentImage: undefined,
@@ -114,13 +104,15 @@ describe('Test Webpack build', () => {
             title: 'Build Notification Test - Success',
             wait: false,
           });
+          expect(onComplete).toHaveBeenCalledWith(expect.any(Object), CompilationStatus.SUCCESS);
           done();
         });
       });
 
       it('Should show an error notification', (done) => {
-        expect.assertions(1);
-        webpack(getWebpackConfig({}, 'error'), (err, stats) => {
+        const onComplete = jest.fn();
+        expect.assertions(2);
+        webpack(getWebpackConfig({ onComplete }, 'error'), (err, stats) => {
           expect(notifier.notify).toHaveBeenCalledWith({
             appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
             contentImage: undefined,
@@ -130,13 +122,15 @@ describe('Test Webpack build', () => {
             title: 'Build Notification Test - Error',
             wait: true,
           });
+          expect(onComplete).toHaveBeenCalledWith(expect.any(Object), CompilationStatus.ERROR);
           done();
         });
       });
 
       it('Should show a warning notification', (done) => {
-        expect.assertions(1);
-        webpack(getWebpackConfig({}, 'warning'), (err, stats) => {
+        const onComplete = jest.fn();
+        expect.assertions(2);
+        webpack(getWebpackConfig({ onComplete }, 'warning'), (err, stats) => {
           expect(notifier.notify).toHaveBeenCalledWith({
             appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
             contentImage: undefined,
@@ -146,6 +140,7 @@ describe('Test Webpack build', () => {
             title: 'Build Notification Test - Warning',
             wait: true,
           });
+          expect(onComplete).toHaveBeenCalledWith(expect.any(Object), CompilationStatus.WARNING);
           done();
         });
       });

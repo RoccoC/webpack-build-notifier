@@ -10,7 +10,7 @@ import notifier from 'node-notifier';
 import stripAnsi from 'strip-ansi';
 import { exec, execFileSync } from 'child_process';
 import { Notification } from 'node-notifier/notifiers/notificationcenter';
-import { CompilationResult, Config } from './types';
+import { CompilationResult, Config, CompilationStatus } from './types';
 import webpack from 'webpack';
 
 const DEFAULT_ICON_PATH = path.resolve(__dirname, 'icons');
@@ -36,6 +36,8 @@ export default class WebpackBuildNotifierPlugin {
   private warningIcon: string = path.join(DEFAULT_ICON_PATH, 'warning.png');
   private failureIcon: string = path.join(DEFAULT_ICON_PATH, 'failure.png');
   private compileIcon: string = path.join(DEFAULT_ICON_PATH, 'compile.png');
+  private onCompileStart?: (compilation: webpack.compiler.Compiler) => void;
+  private onComplete?: (compilation: webpack.compilation.Compilation, status: CompilationStatus) => void;
   private onClick: (notifier: notifier.NodeNotifier, options: Notification) => void = () => this.activateTerminalWindow;
   private onTimeout?: (notifier: notifier.NodeNotifier, options: Notification) => void;
   private messageFormatter?: (error: CompilationResult, filepath: string) => string;
@@ -113,11 +115,14 @@ export default class WebpackBuildNotifierPlugin {
     let msg = 'Build successful!';
     let icon = this.successIcon;
     let sound = this.successSound;
+    let onComplete = this.onComplete;
+    let compilationStatus = CompilationStatus.SUCCESS;
 
     if (results.hasErrors()) {
       const error = results.compilation.errors[0];
       const errorFilePath = error.module && error.module.rawRequest ? error.module.rawRequest : '';
       notify = true;
+      compilationStatus = CompilationStatus.ERROR;
       title += 'Error';
       msg = this.formatMessage(error, errorFilePath);
       icon = this.failureIcon;
@@ -127,6 +132,7 @@ export default class WebpackBuildNotifierPlugin {
       const warning = results.compilation.warnings[0];
       const warningFilePath = warning.module && warning.module.rawRequest ? warning.module.rawRequest : '';
       notify = true;
+      compilationStatus = CompilationStatus.WARNING;
       title += 'Warning';
       msg = this.formatMessage(warning, warningFilePath);
       icon = this.warningIcon;
@@ -156,6 +162,9 @@ export default class WebpackBuildNotifierPlugin {
           wait: !this.buildSuccessful
         })
       );
+      if (onComplete) {
+        onComplete(results.compilation, compilationStatus);
+      }
     }
 
     /* istanbul ignore else */
@@ -178,6 +187,9 @@ export default class WebpackBuildNotifierPlugin {
       icon: this.compileIcon,
       sound: this.compilationSound
     } as Notification);
+    if (this.onCompileStart) {
+      this.onCompileStart(compiler);
+    }
     callback();
   };
 
