@@ -1,9 +1,29 @@
 # Changelog
 
 #### 2.0.0-alpha.4
-###### _August 14, 2019_
+###### _October 15, 2019_
 
 - Converted to TypeScript, increased test coverage.
+
+#### 1.2.2
+###### _October 15, 2019_
+
+- Updated node-notifier to fix [#43](/../../issues/43); added test coverage.
+
+#### 1.2.1
+###### _October 15, 2019_
+
+- Added *showDuration* config option for [#48](/../../issues/48).
+
+#### 1.1.1
+###### _August 29, 2019_
+
+- Updated node-notifier dependency to latest version to fix [#45](/../../issues/45).
+
+#### 1.1.0
+###### _August 10, 2019_
+
+- Added two new config options: onCompileStart, onComplete.
 
 #### 1.0.3
 ###### _June 4, 2019_
@@ -13,7 +33,7 @@
 #### 1.0.2
 ###### _May 3, 2019_
 
-- Corrected *sound TS types.
+- Corrected *sound* TS types.
 
 #### 1.0.1
 ###### _April 16, 2019_
