@@ -23,11 +23,15 @@ describe('WebpackBuildNotifierPlugin export initialization test', () => {
 
 describe('Test Webpack build', () => {
   const platform = process.platform;
+  const arch = process.arch;
 
   afterAll(() => {
     if (platform !== process.platform) {
       Object.defineProperty(process, 'platform', {
         value: platform
+      });
+      Object.defineProperty(process, 'arch', {
+        value: arch
       });
     }
   });
@@ -37,6 +41,9 @@ describe('Test Webpack build', () => {
       beforeAll(() => {
         Object.defineProperty(process, 'platform', {
           value: platform
+        });
+        Object.defineProperty(process, 'arch', {
+          value: 'x64'
         });
         jest.spyOn(child_process, 'execFileSync').mockImplementation(jest.fn());
         jest.spyOn(os, 'release').mockImplementation(() => '10.0.18362');
