@@ -72,6 +72,9 @@ Defines when success notifications are shown. Can be one of the following values
 *  "always"  - Never show the success notifications.
 *  "initial" - Same as true, but suppresses the initial success notification.
 
+#### showDuration
+True to show the duration of a successful compilation, otherwise false (default).
+
 #### suppressWarning
 True to suppress the warning notifications, otherwise false (default).
 

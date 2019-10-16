@@ -67,6 +67,10 @@ export type Config = {
    */
   onComplete?: (compilation: webpack.compilation.Compilation, status: CompilationStatus) => void;
   /**
+   * True to show the duration of a successful compilation, otherwise false (default).
+   */
+  showDuration?: boolean;
+  /**
    * Defines when success notifications are shown. Can be one of the following values:
    *
    *  * `false`     - Show success notification for each successful compilation (default).

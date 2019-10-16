@@ -32,6 +32,7 @@ export default class WebpackBuildNotifierPlugin {
   private suppressWarning: boolean = false;
   private suppressCompileStart: boolean = true;
   private activateTerminalOnError: boolean = false;
+  private showDuration: boolean = false;
   private successIcon: string = path.join(DEFAULT_ICON_PATH, 'success.png');
   private warningIcon: string = path.join(DEFAULT_ICON_PATH, 'warning.png');
   private failureIcon: string = path.join(DEFAULT_ICON_PATH, 'failure.png');
@@ -112,7 +113,7 @@ export default class WebpackBuildNotifierPlugin {
   private readonly onCompilationDone = (results: webpack.Stats): void => {
     let notify: boolean = false;
     let title = `${this.title} - `;
-    let msg = 'Build successful!';
+    let msg = 'Build successful!' + (this.showDuration ? ` [${results.endTime! - results.startTime!} ms]` : '');
     let icon = this.successIcon;
     let sound = this.successSound;
     let onComplete = this.onComplete;
