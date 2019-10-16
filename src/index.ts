@@ -113,10 +113,9 @@ export default class WebpackBuildNotifierPlugin {
   private readonly onCompilationDone = (results: webpack.Stats): void => {
     let notify: boolean = false;
     let title = `${this.title} - `;
-    let msg = 'Build successful!' + (this.showDuration ? ` [${results.endTime! - results.startTime!} ms]` : '');
+    let msg = 'Build successful!';
     let icon = this.successIcon;
     let sound = this.successSound;
-    let onComplete = this.onComplete;
     let compilationStatus = CompilationStatus.SUCCESS;
 
     if (results.hasErrors()) {
@@ -141,6 +140,9 @@ export default class WebpackBuildNotifierPlugin {
       this.buildSuccessful = false;
     } else {
       title += 'Success';
+      if (this.showDuration) {
+        msg += ` [${results.endTime! - results.startTime!} ms]`;
+      }
       /* istanbul ignore else */
       if (this.suppressSuccess === 'always' || (this.suppressSuccess === 'initial' && !this.hasRun)) {
         notify = false;
@@ -163,8 +165,8 @@ export default class WebpackBuildNotifierPlugin {
           wait: !this.buildSuccessful
         })
       );
-      if (onComplete) {
-        onComplete(results.compilation, compilationStatus);
+      if (this.onComplete) {
+        this.onComplete(results.compilation, compilationStatus);
       }
     }
 
