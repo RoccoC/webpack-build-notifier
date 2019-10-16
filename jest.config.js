@@ -1,8 +1,11 @@
 module.exports = {
   clearMocks: true,
   collectCoverage: true,
-  collectCoverageFrom: ["index.js"],
+  collectCoverageFrom: ["src/index.ts"],
   coverageDirectory: "coverage",
-  moduleFileExtensions: ["js"],
-  testEnvironment: "node"
+  moduleFileExtensions: ["js", "ts"],
+  testEnvironment: "node",
+  "transform": {
+    "^.+\\.ts?$": "ts-jest"
+  },
 };

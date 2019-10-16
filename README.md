@@ -72,6 +72,9 @@ Defines when success notifications are shown. Can be one of the following values
 *  "always"  - Never show the success notifications.
 *  "initial" - Same as true, but suppresses the initial success notification.
 
+#### showDuration
+True to show the duration of a successful compilation, otherwise false (default).
+
 #### suppressWarning
 True to suppress the warning notifications, otherwise false (default).
 
@@ -123,7 +126,7 @@ A function called when the notification times out and is closed. Undefined by de
 
 TypeScript
 ----------
-While this project is not written in TypeScript (yet!), it does include TypeScript definitions in [index.d.ts](./index.d.ts). You can take advantage of this if your project's webpack configuration is using TypeScript (e.g. `webpack.config.ts`).
+This project is written in TypeScript, and type declarations are included. You can take advantage of this if your project's webpack configuration is also using TypeScript (e.g. `webpack.config.ts`).
 
 ```javascript
 // webpack.config.ts
@@ -147,8 +150,8 @@ export default config;
 
 Future Improvements
 -------------------
-* Port to TypeScript
-* Increase test coverage
+* ~~Port to TypeScript~~ (completed in v2.0.0)
+* ~~Increase test coverage~~ (completed in v2.0.0)
 
 Notes
 -----

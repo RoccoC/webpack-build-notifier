@@ -1,15 +1,16 @@
-import WebpackBuildNotifierPlugin from '../index';
+import WebpackBuildNotifierPlugin from '../src/index';
 import webpack from 'webpack';
 import path from 'path';
+import { Config } from '../src/types';
 
-const getFullPath = (p) => path.resolve(__dirname, p);
+const getFullPath = (p: string) => path.resolve(__dirname, p);
 
 const getWebpackConfig = (
-  pluginConfig = {},
-  result = 'success',
-  watch = false
-) => ({
-  watch: !!watch,
+  pluginConfig?: Config,
+  result: 'success' | 'warning' | 'error' = 'success',
+  watch: boolean = false
+): webpack.Configuration => ({
+  watch,
   entry: getFullPath(`${result}.js`),
   output: {
     path: getFullPath('assets'),

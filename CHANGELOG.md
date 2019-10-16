@@ -1,5 +1,10 @@
 # Changelog
 
+#### 2.0.0
+###### _October 15, 2019_
+
+- Converted to TypeScript, increased test coverage.
+
 #### 1.2.2
 ###### _October 15, 2019_
 
