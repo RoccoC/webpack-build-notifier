@@ -1,6 +1,6 @@
 {
   "name": "webpack-build-notifier",
-  "version": "2.0.0-alpha.3",
+  "version": "2.0.0-alpha.4",
   "description": "A Webpack plugin that generates OS notifications for build steps using node-notifier.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -35,22 +35,22 @@
   "author": "Rocco Cataldo <roccocataldo@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "node-notifier": "5.4.0",
+    "node-notifier": "6.0.0",
     "strip-ansi": "^5.2.0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.17",
+    "@types/jest": "^24.0.19",
     "@types/node-notifier": "^5.4.0",
     "@types/strip-ansi": "^5.2.1",
-    "@types/webpack": "^4.4.32",
-    "babel-jest": "^24.8.0",
+    "@types/webpack": "^4.39.3",
+    "babel-jest": "^24.9.0",
     "copyfiles": "^2.1.1",
-    "jest": "^24.8.0",
+    "jest": "^24.9.0",
     "rimraf": "^3.0.0",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.18.0",
-    "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^3.5.3",
-    "webpack": "^4.33.0"
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
+    "tslint-config-airbnb": "^5.11.2",
+    "typescript": "^3.6.4",
+    "webpack": "^4.41.2"
   }
 }

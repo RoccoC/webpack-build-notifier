@@ -193,7 +193,11 @@ export default class WebpackBuildNotifierPlugin {
       /* istanbul ignore else */
       if (winVer >= 6.2) {
         // Windows version >= 8
-        const snoreToast = path.join(require.resolve('node-notifier'), '../vendor/snoreToast/SnoreToast.exe');
+        const snoreToast = path.join(
+          require.resolve('node-notifier'),
+          '../vendor/snoreToast',
+          `snoretoast-${process.arch === 'x64' ? 'x64' : 'x86'}.exe`
+        );
         try {
           execFileSync(
             snoreToast,
