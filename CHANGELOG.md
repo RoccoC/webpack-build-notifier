@@ -1,5 +1,10 @@
 # Changelog
 
+#### 2.0.1
+###### _May 23, 2020_
+
+- Fixed bug where setting *sound* to *false* had no effect ([#51](/../../issues/51)).
+
 #### 2.0.0
 ###### _October 15, 2019_
 

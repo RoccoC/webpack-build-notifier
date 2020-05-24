@@ -24,10 +24,10 @@ export default class WebpackBuildNotifierPlugin {
   private title: string = 'Webpack Build';
   private logo?: string;
   private sound: string = 'Submarine';
-  private successSound: string = this.sound;
-  private warningSound: string = this.sound;
-  private failureSound: string = this.sound;
-  private compilationSound: string = this.sound;
+  private successSound: string;
+  private warningSound: string;
+  private failureSound: string;
+  private compilationSound: string;
   private suppressSuccess: boolean | 'always' | 'initial' = false;
   private suppressWarning: boolean = false;
   private suppressCompileStart: boolean = true;
@@ -46,6 +46,13 @@ export default class WebpackBuildNotifierPlugin {
 
   constructor(cfg?: Config) {
     Object.assign(this, cfg);
+
+    if (this.sound) {
+      this.successSound = this.successSound ?? this.sound;
+      this.warningSound = this.warningSound ?? this.sound;
+      this.failureSound = this.failureSound ?? this.sound;
+      this.compilationSound = this.compilationSound ?? this.sound;
+    }
 
     this.registerSnoreToast();
 

@@ -116,6 +116,23 @@ describe('Test Webpack build', () => {
         });
       });
 
+      it('Should show a success notification with no sound', (done) => {
+        const onComplete = jest.fn();
+        expect.assertions(2);
+        webpack(getWebpackConfig({ onComplete, sound: false }), (err, stats) => {
+          expect(notifier.notify).toHaveBeenCalledWith({
+            appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
+            contentImage: undefined,
+            icon: require.resolve('../src/icons/success.png'),
+            message: 'Build successful!',
+            title: 'Build Notification Test - Success',
+            wait: false,
+          });
+          expect(onComplete).toHaveBeenCalledWith(expect.any(Object), CompilationStatus.SUCCESS);
+          done();
+        });
+      });
+
       it('Should show a success notification with duration', (done) => {
         expect.assertions(1);
         webpack(getWebpackConfig({ showDuration: true }), (err, stats) => {
