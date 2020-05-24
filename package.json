@@ -1,6 +1,6 @@
 {
   "name": "webpack-build-notifier",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "description": "A Webpack plugin that generates OS notifications for build steps using node-notifier.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -50,7 +50,7 @@
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "tslint-config-airbnb": "^5.11.2",
-    "typescript": "^3.9.3",
+    "typescript": "^3.6.4",
     "webpack": "^4.41.2"
   }
 }

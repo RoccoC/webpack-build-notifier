@@ -3,17 +3,17 @@
  * @extends Object
  * A Webpack plugin that generates OS notifications for build steps using node-notifier.
  */
-import path from "path";
-import process from "process";
-import os from "os";
-import notifier from "node-notifier";
-import stripAnsi from "strip-ansi";
-import { exec, execFileSync } from "child_process";
-import { Notification } from "node-notifier/notifiers/notificationcenter";
-import { CompilationResult, Config, CompilationStatus } from "./types";
-import webpack from "webpack";
+import path from 'path';
+import process from 'process';
+import os from 'os';
+import notifier from 'node-notifier';
+import stripAnsi from 'strip-ansi';
+import { exec, execFileSync } from 'child_process';
+import { Notification } from 'node-notifier/notifiers/notificationcenter';
+import { CompilationResult, Config, CompilationStatus } from './types';
+import webpack from 'webpack';
 
-const DEFAULT_ICON_PATH = path.resolve(__dirname, "icons");
+const DEFAULT_ICON_PATH = path.resolve(__dirname, 'icons');
 
 export default class WebpackBuildNotifierPlugin {
   private appName: string | undefined = undefined;
@@ -21,57 +21,38 @@ export default class WebpackBuildNotifierPlugin {
   private hasRun: boolean = false;
 
   // config options
-  private title: string = "Webpack Build";
+  private title: string = 'Webpack Build';
   private logo?: string;
-  private sound: string = "Submarine";
-  private successSound: string;
-  private warningSound: string;
-  private failureSound: string;
-  private compilationSound: string;
-  private suppressSuccess: boolean | "always" | "initial" = false;
+  private sound: string = 'Submarine';
+  private successSound: string = this.sound;
+  private warningSound: string = this.sound;
+  private failureSound: string = this.sound;
+  private compilationSound: string = this.sound;
+  private suppressSuccess: boolean | 'always' | 'initial' = false;
   private suppressWarning: boolean = false;
   private suppressCompileStart: boolean = true;
   private activateTerminalOnError: boolean = false;
   private showDuration: boolean = false;
-  private successIcon: string = path.join(DEFAULT_ICON_PATH, "success.png");
-  private warningIcon: string = path.join(DEFAULT_ICON_PATH, "warning.png");
-  private failureIcon: string = path.join(DEFAULT_ICON_PATH, "failure.png");
-  private compileIcon: string = path.join(DEFAULT_ICON_PATH, "compile.png");
+  private successIcon: string = path.join(DEFAULT_ICON_PATH, 'success.png');
+  private warningIcon: string = path.join(DEFAULT_ICON_PATH, 'warning.png');
+  private failureIcon: string = path.join(DEFAULT_ICON_PATH, 'failure.png');
+  private compileIcon: string = path.join(DEFAULT_ICON_PATH, 'compile.png');
   private onCompileStart?: (compilation: webpack.compiler.Compiler) => void;
-  private onComplete?: (
-    compilation: webpack.compilation.Compilation,
-    status: CompilationStatus
-  ) => void;
-  private onClick: (
-    notifier: notifier.NodeNotifier,
-    options: Notification
-  ) => void = () => this.activateTerminalWindow;
-  private onTimeout?: (
-    notifier: notifier.NodeNotifier,
-    options: Notification
-  ) => void;
-  private messageFormatter?: (
-    error: CompilationResult,
-    filepath: string
-  ) => string;
+  private onComplete?: (compilation: webpack.compilation.Compilation, status: CompilationStatus) => void;
+  private onClick: (notifier: notifier.NodeNotifier, options: Notification) => void = () => this.activateTerminalWindow;
+  private onTimeout?: (notifier: notifier.NodeNotifier, options: Notification) => void;
+  private messageFormatter?: (error: CompilationResult, filepath: string) => string;
   private notifyOptions?: Notification;
 
   constructor(cfg?: Config) {
     Object.assign(this, cfg);
 
-    if (this.sound) {
-      this.successSound = this.successSound ?? this.sound;
-      this.warningSound = this.warningSound ?? this.sound;
-      this.failureSound = this.failureSound ?? this.sound;
-      this.compilationSound = this.compilationSound ?? this.sound;
-    }
-
     this.registerSnoreToast();
 
-    notifier.on("click", this.onClick);
+    notifier.on('click', this.onClick);
     /* istanbul ignore else */
     if (this.onTimeout) {
-      notifier.on("timeout", this.onTimeout);
+      notifier.on('timeout', this.onTimeout);
     }
   }
 
@@ -80,33 +61,28 @@ export default class WebpackBuildNotifierPlugin {
       // for webpack >= 4
       /* istanbul ignore else */
       if (!this.suppressCompileStart) {
-        compiler.hooks.watchRun.tapAsync(
-          "webpack-build-notifier",
-          this.onCompilationWatchRun
-        );
+        compiler.hooks.watchRun.tapAsync('webpack-build-notifier', this.onCompilationWatchRun);
       }
-      compiler.hooks.done.tap("webpack-build-notifier", this.onCompilationDone);
+      compiler.hooks.done.tap('webpack-build-notifier', this.onCompilationDone);
     } else {
       // for webpack < 4
       /* istanbul ignore else */
       if (!this.suppressCompileStart) {
-        compiler.plugin("watch-run", this.onCompilationWatchRun);
+        compiler.plugin('watch-run', this.onCompilationWatchRun);
       }
-      compiler.plugin("done", this.onCompilationDone);
+      compiler.plugin('done', this.onCompilationDone);
     }
   }
 
   private readonly activateTerminalWindow = (): void => {
-    if (process.platform === "darwin") {
+    if (process.platform === 'darwin') {
       // TODO: is there a way to translate $TERM_PROGRAM into the application name
       // to make this more flexible?
-      exec(
-        'TERM="$TERM_PROGRAM"; ' +
-          '[[ "$TERM" == "Apple_Terminal" ]] && TERM="Terminal"; ' +
-          '[[ "$TERM" == "vscode" ]] && TERM="Visual Studio Code"; ' +
-          'osascript -e "tell application \\"$TERM\\" to activate"'
-      );
-    } else if (process.platform === "win32") {
+      exec('TERM="$TERM_PROGRAM"; ' +
+        '[[ "$TERM" == "Apple_Terminal" ]] && TERM="Terminal"; ' +
+        '[[ "$TERM" == "vscode" ]] && TERM="Visual Studio Code"; ' +
+        'osascript -e "tell application \\"$TERM\\" to activate"');
+    } else if (process.platform === 'win32') {
       // TODO: Windows platform
     }
   };
@@ -119,18 +95,15 @@ export default class WebpackBuildNotifierPlugin {
     if (this.messageFormatter) {
       message = this.messageFormatter(error, filepath);
     } else {
-      message = error.message || error.details;
+      message = (error.message || error.details);
       if (message && error.module && error.module.resource) {
-        message = `${filepath}${os.EOL}${message!.replace(
-          error.module.resource,
-          ""
-        )}`;
+        message = `${filepath}${os.EOL}${message!.replace(error.module.resource, '')}`;
       }
     }
 
     if (message === undefined) {
-      return "Unknown";
-    } else if (typeof message === "string") {
+      return 'Unknown';
+    } else if (typeof message === 'string') {
       return message.substr(0, 256); // limit message length to 256 characters, fixes #20
     } else {
       throw `Invalid message type '${typeof message}'; messageFormatter must return a string.`;
@@ -140,45 +113,38 @@ export default class WebpackBuildNotifierPlugin {
   private readonly onCompilationDone = (results: webpack.Stats): void => {
     let notify: boolean = false;
     let title = `${this.title} - `;
-    let msg = "Build successful!";
+    let msg = 'Build successful!';
     let icon = this.successIcon;
     let sound = this.successSound;
     let compilationStatus = CompilationStatus.SUCCESS;
 
     if (results.hasErrors()) {
       const error = results.compilation.errors[0];
-      const errorFilePath =
-        error.module && error.module.rawRequest ? error.module.rawRequest : "";
+      const errorFilePath = error.module && error.module.rawRequest ? error.module.rawRequest : '';
       notify = true;
       compilationStatus = CompilationStatus.ERROR;
-      title += "Error";
+      title += 'Error';
       msg = this.formatMessage(error, errorFilePath);
       icon = this.failureIcon;
       sound = this.failureSound;
       this.buildSuccessful = false;
     } else if (!this.suppressWarning && results.hasWarnings()) {
       const warning = results.compilation.warnings[0];
-      const warningFilePath =
-        warning.module && warning.module.rawRequest
-          ? warning.module.rawRequest
-          : "";
+      const warningFilePath = warning.module && warning.module.rawRequest ? warning.module.rawRequest : '';
       notify = true;
       compilationStatus = CompilationStatus.WARNING;
-      title += "Warning";
+      title += 'Warning';
       msg = this.formatMessage(warning, warningFilePath);
       icon = this.warningIcon;
       sound = this.warningSound;
       this.buildSuccessful = false;
     } else {
-      title += "Success";
+      title += 'Success';
       if (this.showDuration) {
         msg += ` [${results.endTime! - results.startTime!} ms]`;
       }
       /* istanbul ignore else */
-      if (
-        this.suppressSuccess === "always" ||
-        (this.suppressSuccess === "initial" && !this.hasRun)
-      ) {
+      if (this.suppressSuccess === 'always' || (this.suppressSuccess === 'initial' && !this.hasRun)) {
         notify = false;
       } else if (this.suppressSuccess === false || !this.buildSuccessful) {
         notify = true; // previous build failed, let's show a notification even if success notifications are suppressed
@@ -196,7 +162,7 @@ export default class WebpackBuildNotifierPlugin {
           appName: this.appName,
           message: stripAnsi(msg),
           contentImage: this.logo,
-          wait: !this.buildSuccessful,
+          wait: !this.buildSuccessful
         })
       );
       /* istanbul ignore else */
@@ -220,10 +186,10 @@ export default class WebpackBuildNotifierPlugin {
     notifier.notify({
       appName: this.appName,
       title: this.title,
-      message: "Compilation started...",
+      message: 'Compilation started...',
       contentImage: this.logo,
       icon: this.compileIcon,
-      sound: this.compilationSound,
+      sound: this.compilationSound
     } as Notification);
     /* istanbul ignore else */
     if (this.onCompileStart) {
@@ -238,32 +204,32 @@ export default class WebpackBuildNotifierPlugin {
     // by a valid application.
     // see: https://github.com/KDE/snoretoast, https://github.com/RoccoC/webpack-build-notifier/issues/20
     /* istanbul ignore else */
-    if (process.platform === "win32") {
-      const versionParts = os.release().split(".");
-      const winVer = +`${versionParts[0]}.${versionParts[1]}`;
+    if (process.platform === 'win32') {
+      const versionParts = os.release().split('.');
+      const winVer = +(`${versionParts[0]}.${versionParts[1]}`);
       /* istanbul ignore else */
       if (winVer >= 6.2) {
         // Windows version >= 8
         const snoreToast = path.join(
-          require.resolve("node-notifier"),
-          "../vendor/snoreToast",
-          `snoretoast-${process.arch === "x64" ? "x64" : "x86"}.exe`
+          require.resolve('node-notifier'),
+          '../vendor/snoreToast',
+          `snoretoast-${process.arch === 'x64' ? 'x64' : 'x86'}.exe`
         );
         try {
-          execFileSync(snoreToast, [
-            "-appID",
-            "Snore.DesktopToasts",
-            "-install",
-            "SnoreToast.lnk",
+          execFileSync(
             snoreToast,
-            "Snore.DesktopToasts",
-          ]);
-          this.appName = "Snore.DesktopToasts";
-        } catch (e) {
-          console.error(
-            "An error occurred while attempting to install the SnoreToast AppID!",
-            e
+            [
+              '-appID',
+              'Snore.DesktopToasts',
+              '-install',
+              'SnoreToast.lnk',
+              snoreToast,
+              'Snore.DesktopToasts'
+            ]
           );
+          this.appName = 'Snore.DesktopToasts';
+        } catch (e) {
+          console.error('An error occurred while attempting to install the SnoreToast AppID!', e);
         }
       }
     }
