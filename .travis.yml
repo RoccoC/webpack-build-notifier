@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 8
+  - 10
 
 before_install:
   - npm i coveralls
@@ -12,6 +12,6 @@ script:
 notifications:
   email:
     recipients:
-    - roccocataldo@gmail.com
+      - roccocataldo@gmail.com
     on_success: always
     on_failure: always
