@@ -15,7 +15,7 @@
     "prepare": "npm run build",
     "prepublishOnly": "npm run lint && npm t",
     "test": "jest",
-    "test:ci": "jest --coverageReporters=text-lcov | coveralls",
+    "test:ci": "jest --coverage && coveralls < coverage/lcov.info",
     "test-watch": "jest --runInBand --watch"
   },
   "keywords": [
