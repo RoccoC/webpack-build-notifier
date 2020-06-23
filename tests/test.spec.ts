@@ -228,5 +228,23 @@ describe('Test Webpack build', () => {
           done();
         });
       });
+
+      it('Should handle warning from child compiler', (done) => {
+        const onComplete = jest.fn();
+        expect.assertions(2);
+        webpack(getWebpackConfig({ onComplete }, 'childWarning'), (err, stats) => {
+          expect(onComplete).toHaveBeenCalledWith(expect.any(Object), CompilationStatus.WARNING);
+          expect(notifier.notify).toHaveBeenCalledWith({
+            appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
+            contentImage: undefined,
+            icon: require.resolve('../src/icons/warning.png'),
+            message: expect.stringContaining('Second Autoprefixer control comment was ignored'),
+            sound: 'Submarine',
+            title: 'Build Notification Test - Warning',
+            wait: true,
+          });
+          done();
+        });
+      });
     });
 });

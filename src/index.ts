@@ -126,8 +126,8 @@ export default class WebpackBuildNotifierPlugin {
     let compilationStatus = CompilationStatus.SUCCESS;
 
     if (results.hasErrors()) {
-      const error = results.compilation.errors[0];
-      const errorFilePath = error.module && error.module.rawRequest ? error.module.rawRequest : '';
+      const error = this.getFirstWarningOrError(results.compilation, 'errors');
+      const errorFilePath = error.module && error.module.resource ? error.module.resource : '';
       notify = true;
       compilationStatus = CompilationStatus.ERROR;
       title += 'Error';
@@ -136,8 +136,8 @@ export default class WebpackBuildNotifierPlugin {
       sound = this.failureSound;
       this.buildSuccessful = false;
     } else if (!this.suppressWarning && results.hasWarnings()) {
-      const warning = results.compilation.warnings[0];
-      const warningFilePath = warning.module && warning.module.rawRequest ? warning.module.rawRequest : '';
+      const warning = this.getFirstWarningOrError(results.compilation, 'warnings');
+      const warningFilePath = warning.module && warning.module.resource ? warning.module.resource : '';
       notify = true;
       compilationStatus = CompilationStatus.WARNING;
       title += 'Warning';
@@ -241,6 +241,23 @@ export default class WebpackBuildNotifierPlugin {
       }
     }
   };
+
+  private readonly getFirstWarningOrError = (
+    compilation: webpack.compilation.Compilation,
+    type: 'warnings' | 'errors'
+  ): any => {
+    /* istanbul ignore else */
+    if (compilation.children && compilation.children.length) {
+      for (let i = 0; i < compilation.children.length; i++) {
+        const warningsOrErrors = compilation.children[i][type];
+        /* istanbul ignore else */
+        if (warningsOrErrors && warningsOrErrors[0]) {
+          return warningsOrErrors[0];
+        }
+      }
+    }
+    return compilation[type][0];
+  }
 }
 
 module.exports = WebpackBuildNotifierPlugin;
