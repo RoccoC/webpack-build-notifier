@@ -1,16 +1,10 @@
 # Changelog
 
-#### 2.0.3
+#### 2.1.0
 
 ###### _June 23, 2020_
 
-- Fixed warning/error handling for child compilers ([#53](/../../issues/53)).
-
-#### 2.0.2
-
-###### _May 24, 2020_
-
-- Upgraded dependencies to latest.
+- Upgraded dependencies to latest; fixed warning/error handling for child compilers ([#53](/../../issues/53)).
 
 #### 2.0.1
 
