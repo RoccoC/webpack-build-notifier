@@ -1,6 +1,8 @@
 # webpack-build-notifier
 
-A [Webpack](https://webpack.github.io/) plugin that uses the [node-notifier](https://github.com/mikaelbr/node-notifier) module to display OS-level notifications for Webpack build errors and warnings.
+A [Webpack](https://webpack.github.io/) plugin that uses the [node-notifier](https://github.com/mikaelbr/node-notifier) package to display OS-level notifications for Webpack build events.
+
+**webpack-build-notifer** can generate notifications for compilation warnings and errors, as well as notify you when the compilation process is triggered and completes successfully. Take a look at the [Config Options](#config-options) to learn more about what **webpack-build-notifer** can do.
 
 [![NPM version](https://img.shields.io/npm/v/webpack-build-notifier.svg)](https://www.npmjs.org/package/webpack-build-notifier)
 
