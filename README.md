@@ -22,7 +22,7 @@ module.exports = {
   // ... snip ...
   plugins: [
     new WebpackBuildNotifierPlugin({
-      title: "My Project Webpack Build",
+      title: "My Webpack Project",
       logo: path.resolve("./img/favicon.png"),
       suppressSuccess: true, // don't spam success notifications
     })
@@ -137,7 +137,7 @@ const config: webpack.Configuration = {
   // ... snip ...
   plugins: [
     new WebpackBuildNotifierPlugin({
-      title: "My Project Webpack Build",
+      title: "My Webpack Project",
       logo: path.resolve("./img/favicon.png"),
       suppressSuccess: true, // don't spam success notifications
     })
