@@ -16,7 +16,7 @@ To use, install the webpack-build-notifier package `npm install webpack-build-no
 
 ```javascript
 // webpack.config.js
-var WebpackBuildNotifierPlugin = require('webpack-build-notifier');
+const WebpackBuildNotifierPlugin = require('webpack-build-notifier');
 
 module.exports = {
   // ... snip ...
