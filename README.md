@@ -85,24 +85,24 @@ True to suppress the compilation started notifications (default), otherwise fals
 True to activate (focus) the terminal window when a compilation error occurs. Note that this only works on Mac OSX (for now). Defaults to **_false_**. Regardless of the value of this config option, the terminal window can always be brought to the front by clicking on the notification.
 
 #### successIcon
-The absolute path to the icon to be displayed for success notifications. Defaults to the included **_./icons/success.png_**.
+The absolute path to the icon to be displayed for success notifications. Defaults to the included **_./src/icons/success.png_**.
 
-![Success](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/success.png?raw=true "Success")
+![Success](https://github.com/RoccoC/webpack-build-notifier/blob/master/src/icons/success.png?raw=true "Success")
 
 #### warningIcon
-The absolute path to the icon to be displayed for warning notifications. Defaults to the included **_./icons/warning.png_**.
+The absolute path to the icon to be displayed for warning notifications. Defaults to the included **_./src/icons/warning.png_**.
 
-![Warning](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/warning.png?raw=true "Warning")
+![Warning](https://github.com/RoccoC/webpack-build-notifier/blob/master/src/icons/warning.png?raw=true "Warning")
 
 #### failureIcon
-The absolute path to the icon to be displayed for failure notifications. Defaults to the included **_./icons/failure.png_**.
+The absolute path to the icon to be displayed for failure notifications. Defaults to the included **_./src/icons/failure.png_**.
 
-![Failure](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/failure.png?raw=true "Failure")
+![Failure](https://github.com/RoccoC/webpack-build-notifier/blob/master/src/icons/failure.png?raw=true "Failure")
 
 #### compileIcon
-The absolute path to the icon to be displayed for compilation started notifications. Defaults to the included **_./icons/compile.png_**.
+The absolute path to the icon to be displayed for compilation started notifications. Defaults to the included **_./src/icons/compile.png_**.
 
-![Compile](https://github.com/RoccoC/webpack-build-notifier/blob/master/icons/compile.png?raw=true "Compile")
+![Compile](https://github.com/RoccoC/webpack-build-notifier/blob/master/src/icons/compile.png?raw=true "Compile")
 
 #### messageFormatter
 A function which returns a formatted notification message. The function is passed two parameters:
@@ -139,7 +139,7 @@ const config: webpack.Configuration = {
     new WebpackBuildNotifierPlugin({
       title: "My Project Webpack Build",
       logo: path.resolve("./img/favicon.png"),
-      suppressSuccess: true
+      suppressSuccess: true // don't spam success notifications
     })
   ],
   // ... snip ...
@@ -148,18 +148,13 @@ const config: webpack.Configuration = {
 export default config;
 ```
 
-Future Improvements
--------------------
-* ~~Port to TypeScript~~ (completed in v2.0.0)
-* ~~Increase test coverage~~ (completed in v2.0.0)
-
 Notes
 -----
 After publishing this package I discovered a couple other similar plugins that are worth looking into:
 * [webpack-notifier](https://github.com/Turbo87/webpack-notifier)
 * [webpack-error-notification](https://github.com/vsolovyov/webpack-error-notification)
 
-Given the purpose and similarities, this project probably should have been a fork of one of these.
+Given the purpose and similarities, this project probably could have been a fork of one of these.
 
 Changelog
 ---------
