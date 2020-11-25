@@ -143,7 +143,7 @@ export type Config = {
    */
   messageFormatter?: (error: CompilationResult, filepath: string) => string;
   /**
-   * Any additional node-notifier options as documented in the node-notifer documentation:
+   * Any additional node-notifier options as documented in the node-notifier documentation:
    * https://github.com/mikaelbr/node-notifier
    *
    * Note that options provided here will only be applied to the success/warning/error notifications

@@ -1,5 +1,5 @@
 /**
- * Mock for the node-notifer package.
+ * Mock for the node-notifier package.
  */
 module.exports = {
   on: jest.fn(),
