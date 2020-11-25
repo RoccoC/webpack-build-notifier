@@ -2,7 +2,7 @@
 
 A [Webpack](https://webpack.github.io/) plugin that uses the [node-notifier](https://github.com/mikaelbr/node-notifier) package to display OS-level notifications for Webpack build events.
 
-**webpack-build-notifer** can generate notifications for compilation warnings and errors, as well as notify you when the compilation process is triggered and completes successfully. Take a look at the [Config Options](#config-options) to learn more about what **webpack-build-notifer** can do.
+**webpack-build-notifier** can generate notifications for compilation warnings and errors, as well as notify you when the compilation process is triggered and completes successfully. Take a look at the [Config Options](#config-options) to learn more about what **webpack-build-notifier** can do.
 
 [![NPM version](https://img.shields.io/npm/v/webpack-build-notifier.svg)](https://www.npmjs.org/package/webpack-build-notifier)
 [![Build Status](https://travis-ci.com/RoccoC/webpack-build-notifier.svg?branch=master)](https://travis-ci.com/RoccoC/webpack-build-notifier)
@@ -115,7 +115,7 @@ error/warning message.
 Note that the message will always be limited to 256 characters.
 
 #### notifyOptions
-Any additional node-notifier options as documented in the [node-notifer documentation](https://github.com/mikaelbr/node-notifier).
+Any additional node-notifier options as documented in the [node-notifier documentation](https://github.com/mikaelbr/node-notifier).
 Note that options provided here will only be applied to the success/warning/error notifications (not the "compilation started" notification). The title, message, sound, contentImage (logo), and icon options will be ignored, as they will be set via the corresponding WebpackBuildNotifier config options (either user-specified or default).
 
 #### onClick
