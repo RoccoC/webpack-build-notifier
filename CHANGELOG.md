@@ -1,5 +1,11 @@
 # Changelog
 
+#### 2.1.1
+
+###### _December 10, 2020_
+
+- Updated node-notifier to fix [#59](/../../issues/59).
+
 #### 2.1.0
 
 ###### _June 23, 2020_
