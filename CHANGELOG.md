@@ -2,9 +2,9 @@
 
 #### 2.1.1
 
-###### _December 10, 2020_
+###### _December 21, 2020_
 
-- Updated node-notifier to fix [#59](/../../issues/59).
+- Bumped node-notifier to v9.0.0.
 
 #### 2.1.0
 
