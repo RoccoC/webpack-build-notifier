@@ -1,5 +1,11 @@
 # Changelog
 
+#### 2.1.1
+
+###### _December 21, 2020_
+
+- Bumped node-notifier to v9.0.0.
+
 #### 2.1.0
 
 ###### _June 23, 2020_
