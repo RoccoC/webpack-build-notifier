@@ -137,7 +137,7 @@ export type Config = {
    *
    * Note that the message will always be limited to 256 characters.
    */
-  formatSuccess?: () => string;
+  formatSuccess?: () => string | undefined;
   /**
    * A function which returns a formatted notification message on error or warning.
    * The function is passed 4 parameters:
