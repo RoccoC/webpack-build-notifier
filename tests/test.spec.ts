@@ -189,7 +189,7 @@ describe('Test Webpack build', () => {
         const messageFormatter = jest.fn().mockImplementation(() => 'Hello, you have an error!');
         expect.assertions(2);
         webpack(getWebpackConfig({ messageFormatter }, 'error'), (err, stats) => {
-          expect(messageFormatter).toHaveBeenCalledWith(expect.any(Object), require.resolve('./error.js'));
+          expect(messageFormatter).toHaveBeenCalledWith(expect.any(Object), require.resolve('./error.js'), 'error', 1);
           expect(notifier.notify).toHaveBeenCalledWith({
             appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
             contentImage: undefined,
@@ -197,6 +197,24 @@ describe('Test Webpack build', () => {
             message: 'Hello, you have an error!',
             sound: 'Submarine',
             title: 'Build Notification Test - Error',
+            wait: true,
+          });
+          done();
+        });
+      });
+
+      it('Should show a warning notification with a custom message', (done) => {
+        const messageFormatter = jest.fn().mockImplementation(() => 'Hello, you have a warning!');
+        expect.assertions(2);
+        webpack(getWebpackConfig({ messageFormatter }, 'warning'), (err, stats) => {
+          expect(messageFormatter).toHaveBeenCalledWith(expect.any(Object), '', 'warning', 2);
+          expect(notifier.notify).toHaveBeenCalledWith({
+            appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
+            contentImage: undefined,
+            icon: require.resolve('../src/icons/warning.png'),
+            message: 'Hello, you have a warning!',
+            sound: 'Submarine',
+            title: 'Build Notification Test - Warning',
             wait: true,
           });
           done();

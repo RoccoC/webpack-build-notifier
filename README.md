@@ -105,9 +105,11 @@ The absolute path to the icon to be displayed for compilation started notificati
 ![Compile](https://github.com/RoccoC/webpack-build-notifier/blob/master/src/icons/compile.png?raw=true "Compile")
 
 #### messageFormatter
-A function which returns a formatted notification message. The function is passed two parameters:
+A function which returns a formatted notification message. The function is passed 4 parameters:
 * {Object} error/warning - The raw error or warning object.
 * {String} filepath - The path to the file containing the error/warning (if available).
+* {CompilationStatus} status - Error or warning
+* {number} count - How many errors or warnings were raised
 
 This function must return a String.
 The default messageFormatter will display the filename which contains the error/warning followed by the
