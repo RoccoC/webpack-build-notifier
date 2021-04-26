@@ -158,5 +158,8 @@ export type Config = {
    * options will be ignored, as they will be set via the corresponding {WebpackBuildNotifierConfig} options
    * (either user-specified or default).
    */
-  notifyOptions?: NotificationCenter.Notification;
+   notifyOptions?:
+     | NotificationCenter.Notification
+     | ((status: CompilationStatus) => NotificationCenter.Notification | undefined);
+
 };

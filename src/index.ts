@@ -42,7 +42,7 @@ export default class WebpackBuildNotifierPlugin {
   private onClick: Config['onClick'] = () => this.activateTerminalWindow;
   private onTimeout?: Config['onTimeout'];
   private messageFormatter?: Config['messageFormatter'];
-  private notifyOptions?: Notification;
+  private notifyOptions?: Notification | ((status: CompilationStatus) => Notification | undefined);
 
   constructor(cfg?: Config) {
     Object.assign(this, cfg);
@@ -171,10 +171,15 @@ export default class WebpackBuildNotifierPlugin {
       this.buildSuccessful = true;
     }
 
+    const notifyOptions =
+      (typeof this.notifyOptions === 'function'
+        ? this.notifyOptions(compilationStatus)
+        : this.notifyOptions) ?? {};
+
     /* istanbul ignore else */
     if (notify) {
       notifier.notify(
-        Object.assign(this.notifyOptions || {}, {
+        Object.assign(notifyOptions, {
           title,
           sound,
           icon,

@@ -264,5 +264,72 @@ describe('Test Webpack build', () => {
           done();
         });
       });
+
+      it('Should pass extra notifyOptions to node-notifier', (done) => {
+        expect.assertions(1);
+        webpack(getWebpackConfig({ notifyOptions: { open: 'https://example.com' } }), (err, stats) => {
+          expect(notifier.notify).toHaveBeenCalledWith({
+            appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
+            contentImage: undefined,
+            icon: require.resolve('../src/icons/success.png'),
+            message: 'Build successful!',
+            open: 'https://example.com',
+            sound: 'Submarine',
+            title: 'Build Notification Test - Success',
+            wait: false,
+          });
+          done();
+        });
+      });
+
+      it('Should execute the notifyOptions callback on success', (done) => {
+        // Override notifyOptions on successful compilation only
+        const notifyOptions = jest.fn(
+          (status: CompilationStatus) => status === CompilationStatus.SUCCESS
+            ? { open: 'https://example.com' }
+            : undefined
+        );
+
+        expect.assertions(2);
+        webpack(getWebpackConfig({ notifyOptions }), (err, stats) => {
+          expect(notifyOptions).toHaveBeenCalledWith(CompilationStatus.SUCCESS);
+          expect(notifier.notify).toHaveBeenCalledWith({
+            appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
+            contentImage: undefined,
+            icon: require.resolve('../src/icons/success.png'),
+            message: 'Build successful!',
+            open: 'https://example.com',
+            sound: 'Submarine',
+            title: 'Build Notification Test - Success',
+            wait: false,
+          });
+          done();
+        });
+      });
+
+      it('Should execute the notifyOptions callback on error', (done) => {
+        // Override notifyOptions on successful compilation only
+        const notifyOptions = jest.fn(
+          (status: CompilationStatus) => status === CompilationStatus.SUCCESS
+            ? { open: 'https://www.example.com' }
+            : undefined
+        );
+
+        expect.assertions(2);
+        webpack(getWebpackConfig({ notifyOptions }, 'error'), (err, stats) => {
+          expect(notifyOptions).toHaveBeenCalledWith(CompilationStatus.ERROR);
+          expect(notifier.notify).toHaveBeenCalledWith({
+            appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
+            contentImage: undefined,
+            icon: require.resolve('../src/icons/failure.png'),
+            message: expect.stringContaining('Module parse failed: Duplicate export \'default\''),
+            // `open` should not be set
+            sound: 'Submarine',
+            title: 'Build Notification Test - Error',
+            wait: true,
+          });
+          done();
+        });
+      });
     });
 });
