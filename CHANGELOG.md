@@ -1,5 +1,11 @@
 # Changelog
 
+#### 2.2.0
+
+###### _April 28, 2021_
+
+- Add compilation status and error/warning count parameters to _messageFormatter_ ([PR](/../../pull/68)).
+
 #### 2.1.1
 
 ###### _December 21, 2020_
