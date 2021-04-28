@@ -41,7 +41,12 @@ export default class WebpackBuildNotifierPlugin {
   private onComplete?: (compilation: webpack.compilation.Compilation, status: CompilationStatus) => void;
   private onClick: (notifier: notifier.NodeNotifier, options: Notification) => void = () => this.activateTerminalWindow;
   private onTimeout?: (notifier: notifier.NodeNotifier, options: Notification) => void;
-  private messageFormatter?: (error: CompilationResult, filepath: string) => string;
+  private messageFormatter?: (
+    error: CompilationResult,
+    filepath: string,
+    status: CompilationStatus,
+    errorCount: number
+  ) => string;
   private notifyOptions?: Notification;
 
   constructor(cfg?: Config) {
@@ -96,11 +101,13 @@ export default class WebpackBuildNotifierPlugin {
 
   private readonly formatMessage = (
     error: CompilationResult,
-    filepath: string
+    filepath: string,
+    status: CompilationStatus,
+    errorCount: number
   ): string => {
     let message: string | undefined = undefined;
     if (this.messageFormatter) {
-      message = this.messageFormatter(error, filepath);
+      message = this.messageFormatter(error, filepath, status, errorCount);
     } else {
       message = (error.message || error.details);
       if (message && error.module && error.module.resource) {
@@ -131,7 +138,12 @@ export default class WebpackBuildNotifierPlugin {
       notify = true;
       compilationStatus = CompilationStatus.ERROR;
       title += 'Error';
-      msg = this.formatMessage(error, errorFilePath);
+      msg = this.formatMessage(
+        error,
+        errorFilePath,
+        compilationStatus,
+        this.getWarningOrErrorCount(results.compilation, 'errors')
+      );
       icon = this.failureIcon;
       sound = this.failureSound;
       this.buildSuccessful = false;
@@ -141,7 +153,12 @@ export default class WebpackBuildNotifierPlugin {
       notify = true;
       compilationStatus = CompilationStatus.WARNING;
       title += 'Warning';
-      msg = this.formatMessage(warning, warningFilePath);
+      msg = this.formatMessage(
+        warning,
+        warningFilePath,
+        compilationStatus,
+        this.getWarningOrErrorCount(results.compilation, 'warnings')
+      );
       icon = this.warningIcon;
       sound = this.warningSound;
       this.buildSuccessful = false;
@@ -258,6 +275,33 @@ export default class WebpackBuildNotifierPlugin {
     }
     return compilation[type][0];
   }
+
+  private readonly getWarningOrErrorCount = (
+    compilation: webpack.compilation.Compilation,
+    type: 'warnings' | 'errors',
+  ): number => {
+    /* istanbul ignore else */
+    if (compilation.children && compilation.children.length) {
+      const count = compilation.children.reduce(
+        (acc, child) => {
+          let currentCount = acc;
+          const warningsOrErrors = child[type];
+          /* istanbul ignore else */
+          if (warningsOrErrors) {
+            currentCount += warningsOrErrors.length;
+          }
+          return currentCount;
+        },
+        0,
+      );
+
+      /* istanbul ignore else */
+      if (count > 0) {
+        return count;
+      }
+    }
+    return compilation[type].length;
+  };
 }
 
 module.exports = WebpackBuildNotifierPlugin;

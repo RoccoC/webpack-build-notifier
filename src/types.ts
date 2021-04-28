@@ -129,10 +129,12 @@ export type Config = {
    */
   onTimeout?: (notifier: NotificationCenter, options: NotificationCenter.Notification) => void;
   /**
-   * A function which returns a formatted notification message. The function is passed two parameters:
+   * A function which returns a formatted notification message. The function is passed 4 parameters:
    *
    *  1. {CompilationResult} error/warning - The raw error or warning object.
    *  2. {string} filepath - The path to the file containing the error/warning (if available).
+   *  3. {CompilationStatus} status - Error or warning
+   *  4. {number} count - How many errors or warnings were raised
    *
    * This function must return a String.
    *
