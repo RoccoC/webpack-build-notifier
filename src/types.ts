@@ -143,7 +143,12 @@ export type Config = {
    *
    * Note that the message will always be limited to 256 characters.
    */
-  messageFormatter?: (error: CompilationResult, filepath: string) => string;
+  messageFormatter?: (
+    error: CompilationResult,
+    filepath: string,
+    status: CompilationStatus,
+    count: number
+  ) => string;
   /**
    * Any additional node-notifier options as documented in the node-notifier documentation:
    * https://github.com/mikaelbr/node-notifier
