@@ -1,5 +1,11 @@
 # Changelog
 
+#### 2.2.1
+
+###### _April 30, 2021_
+
+- Fixed MessageFormatter type def; consolidated types between `types.ts` and `index.ts`.
+
 #### 2.2.0
 
 ###### _April 28, 2021_
