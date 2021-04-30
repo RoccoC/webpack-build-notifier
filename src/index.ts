@@ -37,16 +37,11 @@ export default class WebpackBuildNotifierPlugin {
   private warningIcon: string = path.join(DEFAULT_ICON_PATH, 'warning.png');
   private failureIcon: string = path.join(DEFAULT_ICON_PATH, 'failure.png');
   private compileIcon: string = path.join(DEFAULT_ICON_PATH, 'compile.png');
-  private onCompileStart?: (compilation: webpack.compiler.Compiler) => void;
-  private onComplete?: (compilation: webpack.compilation.Compilation, status: CompilationStatus) => void;
-  private onClick: (notifier: notifier.NodeNotifier, options: Notification) => void = () => this.activateTerminalWindow;
-  private onTimeout?: (notifier: notifier.NodeNotifier, options: Notification) => void;
-  private messageFormatter?: (
-    error: CompilationResult,
-    filepath: string,
-    status: CompilationStatus,
-    errorCount: number
-  ) => string;
+  private onCompileStart?: Config['onCompileStart'];
+  private onComplete?: Config['onComplete'];
+  private onClick: Config['onClick'] = () => this.activateTerminalWindow;
+  private onTimeout?: Config['onTimeout'];
+  private messageFormatter?: Config['messageFormatter'];
   private notifyOptions?: Notification;
 
   constructor(cfg?: Config) {
@@ -61,7 +56,7 @@ export default class WebpackBuildNotifierPlugin {
 
     this.registerSnoreToast();
 
-    notifier.on('click', this.onClick);
+    notifier.on('click', this.onClick!);
     /* istanbul ignore else */
     if (this.onTimeout) {
       notifier.on('timeout', this.onTimeout);
