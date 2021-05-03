@@ -42,7 +42,7 @@ export default class WebpackBuildNotifierPlugin {
   private onClick: Config['onClick'] = () => this.activateTerminalWindow;
   private onTimeout?: Config['onTimeout'];
   private messageFormatter?: Config['messageFormatter'];
-  private notifyOptions?: Notification | ((status: CompilationStatus) => Notification | undefined);
+  private notifyOptions?: Config['notifyOptions'];
 
   constructor(cfg?: Config) {
     Object.assign(this, cfg);
