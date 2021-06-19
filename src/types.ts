@@ -163,9 +163,9 @@ export type Config = {
   /**
    * Any additional node-notifier options as documented in the node-notifier documentation:
    * https://github.com/mikaelbr/node-notifier
-   * 
+   *
    * This config option can either be provided as a node-notifier `Notification` object, _OR_ a
-   * function which accepts the `CompilationStatus` and returns a `Notification` object. 
+   * function which accepts the `CompilationStatus` and returns a `Notification` object.
    *
    * Note that options provided here will only be applied to the success/warning/error notifications
    * (not the "compilation started" notification). The `title`, `message`, `sound`, `contentImage` (logo), and `icon`
