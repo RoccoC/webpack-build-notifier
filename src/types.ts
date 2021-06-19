@@ -129,7 +129,18 @@ export type Config = {
    */
   onTimeout?: (notifier: NotificationCenter, options: NotificationCenter.Notification) => void;
   /**
-   * A function which returns a formatted notification message. The function is passed 4 parameters:
+   * A function which returns a formatted notification message on successful compilation.
+   *
+   * This function must return a String.
+   *
+   * The default formatter will display "Build successful!".
+   *
+   * Note that the message will always be limited to 256 characters.
+   */
+  formatSuccess?: () => string | undefined;
+  /**
+   * A function which returns a formatted notification message on error or warning.
+   * The function is passed 4 parameters:
    *
    *  1. {CompilationResult} error/warning - The raw error or warning object.
    *  2. {string} filepath - The path to the file containing the error/warning (if available).

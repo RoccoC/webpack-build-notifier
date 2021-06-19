@@ -41,6 +41,7 @@ export default class WebpackBuildNotifierPlugin {
   private onComplete?: Config['onComplete'];
   private onClick: Config['onClick'] = () => this.activateTerminalWindow;
   private onTimeout?: Config['onTimeout'];
+  private formatSuccess?: Config['formatSuccess'];
   private messageFormatter?: Config['messageFormatter'];
   private notifyOptions?: Notification;
 
@@ -122,7 +123,7 @@ export default class WebpackBuildNotifierPlugin {
   private readonly onCompilationDone = (results: webpack.Stats): void => {
     let notify: boolean = false;
     let title = `${this.title} - `;
-    let msg = 'Build successful!';
+    let msg = this.formatSuccess?.() ?? 'Build successful!';
     let icon = this.successIcon;
     let sound = this.successSound;
     let compilationStatus = CompilationStatus.SUCCESS;

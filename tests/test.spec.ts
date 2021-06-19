@@ -185,6 +185,42 @@ describe('Test Webpack build', () => {
         });
       });
 
+      it('Should show a success notification with a custom message', (done) => {
+        const formatSuccess = jest.fn(() => 'Very nice! Great success!');
+        expect.assertions(2);
+        webpack(getWebpackConfig({ formatSuccess }, 'success'), (err, stats) => {
+          expect(formatSuccess).toHaveBeenCalled();
+          expect(notifier.notify).toHaveBeenCalledWith({
+            appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
+            contentImage: undefined,
+            icon: require.resolve('../src/icons/success.png'),
+            message: 'Very nice! Great success!',
+            sound: 'Submarine',
+            title: 'Build Notification Test - Success',
+            wait: false,
+          });
+          done();
+        });
+      });
+
+      it('Should show default success notification message when formatSuccess returns undefined', (done) => {
+        const formatSuccess = jest.fn(() => undefined);
+        expect.assertions(2);
+        webpack(getWebpackConfig({ formatSuccess }, 'success'), (err, stats) => {
+          expect(formatSuccess).toHaveBeenCalled();
+          expect(notifier.notify).toHaveBeenCalledWith({
+            appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
+            contentImage: undefined,
+            icon: require.resolve('../src/icons/success.png'),
+            message: 'Build successful!',
+            sound: 'Submarine',
+            title: 'Build Notification Test - Success',
+            wait: false,
+          });
+          done();
+        });
+      });
+
       it('Should show an error notification with a custom message', (done) => {
         const messageFormatter = jest.fn().mockImplementation(() => 'Hello, you have an error!');
         expect.assertions(2);
