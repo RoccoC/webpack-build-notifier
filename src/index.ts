@@ -95,6 +95,7 @@ export default class WebpackBuildNotifierPlugin {
     }
   };
 
+  // formats the error/warning message
   private readonly formatMessage = (
     error: CompilationResult,
     filepath: string,

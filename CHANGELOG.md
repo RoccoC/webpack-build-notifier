@@ -1,5 +1,13 @@
 # Changelog
 
+#### 2.3.0
+
+###### _June 19, 2021_
+
+- Added _formatSuccess_ config option.
+- Modified _notifyOptions_ config option to accept a function.
+- Misc dependency upgrades for security fixes.
+
 #### 2.2.1
 
 ###### _April 30, 2021_
