@@ -40,7 +40,6 @@
     "strip-ansi": "^6.0.1"
   },
   "devDependencies": {
-    "@swc/jest": "^0.2.29",
     "@types/jest": "^29.5.5",
     "@types/node-notifier": "8.0.3",
     "@types/strip-ansi": "^5.2.1",
