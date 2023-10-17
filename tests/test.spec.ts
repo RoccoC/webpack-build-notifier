@@ -81,7 +81,7 @@ describe('Test Webpack build', () => {
           buildCount++;
           if (buildCount === 1) {
             (notifier.notify as jest.Mock).mockClear();
-            (watcher as webpack.Compiler.Watching).invalidate();
+            watcher.watching?.invalidate();
           } else if (buildCount === 2) {
             expect(notifier.notify).toHaveBeenCalledWith({
               appName: platformName === 'Windows' ? 'Snore.DesktopToasts' : undefined,
@@ -92,7 +92,7 @@ describe('Test Webpack build', () => {
               title: 'Build Notification Test',
             });
             expect(onCompileStart).toHaveBeenCalled();
-            (watcher as webpack.Compiler.Watching).close(() => { });
+            watcher.watching?.close(() => { });
             done();
           }
         });

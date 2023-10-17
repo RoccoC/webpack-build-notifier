@@ -35,26 +35,30 @@
   "author": "Rocco Cataldo <roccocataldo@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "node-notifier": "9.0.1",
-    "strip-ansi": "^6.0.0"
+    "css-loader": "^6.8.1",
+    "node-notifier": "10.0.1",
+    "strip-ansi": "^6.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^25.2.3",
-    "@types/node-notifier": "8.0.0",
+    "@swc/jest": "^0.2.29",
+    "@types/jest": "^29.5.5",
+    "@types/node-notifier": "8.0.3",
     "@types/strip-ansi": "^5.2.1",
-    "@types/webpack": "^4.41.13",
-    "autoprefixer": "^9.8.1",
-    "babel-jest": "^26.0.1",
-    "copyfiles": "^2.2.0",
-    "css-loader": "^3.6.0",
-    "extract-css-chunks-webpack-plugin": "^4.7.5",
-    "jest": "^26.0.1",
-    "postcss-loader": "^3.0.0",
-    "rimraf": "^3.0.2",
-    "ts-jest": "^26.0.0",
-    "tslint": "^6.1.2",
-    "tslint-config-airbnb": "^5.11.2",
-    "typescript": "^3.9.3",
-    "webpack": "^4.43.0"
+    "@types/webpack": "^5.28.3",
+    "autoprefixer": "^10.4.16",
+    "babel-jest": "^29.7.0",
+    "copyfiles": "^2.4.1",
+    "extract-css-chunks-webpack-plugin": "^4.10.0",
+    "jest": "^29.7.0",
+    "postcss-loader": "^7.3.3",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2",
+    "webpack": "^5.89.0"
+  },
+  "overrides": {
+    "css-loader": {
+      "webpack": "5.89.0"
+    }
   }
 }

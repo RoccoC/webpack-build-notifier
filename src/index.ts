@@ -65,21 +65,12 @@ export default class WebpackBuildNotifierPlugin {
   }
 
   public apply(compiler: webpack.Compiler): void {
-    if (compiler.hooks && compiler.hooks.watchRun && compiler.hooks.done) {
-      // for webpack >= 4
-      /* istanbul ignore else */
-      if (!this.suppressCompileStart) {
-        compiler.hooks.watchRun.tapAsync('webpack-build-notifier', this.onCompilationWatchRun);
-      }
-      compiler.hooks.done.tap('webpack-build-notifier', this.onCompilationDone);
-    } else {
-      // for webpack < 4
-      /* istanbul ignore else */
-      if (!this.suppressCompileStart) {
-        compiler.plugin('watch-run', this.onCompilationWatchRun);
-      }
-      compiler.plugin('done', this.onCompilationDone);
+    // for webpack >= 5
+    /* istanbul ignore else */
+    if (!this.suppressCompileStart) {
+      compiler.hooks.watchRun.tapAsync('webpack-build-notifier', this.onCompilationWatchRun);
     }
+    compiler.hooks.done.tap('webpack-build-notifier', this.onCompilationDone);
   }
 
   private readonly activateTerminalWindow = (): void => {
@@ -129,7 +120,7 @@ export default class WebpackBuildNotifierPlugin {
     let sound = this.successSound;
     let compilationStatus = CompilationStatus.SUCCESS;
 
-    if (results.hasErrors()) {
+    if (this.getWarningOrErrorCount(results.compilation, 'errors') >= 1) {
       const error = this.getFirstWarningOrError(results.compilation, 'errors');
       const errorFilePath = error.module && error.module.resource ? error.module.resource : '';
       notify = true;
@@ -144,7 +135,7 @@ export default class WebpackBuildNotifierPlugin {
       icon = this.failureIcon;
       sound = this.failureSound;
       this.buildSuccessful = false;
-    } else if (!this.suppressWarning && results.hasWarnings()) {
+    } else if (!this.suppressWarning && this.getWarningOrErrorCount(results.compilation, 'warnings') >= 1) {
       const warning = this.getFirstWarningOrError(results.compilation, 'warnings');
       const warningFilePath = warning.module && warning.module.resource ? warning.module.resource : '';
       notify = true;
@@ -206,7 +197,7 @@ export default class WebpackBuildNotifierPlugin {
   };
 
   private readonly onCompilationWatchRun = (
-    compiler: webpack.compiler.Compiler,
+    compiler: webpack.Compiler,
     callback: Function
   ): void => {
     notifier.notify({
@@ -262,47 +253,19 @@ export default class WebpackBuildNotifierPlugin {
   };
 
   private readonly getFirstWarningOrError = (
-    compilation: webpack.compilation.Compilation,
+    compilation: webpack.Compilation,
     type: 'warnings' | 'errors'
   ): any => {
-    /* istanbul ignore else */
-    if (compilation.children && compilation.children.length) {
-      for (let i = 0; i < compilation.children.length; i++) {
-        const warningsOrErrors = compilation.children[i][type];
-        /* istanbul ignore else */
-        if (warningsOrErrors && warningsOrErrors[0]) {
-          return warningsOrErrors[0];
-        }
-      }
-    }
-    return compilation[type][0];
+    if (type === 'warnings') return compilation.getWarnings()?.[0]
+    return compilation.getErrors()?.[0];
   }
 
   private readonly getWarningOrErrorCount = (
-    compilation: webpack.compilation.Compilation,
+    compilation: webpack.Compilation,
     type: 'warnings' | 'errors',
   ): number => {
-    /* istanbul ignore else */
-    if (compilation.children && compilation.children.length) {
-      const count = compilation.children.reduce(
-        (acc, child) => {
-          let currentCount = acc;
-          const warningsOrErrors = child[type];
-          /* istanbul ignore else */
-          if (warningsOrErrors) {
-            currentCount += warningsOrErrors.length;
-          }
-          return currentCount;
-        },
-        0,
-      );
-
-      /* istanbul ignore else */
-      if (count > 0) {
-        return count;
-      }
-    }
-    return compilation[type].length;
+    if (type === 'warnings') return compilation.getWarnings().length
+    return compilation.getErrors().length;
   };
 }
 

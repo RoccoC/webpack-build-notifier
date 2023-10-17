@@ -59,13 +59,13 @@ export type Config = {
    * 1. {webpack.compiler.Compiler} compiler - The webpack Compiler instance.
    * Note that `suppressCompileStart` must be `false`.
    */
-  onCompileStart?: (compilation: webpack.compiler.Compiler) => void;
+  onCompileStart?: (compilation: webpack.Compiler) => void;
   /**
    * A function which is invoked when compilation completes. Optional. The function is passed two parameters:
    * 1. {webpack.compilation.Compilation} compilation - The webpack Compilation instance.
    * 2. {CompilationStatus} status - one of 'success', 'warning', or 'error'
    */
-  onComplete?: (compilation: webpack.compilation.Compilation, status: CompilationStatus) => void;
+  onComplete?: (compilation: webpack.Compilation, status: CompilationStatus) => void;
   /**
    * True to show the duration of a successful compilation, otherwise false (default).
    */
