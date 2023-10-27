@@ -278,7 +278,7 @@ describe('Test Webpack build', () => {
         const messageFormatter = jest.fn().mockImplementation(() => 99);
         expect.assertions(1);
         webpack(getWebpackConfig({ messageFormatter }, 'error'), (err, stats) => {
-          expect(err).toContain('Invalid message type');
+          expect(err?.message).toContain(`Invalid message type 'number'; messageFormatter must return a string.`);
           done();
         });
       });
