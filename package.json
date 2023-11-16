@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run clean && tsup ./src/index.ts --legacy-output --dts && copyfiles -f src/icons/* dist/icons/ && mv dist/index.d.cts dist/index.d.ts",
+    "build": "npm run clean && tsup ./src/index.ts --legacy-output --dts && copyfiles -f src/icons/* dist/icons/",
     "clean": "rimraf dist tests/assets",
     "lint": "npx eslint src --ext .ts",
     "lint:fix": "npm run lint -- --fix",
