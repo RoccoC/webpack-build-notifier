@@ -4,7 +4,7 @@
   "description": "A Webpack plugin that generates OS notifications for build steps using node-notifier.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "type": "module",
+  "type": "commonjs",
   "files": [
     "dist"
   ],
