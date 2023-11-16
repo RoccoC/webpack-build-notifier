@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run clean && tsc && copyfiles -f src/icons/* dist/icons/",
+    "build": "npm run clean && tsup ./src/index.ts --legacy-output --dts && copyfiles -f src/icons/* dist/icons/ && mv dist/index.d.cts dist/index.d.ts",
     "clean": "rimraf dist tests/assets",
     "lint": "npx eslint src --ext .ts",
     "lint:fix": "npm run lint -- --fix",
@@ -55,6 +55,7 @@
     "jest": "^29.7.0",
     "rimraf": "^5.0.5",
     "ts-jest": "^29.1.1",
+    "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "webpack": "^5.89.0"
   }
