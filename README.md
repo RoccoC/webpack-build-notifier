@@ -5,6 +5,7 @@ A [Webpack](https://webpack.github.io/) plugin that uses the [node-notifier](htt
 **webpack-build-notifier** can generate notifications for compilation warnings and errors, as well as notify you when the compilation process is triggered and completes successfully. Take a look at the [Config Options](#config-options) to learn more about what **webpack-build-notifier** can do.
 
 [![NPM version](https://img.shields.io/npm/v/webpack-build-notifier.svg)](https://www.npmjs.org/package/webpack-build-notifier)
+[![Build Status](https://circleci.com/gh/Rocco%20Cataldo/webpack-build-notifier.svg?style=shield)](https://app.circleci.com/pipelines/circleci/Ugqkid9syiME3NMb2MaHFB/BxoKm9ZTqWgWCg5MEBVENr)
 [![Build Status](https://travis-ci.com/RoccoC/webpack-build-notifier.svg?branch=master)](https://travis-ci.com/RoccoC/webpack-build-notifier)
 [![Coverage Status](https://coveralls.io/repos/github/RoccoC/webpack-build-notifier/badge.svg?branch=master)](https://coveralls.io/github/RoccoC/webpack-build-notifier?branch=master)
 
