@@ -5,7 +5,7 @@ A [Webpack](https://webpack.github.io/) plugin that uses the [node-notifier](htt
 **webpack-build-notifier** can generate notifications for compilation warnings and errors, as well as notify you when the compilation process is triggered and completes successfully. Take a look at the [Config Options](#config-options) to learn more about what **webpack-build-notifier** can do.
 
 [![NPM version](https://img.shields.io/npm/v/webpack-build-notifier.svg)](https://www.npmjs.org/package/webpack-build-notifier)
-[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/Ugqkid9syiME3NMb2MaHFB/BxoKm9ZTqWgWCg5MEBVENr/tree/main.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/circleci/Ugqkid9syiME3NMb2MaHFB/BxoKm9ZTqWgWCg5MEBVENr/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/Ugqkid9syiME3NMb2MaHFB/BxoKm9ZTqWgWCg5MEBVENr/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/circleci/Ugqkid9syiME3NMb2MaHFB/BxoKm9ZTqWgWCg5MEBVENr/tree/master)
 [![Coverage Status](https://coveralls.io/repos/github/RoccoC/webpack-build-notifier/badge.svg?branch=master)](https://coveralls.io/github/RoccoC/webpack-build-notifier?branch=master)
 
 <img width="334" alt="webpack-build-notifier-error" src="https://user-images.githubusercontent.com/1934237/28636873-799c8c54-71f4-11e7-8d0c-be15ca823f6e.png"><img width="334" alt="webpack-build-notifier-success" src="https://user-images.githubusercontent.com/1934237/28636881-7f394dd2-71f4-11e7-9148-4dba316a41a8.png">
