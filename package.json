@@ -58,5 +58,8 @@
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "webpack": "^5.89.0"
+  },
+  "peerDependencies": {
+    "webpack": "^5.0.0"
   }
 }
