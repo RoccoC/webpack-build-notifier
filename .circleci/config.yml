@@ -14,7 +14,7 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
-          command: npm install jest-junit
+          command: npm install jest-junit coveralls
       - run:
           name: Run tests
           command: npm run test:ci
