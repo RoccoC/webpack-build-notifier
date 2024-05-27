@@ -1,5 +1,14 @@
 # Changelog
 
+#### 3.0.0
+
+###### _May 27, 2024_
+
+- Added support for Webpack 5.
+- Bumped node-notifier to v10.0.1.
+- Fixes for [#81](/../../issues/81) and [#90](/../../issues/90))
+- Thanks, [ImLunaHey](https://github.com/ImLunaHey)! ([PR](/../../pull/91))
+
 #### 2.3.0
 
 ###### _June 19, 2021_
