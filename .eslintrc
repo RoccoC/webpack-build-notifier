@@ -5,10 +5,11 @@
   },
   "extends": ["airbnb-base", "airbnb-typescript/base"],
   "parserOptions": {
-    "project": "./tsconfig.json",
+    "project": "./tsconfig.eslint.json",
     "ecmaVersion": 12,
     "sourceType": "module"
   },
+  "ignorePatterns": ["tests/*.js"],
   "overrides": [
     {
       "files": ["*.ts"],
