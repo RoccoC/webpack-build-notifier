@@ -9,7 +9,7 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "ignorePatterns": ["tests/*.js"],
+  "ignorePatterns": ["dist", "tests/*.js"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -22,5 +22,8 @@
         ]
       }
     }
-  ]
+  ],
+  "rules": {
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["tests/*", "tsup.config.ts"]}]
+  }
 }
