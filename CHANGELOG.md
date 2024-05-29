@@ -1,5 +1,11 @@
 # Changelog
 
+#### 3.1.0
+
+###### _May 28, 2024_
+
+- Fixed commonjs default export and added esm entrypoint.
+
 #### 3.0.0
 
 ###### _May 27, 2024_
